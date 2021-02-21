@@ -1,7 +1,7 @@
 {
-  "name": "repo-template",
-  "version": "1.1.19",
-  "description": "A template for creating new repositories.",
+  "name": "bunyan-pretty-stream",
+  "version": "0.1.0",
+  "description": "Highly configurable Bunyan stream with pretty output.",
   "private": true,
   "scripts": {
     "postinstall": "husky install .github/husky",
@@ -17,15 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vidavidorra/repo-template.git"
+    "url": "git+https://github.com/vidavidorra/bunyan-pretty-stream.git"
   },
   "author": "Jeroen de Bruijn",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/vidavidorra/repo-template/issues"
+    "url": "https://github.com/vidavidorra/bunyan-pretty-stream/issues"
   },
-  "homepage": "https://github.com/vidavidorra/repo-template#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/vidavidorra/bunyan-pretty-stream#readme",
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
     "@semantic-release/changelog": "5.0.1",
