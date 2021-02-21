@@ -1,5 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>vidavidorra/.github", ":semanticPrefixFix"],
-  "ignorePresets": [":semanticPrefixFixDepsChoreOthers"]
+  "extends": ["github>vidavidorra/.github"]
 }

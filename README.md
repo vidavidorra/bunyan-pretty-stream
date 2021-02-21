@@ -23,6 +23,10 @@ Highly configurable Bunyan stream with pretty output.
 
 ## Install
 
+```shell
+npm install @vidavidorra/bunyan-pretty-stream
+```
+
 ## Usage
 
 ...

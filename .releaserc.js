@@ -24,7 +24,7 @@ module.exports = {
         prepareCmd: 'npm run format:file CHANGELOG.md',
       },
     ],
-    ['@semantic-release/npm', { npmPublish: false }],
+    ['@semantic-release/npm', { tarballDir: 'dist' }],
     '@semantic-release/git',
     '@semantic-release/github',
   ],
