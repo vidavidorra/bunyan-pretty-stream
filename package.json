@@ -8,7 +8,7 @@
     "dist/src/**/!(*.test).{js,d.ts}"
   ],
   "scripts": {
-    "_postinstall": "husky install .github/husky",
+    "postinstall": "husky install .github/husky",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
     "lint": "run-p format:check lint-es",
