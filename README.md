@@ -48,6 +48,7 @@ Please refer to the [contributing guide](https://github.com/vidavidorra/.github/
 [![Linting](https://img.shields.io/badge/linting-ESLint-lightgrey.svg?logo=eslint&style=flat-square)](https://eslint.org)
 [![Lint commit messages](https://img.shields.io/github/workflow/status/vidavidorra/bunyan-pretty-stream/Lint%20commit%20messages?logo=github&label=Lint%20commit%20messages&style=flat-square)](https://github.com/vidavidorra/bunyan-pretty-stream/actions)
 [![Build](https://img.shields.io/github/workflow/status/vidavidorra/bunyan-pretty-stream/Build?logo=github&label=Build&style=flat-square)](https://github.com/vidavidorra/bunyan-pretty-stream/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/vidavidorra/bunyan-pretty-stream?logo=codecov&style=flat-square)](https://codecov.io/gh/vidavidorra/bunyan-pretty-stream)
 
 ## Security policy
 
