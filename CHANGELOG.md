@@ -1,3 +1,13 @@
+### [1.0.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.1...v1.0.2) (2021-02-22)
+
+### Bug Fixes
+
+- **deps:** add missing `chalk` dependency ([8786e9e](https://github.com/vidavidorra/bunyan-pretty-stream/commit/8786e9e8fa23545599fa7ea59dd4b400d8d18393))
+
+### Continuous Integration
+
+- add tarball to the GitHub release ([62f0efd](https://github.com/vidavidorra/bunyan-pretty-stream/commit/62f0efd386b3ab0c1b2ffd264f2b57b773e736d8))
+
 ### [1.0.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.0...v1.0.1) (2021-02-21)
 
 ### Continuous Integration
