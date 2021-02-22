@@ -85,6 +85,7 @@
     "bunyan": "1.8.15"
   },
   "dependencies": {
+    "chalk": "4.1.0",
     "joi": "17.4.0",
     "json-stringify-pretty-compact": "3.0.0",
     "moment": "2.29.1"
