@@ -26,7 +26,7 @@ module.exports = {
     ],
     ['@semantic-release/npm', { tarballDir: 'dist' }],
     '@semantic-release/git',
-    '@semantic-release/github',
+    ['@semantic-release/github', { assets: 'dist/*.tgz' }],
   ],
   preset: 'conventionalcommits',
   presetConfig: {
