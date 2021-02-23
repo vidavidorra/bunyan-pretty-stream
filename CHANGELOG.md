@@ -1,3 +1,9 @@
+### [1.0.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.2...v1.0.3) (2021-02-23)
+
+### Tests
+
+- add tests for `bunyan-record` ([88ffaa3](https://github.com/vidavidorra/bunyan-pretty-stream/commit/88ffaa3fb838436228a20e65bd2a4e5140b62acf))
+
 ### [1.0.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.1...v1.0.2) (2021-02-22)
 
 ### Bug Fixes
