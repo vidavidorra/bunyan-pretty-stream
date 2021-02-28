@@ -1,3 +1,10 @@
+### [1.0.4](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.3...v1.0.4) (2021-02-28)
+
+### Bug Fixes
+
+- remove log of formatting options ([ed7b4df](https://github.com/vidavidorra/bunyan-pretty-stream/commit/ed7b4df1aa579b9a59be0368b3aba82dcf00af65))
+- throw Joi validation error when options are invalid ([8657d77](https://github.com/vidavidorra/bunyan-pretty-stream/commit/8657d77a076805cae19c778d73f7e2ddc321ce05))
+
 ### [1.0.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.2...v1.0.3) (2021-02-23)
 
 ### Tests
