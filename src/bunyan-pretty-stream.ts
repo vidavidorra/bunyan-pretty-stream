@@ -16,8 +16,7 @@ class PrettyStream extends Stream {
 
     const { error, value } = schema.validate(options);
     if (!isValid<MergedOptions>(error, value)) {
-      console.log(error);
-      throw new Error('optons');
+      throw error;
     }
 
     this._formatter = new Formatter(value);
