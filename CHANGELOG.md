@@ -1,3 +1,9 @@
+### [1.0.5](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.4...v1.0.5) (2021-03-10)
+
+### Bug Fixes
+
+- sanitise date before formatting the record ([f7a33d2](https://github.com/vidavidorra/bunyan-pretty-stream/commit/f7a33d2c6cbba81319b6b6b673605140bbe6a729)), closes [#8](https://github.com/vidavidorra/bunyan-pretty-stream/issues/8)
+
 ### [1.0.4](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.3...v1.0.4) (2021-02-28)
 
 ### Bug Fixes
