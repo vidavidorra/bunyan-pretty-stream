@@ -6,6 +6,19 @@ import moment from 'moment';
 import path from 'path';
 import stringify from 'json-stringify-pretty-compact';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sanitise(obj: any): any {
+  Object.entries(obj).forEach(([key, value]) => {
+    if (value === undefined) {
+      delete obj[key];
+    } else if (typeof value === 'object' && value !== null) {
+      sanitise(value);
+    }
+  });
+
+  return obj;
+}
+
 interface ParsedRecord
   extends Pick<BunyanRecord, 'level' | 'name' | 'hostname' | 'pid'> {
   version: BunyanRecord['v'];
@@ -52,7 +65,7 @@ class Formatter {
       message: record.msg,
       source: record.src,
       extras: {},
-      details: { ...record },
+      details: sanitise(record),
     };
 
     Object.keys(parsed.details).forEach((key) => {
