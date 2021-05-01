@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { coreFields as bunyanCoreFields } from './bunyan-record';
+import is from '@sindresorhus/is';
 
 interface Options {
   enable?: {
@@ -94,7 +95,7 @@ function isValid<T>(
   error: Joi.ValidationError | undefined,
   value: unknown,
 ): value is T {
-  return error === undefined;
+  return is.undefined(error);
 }
 
 export { Options, InternalOptions, MergedOptions, schema, isValid };

@@ -1,3 +1,5 @@
+import is from '@sindresorhus/is';
+
 interface BunyanCoreRecord {
   v: number;
   level: number;
@@ -34,21 +36,20 @@ function coreFields(): string[] {
   return Object.keys(record);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-function isBunyanRecord(value: any): value is BunyanRecord {
+function isBunyanRecord(value: unknown): value is BunyanRecord {
   return (
-    typeof value.v === 'number' &&
-    typeof value.level === 'number' &&
-    typeof value.name === 'string' &&
-    typeof value.hostname === 'string' &&
-    typeof value.pid === 'number' &&
-    Object.prototype.toString.call(value.time) === '[object Date]' &&
-    typeof value.msg === 'string' &&
-    (value.src === undefined ||
-      (typeof value.src === 'object' &&
-        typeof value.src.file === 'string' &&
-        typeof value.src.line === 'number' &&
-        (value.src.func === undefined || typeof value.src.func === 'string')))
+    is.plainObject(value) &&
+    is.number(value.v) &&
+    is.number(value.level) &&
+    is.string(value.name) &&
+    is.string(value.hostname) &&
+    is.number(value.pid) &&
+    is.date(value.time) &&
+    is.string(value.msg) &&
+    (is.undefined(value.src) ||
+      (is.plainObject(value.src) &&
+        is.number(value.src.line) &&
+        (is.undefined(value.src.func) || is.string(value.src.func))))
   );
 }
 

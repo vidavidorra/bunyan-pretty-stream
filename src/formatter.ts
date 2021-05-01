@@ -2,6 +2,7 @@ import { BunyanRecord, coreFields } from './bunyan-record';
 import { MergedOptions } from './options';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
+import is from '@sindresorhus/is';
 import moment from 'moment';
 import path from 'path';
 import stringify from 'json-stringify-pretty-compact';
@@ -9,9 +10,9 @@ import stringify from 'json-stringify-pretty-compact';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function sanitise(obj: any): any {
   Object.entries(obj).forEach(([key, value]) => {
-    if (value === undefined) {
+    if (is.undefined(value)) {
       delete obj[key];
-    } else if (typeof value === 'object' && value !== null) {
+    } else if (is.object(value)) {
       sanitise(value);
     }
   });
@@ -79,12 +80,7 @@ class Formatter {
     }
 
     const extras = parsed.details[this._options.extrasKey];
-    if (
-      this._options.extrasKey !== '' &&
-      typeof extras == 'object' &&
-      extras !== null &&
-      Object.keys(extras).length !== 0
-    ) {
+    if (this._options.extrasKey !== '' && is.nonEmptyObject(extras)) {
       Object.entries(parsed.details[this._options.extrasKey]).forEach(
         ([key, value]) => {
           if (this.isExtra(value)) {
@@ -178,14 +174,14 @@ class Formatter {
   }
 
   formatSource(source: ParsedRecord['source']): string {
-    if (!this._options.enable.source || source === undefined) {
+    if (!this._options.enable.source || is.undefined(source)) {
       return '';
     }
 
     const file = path.relative(this._options.basePath, source.file);
     const formattedSource = [
       ` (${file}:${source.line}`,
-      source.func !== undefined ? ` in ${source.func}` : '',
+      !is.undefined(source.func) ? ` in ${source.func}` : '',
       ')',
     ].join('');
 
@@ -208,7 +204,7 @@ class Formatter {
 
     const formattedExtras = entries.map(([key, value]) => {
       if (
-        typeof value === 'string' &&
+        is.string(value) &&
         !this.containsWhitespace(value) &&
         value.length > 0
       ) {
@@ -250,7 +246,7 @@ class Formatter {
 
   isExtra(value: unknown): boolean {
     let stringifiedValue = JSON.stringify(value, undefined, 2);
-    if (typeof value === 'string') {
+    if (is.string(value)) {
       stringifiedValue = value;
     }
 
