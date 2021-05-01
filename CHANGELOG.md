@@ -1,3 +1,13 @@
+### [1.0.7](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.6...v1.0.7) (2021-05-01)
+
+### Bug Fixes
+
+- log multiline message in the details section ([0b17e98](https://github.com/vidavidorra/bunyan-pretty-stream/commit/0b17e9888bf73bcdda44777cab64abccde69c134))
+
+### Code Refactoring
+
+- use @sindresorhus/is for type checking values ([8992fc9](https://github.com/vidavidorra/bunyan-pretty-stream/commit/8992fc9ae32d47710a383d0c7ede11306d040f50))
+
 ### [1.0.6](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.5...v1.0.6) (2021-04-24)
 
 ### Bug Fixes
