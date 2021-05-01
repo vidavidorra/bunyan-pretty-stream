@@ -119,7 +119,7 @@ class Formatter {
       this.formatMessage(parsedRecord.message),
       this.formatExtras(parsedRecord.extras),
       this._options.newLineCharacter,
-      this.formatDetails(parsedRecord.details),
+      this.formatDetails(parsedRecord.message, parsedRecord.details),
     ].join('');
   }
 
@@ -221,24 +221,31 @@ class Formatter {
     return chalk.red(` (${formattedExtras.join(', ')})`);
   }
 
-  formatDetails(details: ParsedRecord['details']): string {
-    const entries = Object.entries(details);
-    if (entries.length === 0) {
-      return '';
+  formatDetails(
+    message: ParsedRecord['message'],
+    details: ParsedRecord['details'],
+  ): string {
+    const formattedDetails: string[] = [];
+    if (!this.isSingleLine(message)) {
+      formattedDetails.push(chalk.blue(this.indent(message, true)));
     }
 
-    const formattedDetails = entries.map(([key, value]) =>
-      this.indent(
-        `${key}: ${stringify(value, {
-          indent: this._options.jsonIndent,
-          maxLength: 80,
-        })}`,
-        true,
+    formattedDetails.push(
+      ...Object.entries(details).map(([key, value]) =>
+        chalk.cyan(
+          this.indent(
+            `${key}: ${stringify(value, {
+              indent: this._options.jsonIndent,
+              maxLength: 80,
+            })}`,
+            true,
+          ),
+        ),
       ),
     );
 
     const separator = this.indent('--', true);
-    return chalk.cyan(`${formattedDetails.join(`\n${separator}\n`)}\n`);
+    return `${formattedDetails.join(`\n${separator}\n`)}\n`;
   }
 
   isExtra(value: unknown): boolean {
