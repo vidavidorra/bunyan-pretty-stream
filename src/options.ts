@@ -67,18 +67,18 @@ const schema = Joi.object().keys({
     })
     .default(),
   extrasKey: Joi.string()
-    .disallow(...bunyanCoreFields())
+    .disallow(...bunyanCoreFields(), '')
     .default(''),
-  indent: Joi.number().default(4),
-  jsonIndent: Joi.number().default(2),
+  indent: Joi.number().integer().min(0).default(4),
+  jsonIndent: Joi.number().integer().min(0).default(2),
   basePath: Joi.string().default('/'),
-  newLineCharacter: Joi.string().allow('\r', '\n', '\r\n').default('\n'),
-  extrasMaxValueLength: Joi.number().min(1).default(50),
+  newLineCharacter: Joi.string().valid('\r', '\n', '\r\n').default('\n'),
+  extrasMaxValueLength: Joi.number().positive().default(50),
   time: Joi.object()
     .keys({
       local: Joi.boolean().default(false),
       type: Joi.string()
-        .allow('none', 'short', 'long', 'format')
+        .valid('none', 'short', 'long', 'format')
         .default('long'),
       format: Joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
       formats: Joi.object()
