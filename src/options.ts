@@ -17,7 +17,7 @@ interface Options {
   indent?: number;
   jsonIndent?: number;
   basePath?: string;
-  newLineCharacter?: string;
+  newLineCharacter?: '\r' | '\n' | '\r\n';
   time?: {
     type?: 'short' | 'long' | 'format';
 
@@ -73,13 +73,11 @@ const schema = Joi.object().keys({
   jsonIndent: Joi.number().integer().min(0).default(2),
   basePath: Joi.string().default('/'),
   newLineCharacter: Joi.string().valid('\r', '\n', '\r\n').default('\n'),
-  extrasMaxValueLength: Joi.number().positive().default(50),
+  extrasMaxValueLength: Joi.number().integer().positive().default(50),
   time: Joi.object()
     .keys({
       local: Joi.boolean().default(false),
-      type: Joi.string()
-        .valid('none', 'short', 'long', 'format')
-        .default('long'),
+      type: Joi.string().valid('short', 'long', 'format').default('long'),
       format: Joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
       formats: Joi.object()
         .keys({

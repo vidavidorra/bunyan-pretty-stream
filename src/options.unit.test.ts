@@ -1,7 +1,15 @@
 import { InternalOptions, Options, schema } from './options';
 import { describe, expect, it } from '@jest/globals';
+import clone from 'clone';
 import { coreFields } from './bunyan-record';
+import dotProp from 'dot-prop';
 import is from '@sindresorhus/is';
+
+function stringify(value: unknown): string {
+  const stringifiedValue = is.string(value) ? value : JSON.stringify(value);
+
+  return stringifiedValue.replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+}
 
 describe('schema', () => {
   const defaults: Readonly<{
@@ -39,38 +47,93 @@ describe('schema', () => {
     },
   };
 
-  describe('enable', () => {
-    describe.each([
-      ['time', true],
-      ['name', false],
-      ['hostname', false],
-      ['pid', false],
-      ['source', false],
-      ['extras', true],
-    ])('%s', (key: string, defaultValue: boolean) => {
-      it.each([defaultValue])('defaults to "%b"', (value: number) => {
-        const options = Object.assign({}, defaults.options, {
-          enable: {
-            [key]: undefined,
-          },
-        });
+  describe.each([
+    ['enable.time', 'a boolean', true],
+    ['enable.name', 'a boolean', false],
+    ['enable.hostname', 'a boolean', false],
+    ['enable.pid', 'a boolean', false],
+    ['enable.source', 'a boolean', false],
+    ['enable.extras', 'a boolean', true],
+    ['extrasKey', 'a string', ''],
+    ['indent', 'a number', 4],
+    ['jsonIndent', 'a number', 2],
+    ['basePath', 'a string', '/'],
+    ['newLineCharacter', 'one of [\r, \n, \r\n]', '\n'],
+    ['extrasMaxValueLength', 'a number', 50],
+    ['time.local', 'a boolean', false],
+    ['time.type', 'one of [short, long, format]', 'long'],
+    ['time.format', 'a string', 'YYYY-MM-DD[T]HH:mm:ss.SSS'],
+    ['time.formats.short', 'a string', 'HH:mm:ss.SSS'],
+    ['time.formats.long', 'a string', 'YYYY-MM-DD[T]HH:mm:ss.SSS'],
+  ])('%s', (path: string, type: string, defaultValue: unknown) => {
+    it(`MUST be ${stringify(type)}`, () => {
+      const options = clone(defaults.options);
+      dotProp.set(options, path, is.number(defaultValue) ? 'abc' : 123);
+      const validation = schema.validate(options);
+
+      expect(validation.error).not.toBeUndefined();
+      expect(validation.error?.isJoi).toEqual(true);
+      const typeRe = type.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
+      expect(validation.error?.message).toMatch(
+        new RegExp(`^"${path}" must be ${typeRe}$`),
+      );
+    });
+
+    it(`defaults to "${stringify(defaultValue)}"`, () => {
+      const options = clone(defaults.options);
+      dotProp.set(options, path, undefined);
+      const validation = schema.validate(options);
+
+      expect(validation.error).toBeUndefined();
+      expect(dotProp.get(validation.value, path)).toEqual(defaultValue);
+    });
+  });
+
+  describe.each([
+    ['indent', 'greater than or equal to 0'],
+    ['jsonIndent', 'greater than or equal to 0'],
+    ['extrasMaxValueLength', 'a positive number'],
+  ])('%s', (path: string, type: string) => {
+    it('MUST be an integer', () => {
+      const options = clone(defaults.options);
+      dotProp.set(options, path, 0.5);
+      const validation = schema.validate(options);
+
+      expect(validation.error).not.toBeUndefined();
+      expect(validation.error?.isJoi).toEqual(true);
+      expect(validation.error?.message).toEqual(`"${path}" must be an integer`);
+    });
+
+    if (type === 'a positive number') {
+      it('MUST NOT be "0"', () => {
+        const options = clone(defaults.options);
+        dotProp.set(options, path, -1);
         const validation = schema.validate(options);
 
-        expect(validation.error).toBeUndefined();
-        expect(validation.value.enable[key]).toEqual(value);
+        expect(validation.error).not.toBeUndefined();
+        expect(validation.error?.isJoi).toEqual(true);
+        expect(validation.error?.message).toEqual(`"${path}" must be ${type}`);
       });
+    }
+
+    it('MUST NOT be negative', () => {
+      const options = clone(defaults.options);
+      dotProp.set(options, path, -1);
+      const validation = schema.validate(options);
+
+      expect(validation.error).not.toBeUndefined();
+      expect(validation.error?.isJoi).toEqual(true);
+      expect(validation.error?.message).toEqual(`"${path}" must be ${type}`);
     });
   });
 
   describe('extrasKey', () => {
     it.each([
       ...coreFields().map((e) => ['Bunyan core field', e]),
-      ['empty value', ''],
-    ])('disallows %s "%s"', (_, coreField: string) => {
-      const options: Readonly<Options> = {
-        ...defaults.options,
-        extrasKey: coreField,
-      };
+      ['an empty value', ''],
+    ])('disallows %s "%s"', (_, value: string) => {
+      const options = clone(defaults.options);
+      dotProp.set(options, 'extrasKey', value);
       const validation = schema.validate(options);
 
       expect(validation.error).not.toBeUndefined();
@@ -79,71 +142,47 @@ describe('schema', () => {
         '"extrasKey" contains an invalid value',
       );
     });
+  });
 
-    it('defaults to ""', () => {
-      const options: Readonly<Options> = {
-        ...defaults.options,
-        extrasKey: undefined,
-      };
+  describe('newLineCharacter', () => {
+    it.each([
+      ['\\r', '\r'],
+      ['\\n', '\n'],
+      ['\\r\\n', '\r\n'],
+    ])('allows "%s"', (_, value: string) => {
+      const options = clone(defaults.options);
+      dotProp.set(options, 'newLineCharacter', value);
       const validation = schema.validate(options);
 
       expect(validation.error).toBeUndefined();
-      expect(validation.value.extrasKey).toEqual('');
-    });
-  });
-
-  describe.each([
-    ['indent', 4],
-    ['jsonIndent', 2],
-  ])('%s', (key: string, defaultValue: number) => {
-    it('must not be less than 0', () => {
-      [-100, -2, -1].forEach((value) => {
-        const options = {
-          ...defaults.options,
-          [key]: value,
-        } as const;
-        const validation = schema.validate(options);
-
-        expect(validation.error).not.toBeUndefined();
-        expect(validation.error?.isJoi).toEqual(true);
-        expect(validation.error?.message).toEqual(
-          `"${key}" must be greater than or equal to 0`,
-        );
-      });
+      expect(validation.value.newLineCharacter).toEqual(value);
     });
 
-    it('must be an integer', () => {
-      const options = {
-        ...defaults.options,
-        [key]: 0.5,
-      } as const;
+    it.each([
+      ['multiple carriage returns "\\r\\r"', '\r\r'],
+      ['multiple line feeds "\\n\\n"', '\n\n'],
+      ['"\\n\\r"', '\n\r'],
+    ])('disallows %s', (_, value: string) => {
+      const options = clone(defaults.options);
+      dotProp.set(options, 'newLineCharacter', value);
       const validation = schema.validate(options);
 
       expect(validation.error).not.toBeUndefined();
       expect(validation.error?.isJoi).toEqual(true);
-      expect(validation.error?.message).toEqual(`"${key}" must be an integer`);
+      expect(validation.error?.message).toMatch(
+        /^"newLineCharacter" must be one of /,
+      );
     });
+  });
 
-    it.each([0, 1, 100])('may be "%d"', (value: number) => {
-      const options = {
-        ...defaults.options,
-        [key]: value,
-      } as const;
+  describe('time.type', () => {
+    it.each(['short', 'long', 'format'])('allows "%s"', (value: string) => {
+      const options = clone(defaults.options);
+      dotProp.set(options, 'time.type', value);
       const validation = schema.validate(options);
 
       expect(validation.error).toBeUndefined();
-      expect(validation.value[key]).toEqual(value);
-    });
-
-    it.each([defaultValue])('defaults to "%d"', (value: number) => {
-      const options: Readonly<Options> = {
-        ...defaults.options,
-        indent: undefined,
-      };
-      const validation = schema.validate(options);
-
-      expect(validation.error).toBeUndefined();
-      expect(validation.value[key]).toEqual(value);
+      expect(validation.value.time.type).toEqual(value);
     });
   });
 });
