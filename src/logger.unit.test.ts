@@ -4,7 +4,7 @@ import bunyan from 'bunyan';
 import is from '@sindresorhus/is';
 
 describe('Logger', () => {
-  it('exposes the Bunyan trace, debug, info, warn, error, fatal function', () => {
+  it('exposes the Bunyan trace, debug, info, warn, error, fatal functions', () => {
     const bunyanLogger = bunyan.createLogger({ name: 'Logger' });
     const logger: Logger = bunyanLogger;
 

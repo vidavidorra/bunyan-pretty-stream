@@ -1,7 +1,8 @@
-import { MergedOptions, Options, isValid, schema } from './options';
+import { MergedOptions, Options, schema } from './options';
 import { Formatter } from './formatter';
 import { Stream } from 'stream';
 import { isBunyanRecord } from './bunyan-record';
+import { joi } from './helpers';
 
 class PrettyStream extends Stream {
   readable: boolean;
@@ -14,12 +15,12 @@ class PrettyStream extends Stream {
     this.readable = true;
     this.writable = true;
 
-    const { error, value } = schema.validate(options);
-    if (!isValid<MergedOptions>(error, value)) {
-      throw error;
+    const validation = schema.validate(options);
+    if (!joi.isValid<MergedOptions>(validation, validation.value)) {
+      throw validation.error;
     }
 
-    this._formatter = new Formatter(value);
+    this._formatter = new Formatter(validation.value);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types

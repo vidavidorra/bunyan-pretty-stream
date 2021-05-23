@@ -1,6 +1,5 @@
-import Joi from 'joi';
 import { coreFields as bunyanCoreFields } from './bunyan-record';
-import is from '@sindresorhus/is';
+import { joi } from './helpers';
 
 interface Options {
   enable?: {
@@ -55,45 +54,42 @@ type DeepRequired<T> = {
 
 type MergedOptions = DeepRequired<Options & InternalOptions>;
 
-const schema = Joi.object().keys({
-  enable: Joi.object()
+const schema = joi.object().keys({
+  enable: joi
+    .object()
     .keys({
-      time: Joi.boolean().default(true),
-      name: Joi.boolean().default(false),
-      hostname: Joi.boolean().default(false),
-      pid: Joi.boolean().default(false),
-      source: Joi.boolean().default(false),
-      extras: Joi.boolean().default(true),
+      time: joi.boolean().default(true),
+      name: joi.boolean().default(false),
+      hostname: joi.boolean().default(false),
+      pid: joi.boolean().default(false),
+      source: joi.boolean().default(false),
+      extras: joi.boolean().default(true),
     })
     .default(),
-  extrasKey: Joi.string()
+  extrasKey: joi
+    .string()
     .disallow(...bunyanCoreFields(), '')
     .default(''),
-  indent: Joi.number().integer().min(0).default(4),
-  jsonIndent: Joi.number().integer().min(0).default(2),
-  basePath: Joi.string().default('/'),
-  newLineCharacter: Joi.string().valid('\r', '\n', '\r\n').default('\n'),
-  extrasMaxValueLength: Joi.number().integer().positive().default(50),
-  time: Joi.object()
+  indent: joi.number().integer().min(0).default(4),
+  jsonIndent: joi.number().integer().min(0).default(2),
+  basePath: joi.string().default('/'),
+  newLineCharacter: joi.string().valid('\r', '\n', '\r\n').default('\n'),
+  extrasMaxValueLength: joi.number().integer().positive().default(50),
+  time: joi
+    .object()
     .keys({
-      local: Joi.boolean().default(false),
-      type: Joi.string().valid('short', 'long', 'format').default('long'),
-      format: Joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
-      formats: Joi.object()
+      local: joi.boolean().default(false),
+      type: joi.string().valid('short', 'long', 'format').default('long'),
+      format: joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
+      formats: joi
+        .object()
         .keys({
-          short: Joi.string().default('HH:mm:ss.SSS'),
-          long: Joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
+          short: joi.string().default('HH:mm:ss.SSS'),
+          long: joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
         })
         .default(),
     })
     .default(),
 });
 
-function isValid<T>(
-  error: Joi.ValidationError | undefined,
-  value: unknown,
-): value is T {
-  return is.undefined(error);
-}
-
-export { Options, InternalOptions, MergedOptions, schema, isValid };
+export { Options, InternalOptions, MergedOptions, schema };
