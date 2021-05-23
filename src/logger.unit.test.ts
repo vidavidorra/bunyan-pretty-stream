@@ -1,18 +1,19 @@
 import { describe, expect, it } from '@jest/globals';
 import { Logger } from './logger';
 import bunyan from 'bunyan';
+import is from '@sindresorhus/is';
 
 describe('Logger', () => {
-  it('exposes the Bunyan trace, debug, info, warn, error, fatal function(s)', () => {
+  it('exposes the Bunyan trace, debug, info, warn, error, fatal function', () => {
     const bunyanLogger = bunyan.createLogger({ name: 'Logger' });
     const logger: Logger = bunyanLogger;
 
-    expect(typeof logger.trace).toEqual('function');
-    expect(typeof logger.debug).toEqual('function');
-    expect(typeof logger.info).toEqual('function');
-    expect(typeof logger.warn).toEqual('function');
-    expect(typeof logger.error).toEqual('function');
-    expect(typeof logger.fatal).toEqual('function');
+    expect(is.function_(logger.trace)).toEqual(true);
+    expect(is.function_(logger.debug)).toEqual(true);
+    expect(is.function_(logger.info)).toEqual(true);
+    expect(is.function_(logger.warn)).toEqual(true);
+    expect(is.function_(logger.error)).toEqual(true);
+    expect(is.function_(logger.fatal)).toEqual(true);
   });
 
   it('does not expose any other Bunyan or Node.js functions and properties', () => {
@@ -24,8 +25,9 @@ describe('Logger', () => {
       error: () => true,
       fatal: () => true,
       // @ts-expect-error TS2322 Assert there is an error about assigning a
-      // non-existing property as part of this test. This makes sure there is
-      // no `Record<string, unknown>` like field allowed on the type.
+      // non-existing property as part of this test. This tries to ensure there
+      // is no indexer field like `[key: string]: unknown;` and the type is not
+      // extending anything like `Record<string, unknown>`.
       x: '',
     };
 
