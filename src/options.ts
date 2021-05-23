@@ -17,7 +17,7 @@ interface Options {
   indent?: number;
   jsonIndent?: number;
   basePath?: string;
-  newLineCharacter?: string;
+  newLineCharacter?: '\r' | '\n' | '\r\n';
   time?: {
     type?: 'short' | 'long' | 'format';
 
@@ -72,7 +72,7 @@ const schema = Joi.object().keys({
   indent: Joi.number().default(4),
   jsonIndent: Joi.number().default(2),
   basePath: Joi.string().default('/'),
-  newLineCharacter: Joi.string().allow('\r', '\n', '\r\n').default('\n'),
+  newLineCharacter: Joi.string().valid('\r', '\n', '\r\n').default('\n'),
   extrasMaxValueLength: Joi.number().min(1).default(50),
   time: Joi.object()
     .keys({
