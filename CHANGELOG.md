@@ -1,3 +1,13 @@
+### [2.0.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.0...v2.0.1) (2021-05-23)
+
+### Tests
+
+- **logger:** use `@sindresorhus/is` in the test ([674f335](https://github.com/vidavidorra/bunyan-pretty-stream/commit/674f3351464587a69d8ee0476c9ed8b1b8f5251b))
+
+### Code Refactoring
+
+- **helpers:** add Joi to helpers and extend the Joi interface with the `isValid` function ([8c87222](https://github.com/vidavidorra/bunyan-pretty-stream/commit/8c8722279a747048dc7b59a2928b145dc710a124))
+
 ## [2.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.7...v2.0.0) (2021-05-23)
 
 ### ⚠ BREAKING CHANGES
