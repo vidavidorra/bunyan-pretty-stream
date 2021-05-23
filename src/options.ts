@@ -67,7 +67,7 @@ const schema = Joi.object().keys({
     })
     .default(),
   extrasKey: Joi.string()
-    .disallow(...bunyanCoreFields())
+    .disallow(...bunyanCoreFields(), '')
     .default(''),
   indent: Joi.number().default(4),
   jsonIndent: Joi.number().default(2),
