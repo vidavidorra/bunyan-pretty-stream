@@ -1,3 +1,26 @@
+## [2.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.7...v2.0.0) (2021-05-23)
+
+### ⚠ BREAKING CHANGES
+
+- **options:** narrow `time.type` to `short`, `long` or `format`
+- **options:** restrict `jsonIndent` to be an integer number of minimum zero
+- **options:** restrict `indent` to be an integer number of minimum zero
+- **options:** dissalow empty value for `extrasKey`
+- **options:** narrow `newLineCharacter` to `\r`, `\n` or `\r\n`
+
+### Bug Fixes
+
+- **options:** dissalow empty value for `extrasKey` ([7b42aed](https://github.com/vidavidorra/bunyan-pretty-stream/commit/7b42aed724e9f0f7afa3ba39e449797b829ca2d2))
+- **options:** narrow `newLineCharacter` to `\r`, `\n` or `\r\n` ([f5ef9a1](https://github.com/vidavidorra/bunyan-pretty-stream/commit/f5ef9a14a2333da378b68f4e78061de31c5c858e))
+- **options:** narrow `time.type` to `short`, `long` or `format` ([307d33f](https://github.com/vidavidorra/bunyan-pretty-stream/commit/307d33fb1228d41ca1696ce7976dbf2cb0a5f565))
+- **options:** restrict `extrasMaxValueLength` to be a positive integer number ([1c54ae0](https://github.com/vidavidorra/bunyan-pretty-stream/commit/1c54ae03e235cd5ca125698b2ef3f63296301be2))
+- **options:** restrict `indent` to be an integer number of minimum zero ([875d4de](https://github.com/vidavidorra/bunyan-pretty-stream/commit/875d4de3e3d99a212b52cd1325d1a5f2de868180))
+- **options:** restrict `jsonIndent` to be an integer number of minimum zero ([f29fc38](https://github.com/vidavidorra/bunyan-pretty-stream/commit/f29fc3882dda1ffde0845ce83c28ba9c45fac9eb))
+
+### Tests
+
+- **options:** add unit-test for the options ([844c050](https://github.com/vidavidorra/bunyan-pretty-stream/commit/844c0500ed35635b899cb6391e82f4aafec08d7d))
+
 ### [1.0.7](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v1.0.6...v1.0.7) (2021-05-01)
 
 ### Bug Fixes
