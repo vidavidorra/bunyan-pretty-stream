@@ -70,7 +70,7 @@ const schema = Joi.object().keys({
     .disallow(...bunyanCoreFields(), '')
     .default(''),
   indent: Joi.number().integer().min(0).default(4),
-  jsonIndent: Joi.number().default(2),
+  jsonIndent: Joi.number().integer().min(0).default(2),
   basePath: Joi.string().default('/'),
   newLineCharacter: Joi.string().valid('\r', '\n', '\r\n').default('\n'),
   extrasMaxValueLength: Joi.number().min(1).default(50),
