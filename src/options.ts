@@ -77,9 +77,7 @@ const schema = Joi.object().keys({
   time: Joi.object()
     .keys({
       local: Joi.boolean().default(false),
-      type: Joi.string()
-        .allow('none', 'short', 'long', 'format')
-        .default('long'),
+      type: Joi.string().valid('short', 'long', 'format').default('long'),
       format: Joi.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
       formats: Joi.object()
         .keys({
