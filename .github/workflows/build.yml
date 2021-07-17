@@ -12,9 +12,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2.3.4
       - name: Setup node
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f # renovate: tag=v2.2.0
         with:
           node-version: 14
       - name: Install project
@@ -31,9 +31,9 @@ jobs:
         node: [14, 15]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2.3.4
       - name: Setup node
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f # renovate: tag=v2.2.0
         with:
           node-version: ${{ matrix.node }}
       - name: Install project
@@ -50,9 +50,9 @@ jobs:
         node: [14, 15]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2.3.4
       - name: Setup node
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f # renovate: tag=v2.2.0
         with:
           node-version: ${{ matrix.node }}
       - name: Install project
@@ -65,9 +65,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2.3.4
       - name: Setup node
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f # renovate: tag=v2.2.0
         with:
           node-version: 14
       - name: Install project
@@ -75,7 +75,7 @@ jobs:
       - name: Test
         run: npm run test:ci
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1.5.2
+        uses: codecov/codecov-action@29386c70ef20e286228c72b668a06fd0e8399192 # renovate: tag=v1.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/cobertura-coverage.xml
@@ -89,12 +89,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2.3.4
         with:
           # Make sure the release step uses its own credentials.
           persist-credentials: false
       - name: Setup node
-        uses: actions/setup-node@v2.2.0
+        uses: actions/setup-node@38d90ce44d5275ad62cc48384b3d8a58c500bb5f # renovate: tag=v2.2.0
         with:
           node-version: 14
       - name: Install project
