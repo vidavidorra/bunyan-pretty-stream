@@ -1,3 +1,9 @@
+### [2.0.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.2...v2.0.3) (2021-08-02)
+
+### Bug Fixes
+
+- **deps:** update dependency chalk to v4.1.2 ([ca5784b](https://github.com/vidavidorra/bunyan-pretty-stream/commit/ca5784bb72fedef0f71f6ce4b5fc877eb849dbab))
+
 ### [2.0.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.1...v2.0.2) (2021-07-14)
 
 ### Bug Fixes
