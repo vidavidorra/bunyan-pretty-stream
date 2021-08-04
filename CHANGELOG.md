@@ -1,3 +1,9 @@
+### [2.0.4](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.3...v2.0.4) (2021-08-04)
+
+### Bug Fixes
+
+- **deps:** update dependency joi to v17.4.2 ([68bd4a6](https://github.com/vidavidorra/bunyan-pretty-stream/commit/68bd4a612356ad7c3c7c231a0fdfe0f4de4afa5a))
+
 ### [2.0.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.2...v2.0.3) (2021-08-02)
 
 ### Bug Fixes
