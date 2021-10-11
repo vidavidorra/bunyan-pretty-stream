@@ -1,14 +1,15 @@
 import { MergedOptions, Options, schema } from './options';
+import { Transform, TransformCallback } from 'stream';
+import { fromString, isBunyanRecord } from './bunyan-record';
 import { Formatter } from './formatter';
-import { Stream } from 'stream';
-import { isBunyanRecord } from './bunyan-record';
+import is from '@sindresorhus/is';
 import { joi } from './helpers';
 
-class PrettyStream extends Stream.Transform {
+class PrettyStream extends Transform {
   private _formatter: Formatter;
 
   constructor(options: Options = {}) {
-    super();
+    super({ objectMode: true });
 
     const validation = schema.validate(options);
     if (!joi.isValid<MergedOptions>(validation, validation.value)) {
@@ -22,9 +23,12 @@ class PrettyStream extends Stream.Transform {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
     chunk: any,
     encoding: BufferEncoding,
-    done: (error?: Error | null) => void,
+    done: TransformCallback,
   ): void {
-    if (isBunyanRecord(chunk)) {
+    if (is.string(chunk)) {
+      this.push(this._formatter.format(fromString(chunk)));
+      done();
+    } else if (isBunyanRecord(chunk)) {
       this.push(this._formatter.format(chunk));
       done();
     } else {
