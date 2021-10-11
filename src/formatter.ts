@@ -221,12 +221,12 @@ class Formatter {
     message: ParsedRecord['message'],
     details: ParsedRecord['details'],
   ): string {
-    const formattedDetails: string[] = [];
+    const formatted: string[] = [];
     if (!this.isSingleLine(message)) {
-      formattedDetails.push(chalk.blue(this.indent(message, true)));
+      formatted.push(chalk.blue(this.indent(message, true)));
     }
 
-    formattedDetails.push(
+    formatted.push(
       ...Object.entries(details).map(([key, value]) =>
         chalk.cyan(
           this.indent(
@@ -240,8 +240,13 @@ class Formatter {
       ),
     );
 
-    const separator = this.indent('--', true);
-    return `${formattedDetails.join(`\n${separator}\n`)}\n`;
+    const separator = [
+      this._options.newLineCharacter,
+      this.indent('--', true),
+      this._options.newLineCharacter,
+    ].join('');
+    const suffix = formatted.length > 0 ? this._options.newLineCharacter : '';
+    return `${formatted.join(separator)}${suffix}`;
   }
 
   isExtra(value: unknown): boolean {

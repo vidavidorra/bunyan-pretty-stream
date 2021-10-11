@@ -53,4 +53,24 @@ function isBunyanRecord(value: unknown): value is BunyanRecord {
   );
 }
 
-export { BunyanRecord, coreFields, isBunyanRecord };
+function fromString(json: string): BunyanRecord {
+  const record = JSON.parse(json, (key, value) => {
+    if (
+      key === 'time' &&
+      is.string(value) &&
+      /^((\+-)\d{2})?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(value)
+    ) {
+      return new Date(value);
+    }
+
+    return value;
+  });
+
+  if (!isBunyanRecord(record)) {
+    throw new Error('string MUST be parsable to a valid Bunyan record');
+  }
+
+  return record;
+}
+
+export { BunyanRecord, coreFields, fromString, isBunyanRecord };

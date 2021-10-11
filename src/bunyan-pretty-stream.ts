@@ -1,19 +1,15 @@
 import { MergedOptions, Options, schema } from './options';
+import { Transform, TransformCallback } from 'stream';
+import { fromString, isBunyanRecord } from './bunyan-record';
 import { Formatter } from './formatter';
-import { Stream } from 'stream';
-import { isBunyanRecord } from './bunyan-record';
+import is from '@sindresorhus/is';
 import { joi } from './helpers';
 
-class PrettyStream extends Stream {
-  readable: boolean;
-  writable: boolean;
-
+class PrettyStream extends Transform {
   private _formatter: Formatter;
 
   constructor(options: Options = {}) {
-    super();
-    this.readable = true;
-    this.writable = true;
+    super({ objectMode: true });
 
     const validation = schema.validate(options);
     if (!joi.isValid<MergedOptions>(validation, validation.value)) {
@@ -23,19 +19,21 @@ class PrettyStream extends Stream {
     this._formatter = new Formatter(validation.value);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-  write(chunk: any): boolean {
-    if (!isBunyanRecord(chunk)) {
-      throw new Error('data is not a bunyan record, forgot to set type raw?');
+  _transform(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+    chunk: any,
+    encoding: BufferEncoding,
+    done: TransformCallback,
+  ): void {
+    if (is.string(chunk)) {
+      this.push(this._formatter.format(fromString(chunk)));
+      done();
+    } else if (isBunyanRecord(chunk)) {
+      this.push(this._formatter.format(chunk));
+      done();
+    } else {
+      done(new Error('data MUST be a valid bunyan record'));
     }
-
-    this.emit('data', this._formatter.format(chunk));
-    return true;
-  }
-
-  end(): boolean {
-    this.emit('end');
-    return true;
   }
 }
 

@@ -81,7 +81,7 @@ describe('schema', () => {
 
     it(`defaults to "${stringify(defaultValue)}"`, () => {
       const options = clone(defaults.options);
-      dotProp.set(options, path, undefined);
+      dotProp.delete(options, path);
       const validation = schema.validate(options);
 
       expect(validation.error).toBeUndefined();
