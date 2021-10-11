@@ -1,3 +1,18 @@
+### [2.0.7](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.6...v2.0.7) (2021-10-11)
+
+### Bug Fixes
+
+- allow processing of stringified records ([063f469](https://github.com/vidavidorra/bunyan-pretty-stream/commit/063f46991fea57b9975868f66b2146ddec132aee)), closes [#9](https://github.com/vidavidorra/bunyan-pretty-stream/issues/9)
+- double newline on messages without details ([2b9d15f](https://github.com/vidavidorra/bunyan-pretty-stream/commit/2b9d15fc372b196a9588fc71394d46d45de5b779))
+
+### Code Refactoring
+
+- use a `Transform` stream instead of just `Stream` ([56f0d83](https://github.com/vidavidorra/bunyan-pretty-stream/commit/56f0d83e1bde351a44b9833f27a37782064d77c2))
+
+### Tests
+
+- **options:** delete object key rather than making it `undefined` ([1165dc3](https://github.com/vidavidorra/bunyan-pretty-stream/commit/1165dc3c50cf334fdcecd25062d6057e03efec96))
+
 ### [2.0.6](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.5...v2.0.6) (2021-09-16)
 
 ### Bug Fixes
