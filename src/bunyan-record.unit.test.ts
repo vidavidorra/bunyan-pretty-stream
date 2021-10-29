@@ -8,7 +8,7 @@ describe('BunyanRecord', () => {
      * https://github.com/trentm/node-bunyan/tree/1.8.15#core-fields).
      */
     it('returns an array of Bunyan core fields', () => {
-      expect(Array.isArray(coreFields())).toEqual(true);
+      expect(Array.isArray(coreFields())).toBe(true);
       expect(coreFields()).toEqual([
         'v',
         'level',
@@ -39,14 +39,14 @@ describe('BunyanRecord', () => {
     };
 
     it('returns true for a record with all core fields', () => {
-      expect(isBunyanRecord(bunyanRecord)).toEqual(true);
+      expect(isBunyanRecord(bunyanRecord)).toBe(true);
     });
 
     it("returns true for a record without 'src'", () => {
       const record = { ...bunyanRecord };
       delete record.src;
 
-      expect(isBunyanRecord(record)).toEqual(true);
+      expect(isBunyanRecord(record)).toBe(true);
     });
 
     it.each(['v', 'level', 'name', 'hostname', 'pid', 'time', 'msg'])(
@@ -55,14 +55,14 @@ describe('BunyanRecord', () => {
         const record = { ...bunyanRecord };
         delete record[property];
 
-        expect(isBunyanRecord(record)).toEqual(false);
+        expect(isBunyanRecord(record)).toBe(false);
       },
     );
 
     it('returns true if the input contains non-core fields', () => {
       const record = { ...bunyanRecord, nonCoreField: '' };
 
-      expect(isBunyanRecord(record)).toEqual(true);
+      expect(isBunyanRecord(record)).toBe(true);
     });
 
     it("narrows the type to 'BunyanRecord'", () => {

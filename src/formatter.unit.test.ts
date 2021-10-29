@@ -53,7 +53,7 @@ describe('Formatter', () => {
       msg: 'multiline\nmessage',
     });
 
-    expect(stripAnsi(log)).toEqual(
+    expect(stripAnsi(log)).toBe(
       '[2000-01-01T00:00:00.000Z]  INFO:\n    multiline\n    message\n',
     );
   });

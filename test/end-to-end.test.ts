@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
-describe('PrettyStream', () => {
+describe.skip('PrettyStream', () => {
   it('does thing', () => {
-    expect(true).toEqual(true);
+    expect(true).toBe(true);
   });
 });
