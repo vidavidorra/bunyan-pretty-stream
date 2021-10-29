@@ -71,8 +71,8 @@ describe('schema', () => {
       dotProp.set(options, path, is.number(defaultValue) ? 'abc' : 123);
       const validation = schema.validate(options);
 
-      expect(validation.error).not.toBeUndefined();
-      expect(validation.error?.isJoi).toEqual(true);
+      expect(validation.error).toBeDefined();
+      expect(validation.error?.isJoi).toBe(true);
       const typeRe = type.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
       expect(validation.error?.message).toMatch(
         new RegExp(`^"${path}" must be ${typeRe}$`),
@@ -99,8 +99,8 @@ describe('schema', () => {
       dotProp.set(options, path, 0.5);
       const validation = schema.validate(options);
 
-      expect(validation.error).not.toBeUndefined();
-      expect(validation.error?.isJoi).toEqual(true);
+      expect(validation.error).toBeDefined();
+      expect(validation.error?.isJoi).toBe(true);
       expect(validation.error?.message).toEqual(`"${path}" must be an integer`);
     });
 
@@ -110,8 +110,8 @@ describe('schema', () => {
         dotProp.set(options, path, -1);
         const validation = schema.validate(options);
 
-        expect(validation.error).not.toBeUndefined();
-        expect(validation.error?.isJoi).toEqual(true);
+        expect(validation.error).toBeDefined();
+        expect(validation.error?.isJoi).toBe(true);
         expect(validation.error?.message).toEqual(`"${path}" must be ${type}`);
       });
     }
@@ -121,8 +121,8 @@ describe('schema', () => {
       dotProp.set(options, path, -1);
       const validation = schema.validate(options);
 
-      expect(validation.error).not.toBeUndefined();
-      expect(validation.error?.isJoi).toEqual(true);
+      expect(validation.error).toBeDefined();
+      expect(validation.error?.isJoi).toBe(true);
       expect(validation.error?.message).toEqual(`"${path}" must be ${type}`);
     });
   });
@@ -136,9 +136,9 @@ describe('schema', () => {
       dotProp.set(options, 'extrasKey', value);
       const validation = schema.validate(options);
 
-      expect(validation.error).not.toBeUndefined();
-      expect(validation.error?.isJoi).toEqual(true);
-      expect(validation.error?.message).toEqual(
+      expect(validation.error).toBeDefined();
+      expect(validation.error?.isJoi).toBe(true);
+      expect(validation.error?.message).toBe(
         '"extrasKey" contains an invalid value',
       );
     });
@@ -167,8 +167,8 @@ describe('schema', () => {
       dotProp.set(options, 'newLineCharacter', value);
       const validation = schema.validate(options);
 
-      expect(validation.error).not.toBeUndefined();
-      expect(validation.error?.isJoi).toEqual(true);
+      expect(validation.error).toBeDefined();
+      expect(validation.error?.isJoi).toBe(true);
       expect(validation.error?.message).toMatch(
         /^"newLineCharacter" must be one of /,
       );

@@ -8,12 +8,12 @@ describe('Logger', () => {
     const bunyanLogger = bunyan.createLogger({ name: 'Logger' });
     const logger: Logger = bunyanLogger;
 
-    expect(is.function_(logger.trace)).toEqual(true);
-    expect(is.function_(logger.debug)).toEqual(true);
-    expect(is.function_(logger.info)).toEqual(true);
-    expect(is.function_(logger.warn)).toEqual(true);
-    expect(is.function_(logger.error)).toEqual(true);
-    expect(is.function_(logger.fatal)).toEqual(true);
+    expect(is.function_(logger.trace)).toBe(true);
+    expect(is.function_(logger.debug)).toBe(true);
+    expect(is.function_(logger.info)).toBe(true);
+    expect(is.function_(logger.warn)).toBe(true);
+    expect(is.function_(logger.error)).toBe(true);
+    expect(is.function_(logger.fatal)).toBe(true);
   });
 
   it('does not expose any other Bunyan or Node.js functions and properties', () => {
@@ -31,6 +31,6 @@ describe('Logger', () => {
       x: '',
     };
 
-    expect(logger).not.toBeUndefined();
+    expect(logger).toBeDefined();
   });
 });

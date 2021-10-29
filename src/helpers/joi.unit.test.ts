@@ -4,11 +4,11 @@ import is from '@sindresorhus/is';
 
 describe('isValid', () => {
   it('is a function', () => {
-    expect(is.function_(joi.isValid)).toEqual(true);
+    expect(is.function_(joi.isValid)).toBe(true);
   });
 
   it('returns true when there are no validation errors', () => {
-    expect(joi.isValid({ value: {}, error: undefined }, null)).toEqual(true);
+    expect(joi.isValid({ value: {}, error: undefined }, null)).toBe(true);
   });
 
   it('returns false when there are validation errors', () => {
@@ -20,7 +20,7 @@ describe('isValid', () => {
         },
         null,
       ),
-    ).toEqual(false);
+    ).toBe(false);
   });
 
   it('narrows the value type', () => {
@@ -31,7 +31,7 @@ describe('isValid', () => {
       error: undefined,
     };
 
-    expect(joi.isValid(validation, null)).toEqual(true);
+    expect(joi.isValid(validation, null)).toBe(true);
     if (joi.isValid<{ quote: string }>(validation, validation.value)) {
       expect(validation.value.quote).toEqual(quote);
     }
