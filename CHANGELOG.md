@@ -1,3 +1,9 @@
+### [2.0.11](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.10...v2.0.11) (2022-03-02)
+
+### Bug Fixes
+
+- **deps:** update dependency @sindresorhus/is to v4.6.0 ([1bf37d5](https://github.com/vidavidorra/bunyan-pretty-stream/commit/1bf37d5e36ca59f9b5da3abffb21b4d6603c3374))
+
 ### [2.0.10](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.9...v2.0.10) (2022-01-28)
 
 ### Bug Fixes
