@@ -1,9 +1,8 @@
-import { MergedOptions, Options, schema } from './options';
+import { Options, schema } from './options';
 import { Transform, TransformCallback } from 'stream';
 import { fromString, isBunyanRecord } from './bunyan-record';
 import { Formatter } from './formatter';
 import is from '@sindresorhus/is';
-import { joi } from './helpers';
 
 class PrettyStream extends Transform {
   private _formatter: Formatter;
@@ -11,12 +10,7 @@ class PrettyStream extends Transform {
   constructor(options: Options = {}) {
     super({ objectMode: true });
 
-    const validation = schema.validate(options);
-    if (!joi.isValid<MergedOptions>(validation, validation.value)) {
-      throw validation.error;
-    }
-
-    this._formatter = new Formatter(validation.value);
+    this._formatter = new Formatter(schema.parse(options));
   }
 
   _transform(

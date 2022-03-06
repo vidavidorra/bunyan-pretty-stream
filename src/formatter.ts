@@ -79,17 +79,18 @@ class Formatter {
       return parsed;
     }
 
-    const extras = parsed.details[this._options.extrasKey];
-    if (this._options.extrasKey !== '' && is.nonEmptyObject(extras)) {
-      Object.entries(parsed.details[this._options.extrasKey]).forEach(
-        ([key, value]) => {
-          if (this.isExtra(value)) {
-            parsed.extras[key] = value;
-            delete parsed.details[this._options.extrasKey][key];
-          }
-        },
-      );
-    } else if (this._options.extrasKey === '') {
+    const extras = is.undefined(this._options.extrasKey)
+      ? {}
+      : parsed.details[this._options.extrasKey];
+    if (this._options.extrasKey !== undefined && is.nonEmptyObject(extras)) {
+      const extrasKey = this._options.extrasKey;
+      Object.entries(parsed.details[extrasKey]).forEach(([key, value]) => {
+        if (this.isExtra(value)) {
+          parsed.extras[key] = value;
+          delete parsed.details[extrasKey][key];
+        }
+      });
+    } else if (this._options.extrasKey === undefined) {
       Object.entries(parsed.details).forEach(([key, value]) => {
         if (this.isExtra(value)) {
           parsed.extras[key] = value;
