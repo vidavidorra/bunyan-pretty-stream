@@ -28,8 +28,10 @@ describe('schema', () => {
         extras: false,
       },
       extrasKey: 'extras',
-      indent: 4,
-      jsonIndent: 2,
+      indent: {
+        details: 4,
+        json: 2,
+      },
       basePath: '/',
       newLineCharacter: '\n',
       time: {
@@ -57,8 +59,8 @@ describe('schema', () => {
     ['show.source', 'boolean', false],
     ['show.extras', 'boolean', true],
     ['extrasKey', 'string', undefined],
-    ['indent', 'number', 4],
-    ['jsonIndent', 'number', 2],
+    ['indent.details', 'number', 4],
+    ['indent.json', 'number', 2],
     ['basePath', 'string', '/'],
     ['newLineCharacter', '\r | \n | \r\n', '\n'],
     ['extrasMaxValueLength', 'number', 50],
@@ -113,8 +115,8 @@ describe('schema', () => {
   });
 
   describe.each([
-    ['indent', 'greater than or equal to 0'],
-    ['jsonIndent', 'greater than or equal to 0'],
+    ['indent.details', 'greater than or equal to 0'],
+    ['indent.json', 'greater than or equal to 0'],
     ['extrasMaxValueLength', 'a positive number'],
   ])('%s', (path: string, type: string) => {
     it('MUST be an integer', () => {

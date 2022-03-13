@@ -19,8 +19,13 @@ const options = z
       .min(1)
       .regex(new RegExp(`^((?!(${bunyanCoreFields().join('|')})).)*$`))
       .optional(), // Exlcude bunyan core fields.
-    indent: z.number().int().nonnegative().default(4),
-    jsonIndent: z.number().int().nonnegative().default(2),
+    indent: z
+      .object({
+        details: z.number().int().nonnegative().default(4),
+        json: z.number().int().nonnegative().default(2),
+      })
+      .strict()
+      .default({}),
     basePath: z.string().min(1).default('/'),
     newLineCharacter: z.enum(['\r', '\n', '\r\n']).default('\n'),
     time: z

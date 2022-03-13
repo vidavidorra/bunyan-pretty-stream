@@ -15,8 +15,10 @@ describe('Formatter', () => {
       extras: false,
     },
     extrasKey: '',
-    indent: 4,
-    jsonIndent: 2,
+    indent: {
+      details: 4,
+      json: 2,
+    },
     basePath: '/',
     newLineCharacter: '\n',
     extrasMaxValueLength: 50,

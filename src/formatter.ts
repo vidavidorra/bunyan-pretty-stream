@@ -232,7 +232,7 @@ class Formatter {
         chalk.cyan(
           this.indent(
             `${key}: ${stringify(value, {
-              indent: this._options.jsonIndent,
+              indent: this._options.indent.json,
               maxLength: 80,
             })}`,
             true,
@@ -271,7 +271,7 @@ class Formatter {
   }
 
   indent(input: string, leading = false): string {
-    const indentation = ' '.repeat(this._options.indent);
+    const indentation = ' '.repeat(this._options.indent.details);
     const prefix = leading ? indentation : '';
     const formatted = input
       .split(this._regex.newLine)
