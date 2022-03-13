@@ -14,7 +14,6 @@ describe('Formatter', () => {
       source: false,
       extras: false,
     },
-    extrasKey: '',
     indent: {
       details: 4,
       json: 2,

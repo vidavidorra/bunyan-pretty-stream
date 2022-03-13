@@ -14,11 +14,16 @@ const options = z
       })
       .strict()
       .default({}),
-    extrasKey: z
-      .string()
-      .min(1)
-      .regex(new RegExp(`^((?!(${bunyanCoreFields().join('|')})).)*$`))
-      .optional(), // Exlcude bunyan core fields.
+    extras: z
+      .object({
+        key: z
+          .string()
+          .min(1)
+          .regex(new RegExp(`^((?!(${bunyanCoreFields().join('|')})).)*$`))
+          .optional(),
+      })
+      .strict()
+      .default({}),
     indent: z
       .object({
         details: z.number().int().nonnegative().default(4),

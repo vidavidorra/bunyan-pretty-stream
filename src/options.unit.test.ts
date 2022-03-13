@@ -27,7 +27,6 @@ describe('schema', () => {
         source: false,
         extras: false,
       },
-      extrasKey: 'extras',
       indent: {
         details: 4,
         json: 2,
@@ -58,7 +57,7 @@ describe('schema', () => {
     ['show.pid', 'boolean', false],
     ['show.source', 'boolean', false],
     ['show.extras', 'boolean', true],
-    ['extrasKey', 'string', undefined],
+    ['extras.key', 'string', undefined],
     ['indent.details', 'number', 4],
     ['indent.json', 'number', 2],
     ['basePath', 'string', '/'],
@@ -173,13 +172,13 @@ describe('schema', () => {
     });
   });
 
-  describe('extrasKey', () => {
+  describe('extras.key', () => {
     it.each([
       ...coreFields().map((e) => ['Bunyan core field', e]),
       ['an empty value', ''],
     ])('disallows %s "%s"', (_, value: string) => {
       const options = clone(defaults.options);
-      dotProp.set(options, 'extrasKey', value);
+      dotProp.set(options, 'extras.key', value);
       const parsed = schema.safeParse(options);
       // const validation = schema.validate(options);
 
