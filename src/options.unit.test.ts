@@ -19,7 +19,7 @@ describe('schema', () => {
     options: Options;
   }> = {
     options: {
-      enable: {
+      show: {
         time: true,
         name: false,
         hostname: false,
@@ -50,12 +50,12 @@ describe('schema', () => {
   };
 
   describe.each([
-    ['enable.time', 'boolean', true],
-    ['enable.name', 'boolean', false],
-    ['enable.hostname', 'boolean', false],
-    ['enable.pid', 'boolean', false],
-    ['enable.source', 'boolean', false],
-    ['enable.extras', 'boolean', true],
+    ['show.time', 'boolean', true],
+    ['show.name', 'boolean', false],
+    ['show.hostname', 'boolean', false],
+    ['show.pid', 'boolean', false],
+    ['show.source', 'boolean', false],
+    ['show.extras', 'boolean', true],
     ['extrasKey', 'string', undefined],
     ['indent', 'number', 4],
     ['jsonIndent', 'number', 2],

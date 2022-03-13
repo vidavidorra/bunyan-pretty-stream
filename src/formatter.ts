@@ -75,7 +75,7 @@ class Formatter {
       }
     });
 
-    if (!this._options.enable.extras) {
+    if (!this._options.show.extras) {
       return parsed;
     }
 
@@ -121,7 +121,7 @@ class Formatter {
   }
 
   formatTime(time: ParsedRecord['time']): string {
-    if (!this._options.enable.time) {
+    if (!this._options.show.time) {
       return '';
     }
 
@@ -141,12 +141,12 @@ class Formatter {
   }
 
   formatLevel(level: ParsedRecord['level']): string {
-    const prefix = this._options.enable.time ? ' ' : '';
+    const prefix = this._options.show.time ? ' ' : '';
     return `${prefix}${this._levels[level]}`;
   }
 
   formatName(name: ParsedRecord['name']): string {
-    if (!this._options.enable.name) {
+    if (!this._options.show.name) {
       return '';
     }
 
@@ -154,28 +154,28 @@ class Formatter {
   }
 
   formatPid(pid: ParsedRecord['pid']): string {
-    if (!this._options.enable.pid) {
+    if (!this._options.show.pid) {
       return '';
     }
 
-    const prefix = this._options.enable.name ? '/' : ' ';
+    const prefix = this._options.show.name ? '/' : ' ';
     return `${prefix}${pid}`;
   }
 
   formatHostname(hostname: ParsedRecord['hostname']): string {
-    if (!this._options.enable.hostname) {
+    if (!this._options.show.hostname) {
       return '';
     }
 
     return [
       ' ',
-      this._options.enable.name || this._options.enable.pid ? 'on ' : '',
+      this._options.show.name || this._options.show.pid ? 'on ' : '',
       hostname,
     ].join('');
   }
 
   formatSource(source: ParsedRecord['source']): string {
-    if (!this._options.enable.source || is.undefined(source)) {
+    if (!this._options.show.source || is.undefined(source)) {
       return '';
     }
 

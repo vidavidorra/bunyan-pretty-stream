@@ -6,7 +6,7 @@ import stripAnsi from 'strip-ansi';
 
 describe('Formatter', () => {
   const options: Readonly<MergedOptions> = {
-    enable: {
+    show: {
       time: true,
       name: false,
       hostname: false,

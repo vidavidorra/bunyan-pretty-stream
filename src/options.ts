@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 const options = z
   .object({
-    enable: z
+    show: z
       .object({
         time: z.boolean().default(true),
         name: z.boolean().default(false),
