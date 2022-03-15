@@ -1,5 +1,5 @@
 import { BunyanRecord, coreFields } from './bunyan-record';
-import { ParsedOptions } from './options';
+import { Options, ParsedOptions, schema } from './options';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';
@@ -48,9 +48,10 @@ class Formatter {
   } as const;
   private readonly _levels: Readonly<Record<number, string>>;
 
-  constructor(options: ParsedOptions) {
-    options.basePath = path.normalize(options.basePath);
-    this._options = options;
+  constructor(options: Options) {
+    const parsedOptions = schema.parse(options);
+    parsedOptions.basePath = path.normalize(parsedOptions.basePath);
+    this._options = parsedOptions;
 
     this._levels = {
       [bunyan.levelFromName.trace]: chalk.gray('TRACE'),

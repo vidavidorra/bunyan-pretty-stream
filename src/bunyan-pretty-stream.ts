@@ -1,7 +1,7 @@
-import { Options, schema } from './options';
 import { Transform, TransformCallback } from 'stream';
 import { fromString, isBunyanRecord } from './bunyan-record';
 import { Formatter } from './formatter';
+import { Options } from './options';
 import is from '@sindresorhus/is';
 
 class PrettyStream extends Transform {
@@ -10,7 +10,7 @@ class PrettyStream extends Transform {
   constructor(options: Options = {}) {
     super({ objectMode: true });
 
-    this._formatter = new Formatter(schema.parse(options));
+    this._formatter = new Formatter(options);
   }
 
   _transform(
