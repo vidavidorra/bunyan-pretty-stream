@@ -1,4 +1,4 @@
-import { Options, schema } from './options';
+import { ParsedOptions, schema } from './options';
 import { describe, expect, it } from '@jest/globals';
 import clone from 'clone';
 import { coreFields } from './bunyan-record';
@@ -15,9 +15,7 @@ function stringify(value: unknown): string {
 }
 
 describe('schema', () => {
-  const defaults: Readonly<{
-    options: Options;
-  }> = {
+  const defaults: Readonly<{ options: ParsedOptions }> = {
     options: {
       show: {
         time: true,
@@ -27,6 +25,7 @@ describe('schema', () => {
         source: false,
         extras: false,
       },
+      extras: {},
       indent: {
         details: 4,
         json: 2,
@@ -39,15 +38,6 @@ describe('schema', () => {
         format: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
       },
     },
-    // internalOptions: {
-    //   extrasMaxValueLength: 50,
-    //   time: {
-    //     formats: {
-    //       short: 'HH:mm:ss.SSS',
-    //       long: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
-    //     },
-    //   },
-    // },
   };
 
   describe.each([
@@ -62,12 +52,9 @@ describe('schema', () => {
     ['indent.json', 'number', 2],
     ['basePath', 'string', '/'],
     ['newLineCharacter', '\r | \n | \r\n', '\n'],
-    ['extrasMaxValueLength', 'number', 50],
     ['time.local', 'boolean', false],
     ['time.type', 'one of [short, long, format]', 'long'],
     ['time.format', 'string', 'YYYY-MM-DD[T]HH:mm:ss.SSS'],
-    ['time.formats.short', 'string', 'HH:mm:ss.SSS'],
-    ['time.formats.long', 'string', 'YYYY-MM-DD[T]HH:mm:ss.SSS'],
   ])('%s', (path: string, type: string, defaultValue: unknown) => {
     it(`MUST be ${stringify(type)}`, () => {
       const options = clone(defaults.options);
@@ -116,7 +103,6 @@ describe('schema', () => {
   describe.each([
     ['indent.details', 'greater than or equal to 0'],
     ['indent.json', 'greater than or equal to 0'],
-    ['extrasMaxValueLength', 'a positive number'],
   ])('%s', (path: string, type: string) => {
     it('MUST be an integer', () => {
       const options = clone(defaults.options);

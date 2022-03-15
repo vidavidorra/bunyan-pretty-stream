@@ -1,7 +1,7 @@
 import { coreFields as bunyanCoreFields } from './bunyan-record';
 import { z } from 'zod';
 
-const options = z
+const schema = z
   .object({
     show: z
       .object({
@@ -56,31 +56,7 @@ const options = z
   })
   .strict();
 
-const mergedOptions = options.merge(
-  z
-    .object({
-      extrasMaxValueLength: z.number().int().positive().default(50),
-      time: z
-        .intersection(
-          options.shape.time,
-          z.object({
-            formats: z
-              .object({
-                short: z.string().default('HH:mm:ss.SSS'),
-                long: z.string().default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
-              })
-              .strict()
-              .default({}),
-          }),
-        )
-        .default({}),
-    })
-    .strict(),
-);
+type Options = z.input<typeof schema>;
+type ParsedOptions = z.infer<typeof schema>;
 
-type Options = z.input<typeof options>;
-type MergedOptions = z.infer<typeof mergedOptions>;
-
-const schema = mergedOptions;
-
-export { Options, MergedOptions, schema };
+export { Options, ParsedOptions, schema };

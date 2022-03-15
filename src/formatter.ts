@@ -1,5 +1,5 @@
 import { BunyanRecord, coreFields } from './bunyan-record';
-import { MergedOptions } from './options';
+import { ParsedOptions } from './options';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';
@@ -34,14 +34,21 @@ interface ParsedRecord
 }
 
 class Formatter {
-  private readonly _options: Readonly<MergedOptions>;
+  private readonly _options: Readonly<ParsedOptions>;
   private readonly _regex = {
     newLine: /\r\n|\r|\n/,
     whitespace: /\s/,
   } as const;
+  private readonly _internalOptions = {
+    maxExtrasValueLength: 50,
+    timeFormat: {
+      short: 'HH:mm:ss.SSS',
+      long: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
+    },
+  } as const;
   private readonly _levels: Readonly<Record<number, string>>;
 
-  constructor(options: MergedOptions) {
+  constructor(options: ParsedOptions) {
     options.basePath = path.normalize(options.basePath);
     this._options = options;
 
@@ -127,9 +134,9 @@ class Formatter {
 
     let format = this._options.time.format;
     if (this._options.time.type === 'short') {
-      format = this._options.time.formats.short;
+      format = this._internalOptions.timeFormat.short;
     } else if (this._options.time.type === 'long') {
-      format = this._options.time.formats.long;
+      format = this._internalOptions.timeFormat.long;
     }
 
     if (!this._options.time.local) {
@@ -258,7 +265,7 @@ class Formatter {
 
     return (
       this.isSingleLine(stringifiedValue) &&
-      stringifiedValue.length <= this._options.extrasMaxValueLength
+      stringifiedValue.length <= this._internalOptions.maxExtrasValueLength
     );
   }
 
