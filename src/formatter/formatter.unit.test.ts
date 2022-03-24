@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
-import { BunyanRecord } from './bunyan-record';
+import { BunyanRecord } from '../bunyan-record';
 import { Formatter } from './formatter';
-import { ParsedOptions } from './options';
+import { ParsedOptions } from '../options';
 import stripAnsi from 'strip-ansi';
 
 describe('Formatter', () => {
@@ -14,7 +14,7 @@ describe('Formatter', () => {
       source: false,
       extras: false,
     },
-    extras: {},
+    extras: { maxLength: { key: 20, value: 50, total: 500 } },
     indent: {
       details: 4,
       json: 2,

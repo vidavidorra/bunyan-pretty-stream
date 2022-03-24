@@ -25,7 +25,7 @@ describe('schema', () => {
         source: false,
         extras: false,
       },
-      extras: {},
+      extras: { maxLength: { key: 20, value: 50, total: 500 } },
       indent: {
         details: 4,
         json: 2,

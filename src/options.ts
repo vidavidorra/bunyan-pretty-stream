@@ -21,6 +21,14 @@ const schema = z
           .min(1)
           .regex(new RegExp(`^((?!(${bunyanCoreFields().join('|')})).)*$`))
           .optional(),
+        maxLength: z
+          .object({
+            key: z.number().int().positive().default(20),
+            value: z.number().int().positive().default(50),
+            total: z.number().int().positive().default(500),
+          })
+          .strict()
+          .default({}),
       })
       .strict()
       .default({}),
