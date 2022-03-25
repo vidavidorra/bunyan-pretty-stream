@@ -1,3 +1,27 @@
+## [3.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.11...v3.0.0) (2022-03-25)
+
+### ⚠ BREAKING CHANGES
+
+- **options:** rename `extrasKey` to `extras.key`, which is an object
+- **options:** move `indent` and `jsonIndent` to an object, `indent` becoming `indent.details`
+- **options:** rename `enable` option to `show`
+
+### Features
+
+- add `extras.maxLength` options to configure the maximum extras lengths ([8450b08](https://github.com/vidavidorra/bunyan-pretty-stream/commit/8450b08e5c805da2e5affa3a85026293e5b4c22a))
+
+### Bug Fixes
+
+- **options:** move `indent` and `jsonIndent` to an object, `indent` becoming `indent.details` ([6c6aad0](https://github.com/vidavidorra/bunyan-pretty-stream/commit/6c6aad0b9131b125f11fce9f7d6ac8b52f9bcbf7))
+- **options:** rename `enable` option to `show` ([237c6b8](https://github.com/vidavidorra/bunyan-pretty-stream/commit/237c6b8e7e628429c390b9de84e7c228a8c2b6e6))
+- **options:** rename `extrasKey` to `extras.key`, which is an object ([c638413](https://github.com/vidavidorra/bunyan-pretty-stream/commit/c638413ac8cb01d6cccca6265ac83e5a8fd152f9))
+
+### Code Refactoring
+
+- **options:** pass unprocessed options to `Formatter` and parse in its constructor ([468dfdd](https://github.com/vidavidorra/bunyan-pretty-stream/commit/468dfdd15ccbe380dd0eed086faca8a11769771d))
+- **options:** replace internal options interface with private formatter class variable ([2d5a629](https://github.com/vidavidorra/bunyan-pretty-stream/commit/2d5a629b759020fec4a647000fbc0ff56cd90774))
+- replace Joi with Zod and make use of type inference ([52ebba6](https://github.com/vidavidorra/bunyan-pretty-stream/commit/52ebba6d6c369bd5fc2aec6cc0d41320396114fa))
+
 ### [2.0.11](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.10...v2.0.11) (2022-03-02)
 
 ### Bug Fixes
