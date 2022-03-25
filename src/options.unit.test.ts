@@ -1,8 +1,8 @@
+import * as dotProp from 'dot-prop';
 import { ParsedOptions, schema } from './options';
 import { describe, expect, it } from '@jest/globals';
 import clone from 'clone';
 import { coreFields } from './bunyan-record';
-import dotProp from 'dot-prop';
 import is from '@sindresorhus/is';
 
 function stringify(value: unknown): string {
