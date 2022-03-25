@@ -1,12 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
-import { BunyanRecord } from './bunyan-record';
+import { BunyanRecord } from '../bunyan-record';
 import { Formatter } from './formatter';
-import { MergedOptions } from './options';
+import { ParsedOptions } from '../options';
 import stripAnsi from 'strip-ansi';
 
 describe('Formatter', () => {
-  const options: Readonly<MergedOptions> = {
-    enable: {
+  const options: Readonly<ParsedOptions> = {
+    show: {
       time: true,
       name: false,
       hostname: false,
@@ -14,20 +14,17 @@ describe('Formatter', () => {
       source: false,
       extras: false,
     },
-    extrasKey: '',
-    indent: 4,
-    jsonIndent: 2,
+    extras: { maxLength: { key: 20, value: 50, total: 500 } },
+    indent: {
+      details: 4,
+      json: 2,
+    },
     basePath: '/',
     newLineCharacter: '\n',
-    extrasMaxValueLength: 50,
     time: {
       local: false,
       type: 'long',
       format: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
-      formats: {
-        short: 'HH:mm:ss.SSS',
-        long: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
-      },
     },
   };
 

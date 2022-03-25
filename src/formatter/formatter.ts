@@ -1,5 +1,6 @@
-import { BunyanRecord, coreFields } from './bunyan-record';
-import { MergedOptions } from './options';
+import { BunyanRecord, coreFields } from '../bunyan-record';
+import { Options, ParsedOptions, schema } from '../options';
+import { Extras } from './extras';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';
@@ -26,24 +27,28 @@ interface ParsedRecord
   time: moment.Moment;
   message: BunyanRecord['msg'];
   source: BunyanRecord['src'];
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  extras: Record<string, any>;
-  details: Record<string, any>;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  extras: Extras;
+  details: Record<string, unknown>;
 }
 
 class Formatter {
-  private readonly _options: Readonly<MergedOptions>;
+  private readonly _options: Readonly<ParsedOptions>;
   private readonly _regex = {
     newLine: /\r\n|\r|\n/,
     whitespace: /\s/,
   } as const;
+  private readonly _internalOptions = {
+    timeFormat: {
+      short: 'HH:mm:ss.SSS',
+      long: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
+    },
+  } as const;
   private readonly _levels: Readonly<Record<number, string>>;
 
-  constructor(options: MergedOptions) {
-    options.basePath = path.normalize(options.basePath);
-    this._options = options;
+  constructor(options: Options) {
+    const parsedOptions = schema.parse(options);
+    parsedOptions.basePath = path.normalize(parsedOptions.basePath);
+    this._options = parsedOptions;
 
     this._levels = {
       [bunyan.levelFromName.trace]: chalk.gray('TRACE'),
@@ -65,7 +70,7 @@ class Formatter {
       time: moment(record.time),
       message: record.msg,
       source: record.src,
-      extras: {},
+      extras: new Extras(this._options.extras.maxLength),
       details: sanitise(record),
     };
 
@@ -75,28 +80,22 @@ class Formatter {
       }
     });
 
-    if (!this._options.enable.extras) {
+    if (!this._options.show.extras) {
       return parsed;
     }
 
-    const extras = parsed.details[this._options.extrasKey];
-    if (this._options.extrasKey !== '' && is.nonEmptyObject(extras)) {
-      Object.entries(parsed.details[this._options.extrasKey]).forEach(
-        ([key, value]) => {
-          if (this.isExtra(value)) {
-            parsed.extras[key] = value;
-            delete parsed.details[this._options.extrasKey][key];
-          }
-        },
-      );
-    } else if (this._options.extrasKey === '') {
-      Object.entries(parsed.details).forEach(([key, value]) => {
-        if (this.isExtra(value)) {
-          parsed.extras[key] = value;
-          delete parsed.details[key];
-        }
-      });
+    const leftOvers = is.undefined(this._options.extras.key)
+      ? parsed.details
+      : parsed.details[this._options.extras.key];
+    if (!is.nonEmptyObject(leftOvers)) {
+      return parsed;
     }
+
+    Object.entries(leftOvers).forEach(([key, value]) => {
+      if (parsed.extras.parseAndAdd(key, value)) {
+        delete leftOvers[key];
+      }
+    });
 
     return parsed;
   }
@@ -120,15 +119,15 @@ class Formatter {
   }
 
   formatTime(time: ParsedRecord['time']): string {
-    if (!this._options.enable.time) {
+    if (!this._options.show.time) {
       return '';
     }
 
     let format = this._options.time.format;
     if (this._options.time.type === 'short') {
-      format = this._options.time.formats.short;
+      format = this._internalOptions.timeFormat.short;
     } else if (this._options.time.type === 'long') {
-      format = this._options.time.formats.long;
+      format = this._internalOptions.timeFormat.long;
     }
 
     if (!this._options.time.local) {
@@ -140,12 +139,12 @@ class Formatter {
   }
 
   formatLevel(level: ParsedRecord['level']): string {
-    const prefix = this._options.enable.time ? ' ' : '';
+    const prefix = this._options.show.time ? ' ' : '';
     return `${prefix}${this._levels[level]}`;
   }
 
   formatName(name: ParsedRecord['name']): string {
-    if (!this._options.enable.name) {
+    if (!this._options.show.name) {
       return '';
     }
 
@@ -153,28 +152,28 @@ class Formatter {
   }
 
   formatPid(pid: ParsedRecord['pid']): string {
-    if (!this._options.enable.pid) {
+    if (!this._options.show.pid) {
       return '';
     }
 
-    const prefix = this._options.enable.name ? '/' : ' ';
+    const prefix = this._options.show.name ? '/' : ' ';
     return `${prefix}${pid}`;
   }
 
   formatHostname(hostname: ParsedRecord['hostname']): string {
-    if (!this._options.enable.hostname) {
+    if (!this._options.show.hostname) {
       return '';
     }
 
     return [
       ' ',
-      this._options.enable.name || this._options.enable.pid ? 'on ' : '',
+      this._options.show.name || this._options.show.pid ? 'on ' : '',
       hostname,
     ].join('');
   }
 
   formatSource(source: ParsedRecord['source']): string {
-    if (!this._options.enable.source || is.undefined(source)) {
+    if (!this._options.show.source || is.undefined(source)) {
       return '';
     }
 
@@ -197,24 +196,8 @@ class Formatter {
   }
 
   formatExtras(extras: ParsedRecord['extras']): string {
-    const entries = Object.entries(extras);
-    if (entries.length === 0) {
-      return '';
-    }
-
-    const formattedExtras = entries.map(([key, value]) => {
-      if (
-        is.string(value) &&
-        !this.containsWhitespace(value) &&
-        value.length > 0
-      ) {
-        return `${key}=${value}`;
-      }
-
-      return `${key}=${JSON.stringify(value)}`;
-    });
-
-    return chalk.red(` (${formattedExtras.join(', ')})`);
+    const formattedExtras = extras.format();
+    return formattedExtras.length === 0 ? '' : chalk.red(` ${formattedExtras}`);
   }
 
   formatDetails(
@@ -231,7 +214,7 @@ class Formatter {
         chalk.cyan(
           this.indent(
             `${key}: ${stringify(value, {
-              indent: this._options.jsonIndent,
+              indent: this._options.indent.json,
               maxLength: 80,
             })}`,
             true,
@@ -249,18 +232,6 @@ class Formatter {
     return `${formatted.join(separator)}${suffix}`;
   }
 
-  isExtra(value: unknown): boolean {
-    let stringifiedValue = JSON.stringify(value, undefined, 2);
-    if (is.string(value)) {
-      stringifiedValue = value;
-    }
-
-    return (
-      this.isSingleLine(stringifiedValue) &&
-      stringifiedValue.length <= this._options.extrasMaxValueLength
-    );
-  }
-
   isSingleLine(string: string): boolean {
     return !this._regex.newLine.test(string);
   }
@@ -270,7 +241,7 @@ class Formatter {
   }
 
   indent(input: string, leading = false): string {
-    const indentation = ' '.repeat(this._options.indent);
+    const indentation = ' '.repeat(this._options.indent.details);
     const prefix = leading ? indentation : '';
     const formatted = input
       .split(this._regex.newLine)
