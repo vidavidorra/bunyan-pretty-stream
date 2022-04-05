@@ -1,3 +1,13 @@
+### [3.0.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.0...v3.0.1) (2022-04-05)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.14.4 ([2c8986c](https://github.com/vidavidorra/bunyan-pretty-stream/commit/2c8986ca501e1f76fe09e6b5ee23941c7de4059f))
+
+### Tests
+
+- don't check option parsing error messages ([285fa76](https://github.com/vidavidorra/bunyan-pretty-stream/commit/285fa766cc9d1dd7771f64be84d21e859c3b24c5))
+
 ## [3.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v2.0.11...v3.0.0) (2022-03-25)
 
 ### ⚠ BREAKING CHANGES
