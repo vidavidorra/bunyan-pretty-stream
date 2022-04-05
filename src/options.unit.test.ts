@@ -63,40 +63,20 @@ describe('schema', () => {
       } else {
         dotProp.set(options, path, is.number(defaultValue) ? 'abc' : 123);
       }
-
       const parsed = schema.safeParse(options);
 
-      // const validation = schema.validate(options);
-
-      // expect(validation.error).toBeDefined();
-      // expect(validation.error?.isJoi).toBe(true);
       expect(parsed.success).toBe(false);
-      if (parsed.success === false) {
-        // const typeRe = type.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
-        // expect(validation.error?.message).toMatch(
-        //   new RegExp(`^"${path}" must be ${typeRe}$`),
-        // );
-        expect(parsed.error.message).toMatch(
-          new RegExp(
-            `"(Expected ${type}, received (number|string|123)"|Invalid enum value. Expected)`,
-          ),
-        );
-      }
     });
 
     it(`defaults to "${stringify(defaultValue)}"`, () => {
       const options = clone(defaults.options);
       dotProp.delete(options, path);
-      // const validation = schema.validate(options);
       const parsed = schema.safeParse(options);
 
       expect(parsed.success).toBe(true);
       if (parsed.success === true) {
         expect(dotProp.get(parsed.data, path)).toEqual(defaultValue);
       }
-
-      // expect(validation.error).toBeUndefined();
-      // expect(dotProp.get(validation.value, path)).toEqual(defaultValue);
     });
   });
 
@@ -108,17 +88,7 @@ describe('schema', () => {
       const options = clone(defaults.options);
       dotProp.set(options, path, 0.5);
       const parsed = schema.safeParse(options);
-      // const validation = schema.validate(options);
-
-      // expect(validation.error).toBeDefined();
-      // expect(validation.error?.isJoi).toBe(true);
-      // expect(validation.error?.message).toEqual(`"${path}" must be an integer`);
       expect(parsed.success).toBe(false);
-      if (parsed.success === false) {
-        expect(parsed.error.message).toMatch(
-          /"Expected integer, received float"/,
-        );
-      }
     });
 
     if (type === 'a positive number') {
@@ -126,17 +96,8 @@ describe('schema', () => {
         const options = clone(defaults.options);
         dotProp.set(options, path, -1);
         const parsed = schema.safeParse(options);
-        // const validation = schema.validate(options);
 
-        // expect(validation.error).toBeDefined();
-        // expect(validation.error?.isJoi).toBe(true);
-        // expect(validation.error?.message).toEqual(`"${path}" must be ${type}`);
         expect(parsed.success).toBe(false);
-        if (parsed.success === false) {
-          expect(parsed.error.message).toMatch(
-            /"Value should be greater than( or equal to)? 0"/,
-          );
-        }
       });
     }
 
@@ -144,17 +105,8 @@ describe('schema', () => {
       const options = clone(defaults.options);
       dotProp.set(options, path, -1);
       const parsed = schema.safeParse(options);
-      // const validation = schema.validate(options);
 
-      // expect(validation.error).toBeDefined();
-      // expect(validation.error?.isJoi).toBe(true);
-      // expect(validation.error?.message).toEqual(`"${path}" must be ${type}`);
       expect(parsed.success).toBe(false);
-      if (parsed.success === false) {
-        expect(parsed.error.message).toMatch(
-          /"Value should be greater than( or equal to)? 0"/,
-        );
-      }
     });
   });
 
@@ -166,19 +118,8 @@ describe('schema', () => {
       const options = clone(defaults.options);
       dotProp.set(options, 'extras.key', value);
       const parsed = schema.safeParse(options);
-      // const validation = schema.validate(options);
 
-      // expect(validation.error).toBeDefined();
-      // expect(validation.error?.isJoi).toBe(true);
-      // expect(validation.error?.message).toBe(
-      //   '"extrasKey" contains an invalid value',
-      // );
       expect(parsed.success).toBe(false);
-      if (parsed.success === false) {
-        expect(parsed.error.message).toMatch(
-          /"(Invalid|Should be at least 1 characters)"/,
-        );
-      }
     });
   });
 
@@ -191,10 +132,7 @@ describe('schema', () => {
       const options = clone(defaults.options);
       dotProp.set(options, 'newLineCharacter', value);
       const parsed = schema.safeParse(options);
-      // const validation = schema.validate(options);
 
-      // expect(validation.error).toBeUndefined();
-      // expect(validation.value.newLineCharacter).toEqual(value);
       expect(parsed.success).toBe(true);
       if (parsed.success === true) {
         expect(parsed.data.newLineCharacter).toEqual(value);
@@ -209,17 +147,8 @@ describe('schema', () => {
       const options = clone(defaults.options);
       dotProp.set(options, 'newLineCharacter', value);
       const parsed = schema.safeParse(options);
-      // const validation = schema.validate(options);
 
-      // expect(validation.error).toBeDefined();
-      // expect(validation.error?.isJoi).toBe(true);
-      // expect(validation.error?.message).toMatch(
-      //   /^"newLineCharacter" must be one of /,
-      // );
       expect(parsed.success).toBe(false);
-      if (parsed.success === false) {
-        expect(parsed.error.message).toMatch(/"Invalid enum value. Expected /);
-      }
     });
 
     describe('time.type', () => {
@@ -227,10 +156,7 @@ describe('schema', () => {
         const options = clone(defaults.options);
         dotProp.set(options, 'time.type', value);
         const parsed = schema.safeParse(options);
-        // const validation = schema.validate(options);
 
-        // expect(validation.error).toBeUndefined();
-        // expect(validation.value.time.type).toEqual(value);
         expect(parsed.success).toBe(true);
         if (parsed.success === true) {
           expect(parsed.data.time.type).toEqual(value);
