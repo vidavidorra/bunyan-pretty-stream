@@ -1,3 +1,9 @@
+### [3.0.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.1...v3.0.2) (2022-04-06)
+
+### Bug Fixes
+
+- **deps:** update dependency moment to v2.29.2 ([3666dee](https://github.com/vidavidorra/bunyan-pretty-stream/commit/3666dee31b504949e95daee78e5538cb0e80838a))
+
 ### [3.0.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.0...v3.0.1) (2022-04-05)
 
 ### Bug Fixes
