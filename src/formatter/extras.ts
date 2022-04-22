@@ -34,7 +34,10 @@ class Extras {
    * @returns `true` if the key-value was valid and is added, false otherwise.
    */
   parseAndAdd(key: string, value: unknown): boolean {
-    if (typeof value === 'object' || typeof value === 'function') {
+    if (
+      (typeof value === 'object' && value !== null) ||
+      typeof value === 'function'
+    ) {
       return false;
     }
 
