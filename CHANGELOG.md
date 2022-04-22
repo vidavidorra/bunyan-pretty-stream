@@ -1,3 +1,9 @@
+### [3.0.4](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.3...v3.0.4) (2022-04-22)
+
+### Bug Fixes
+
+- add `null` as extra instead of detail ([#56](https://github.com/vidavidorra/bunyan-pretty-stream/issues/56)) ([2533c01](https://github.com/vidavidorra/bunyan-pretty-stream/commit/2533c0184ab631aca0014267e9743b335c944b92))
+
 ### [3.0.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.2...v3.0.3) (2022-04-21)
 
 ### Bug Fixes
