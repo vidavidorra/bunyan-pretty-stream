@@ -95,6 +95,8 @@ describe('Extras', () => {
       expect(extras.extras).toHaveLength(0);
       extras.parseAndAdd('myKey', 'myValue');
       expect(extras.extras).toHaveLength(1);
+      extras.parseAndAdd('otherKey', null);
+      expect(extras.extras).toHaveLength(2);
     });
 
     it('does not add the extra if it is invalid', () => {
