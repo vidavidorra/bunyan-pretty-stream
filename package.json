@@ -61,7 +61,7 @@
     "@types/node": "16.11.56",
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
-    "@vidavidorra/commitlint-config": "4.0.4",
+    "@vidavidorra/commitlint-config": "4.0.5",
     "bunyan": "*",
     "bunyan-1.x": "npm:bunyan@1.8.15",
     "bunyan-2.x": "npm:bunyan@2.0.5",
