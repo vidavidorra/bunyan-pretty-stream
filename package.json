@@ -80,7 +80,7 @@
     "semantic-release": "19.0.5",
     "strip-ansi": "6.0.1",
     "ts-jest": "28.0.8",
-    "typescript": "4.8.2"
+    "typescript": "4.8.3"
   },
   "peerDependencies": {
     "bunyan": "1.8.15"
