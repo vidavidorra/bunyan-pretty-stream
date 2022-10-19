@@ -1,7 +1,7 @@
 import { Transform, TransformCallback } from 'stream';
-import { fromString, isBunyanRecord } from './bunyan-record';
-import { Formatter } from './formatter';
-import { Options } from './options';
+import { fromString, isBunyanRecord } from './bunyan-record.js';
+import { Formatter } from './formatter/formatter.js';
+import { Options } from './options.js';
 import is from '@sindresorhus/is';
 
 class PrettyStream extends Transform {

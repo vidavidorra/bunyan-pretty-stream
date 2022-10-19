@@ -1,4 +1,4 @@
-import { ParsedOptions } from '../options';
+import { ParsedOptions } from '../options.js';
 
 class Extras {
   readonly options = {

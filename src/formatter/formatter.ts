@@ -1,6 +1,6 @@
-import { BunyanRecord, coreFields } from '../bunyan-record';
-import { Options, ParsedOptions, schema } from '../options';
-import { Extras } from './extras';
+import { BunyanRecord, coreFields } from '../bunyan-record.js';
+import { Options, ParsedOptions, schema } from '../options.js';
+import { Extras } from './extras.js';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';

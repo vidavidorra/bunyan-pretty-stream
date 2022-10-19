@@ -1,4 +1,4 @@
-import { coreFields as bunyanCoreFields } from './bunyan-record';
+import { coreFields as bunyanCoreFields } from './bunyan-record.js';
 import { z } from 'zod';
 
 const schema = z
