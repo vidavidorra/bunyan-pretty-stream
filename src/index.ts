@@ -1,4 +1,2 @@
-import { Logger } from './logger';
-import { PrettyStream } from './bunyan-pretty-stream';
-
-export { PrettyStream, Logger };
+export {type Logger} from './logger.js';
+export {PrettyStream} from './bunyan-pretty-stream.js';

@@ -3,27 +3,12 @@ on:
   push:
     branches:
       - main
+      - beta
       - 'renovate/**'
       - 'github-renovate/**'
   pull_request:
 jobs:
-  commitlint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
-        with:
-          node-version: 14
-      - name: Install project
-        run: npm ci --ignore-scripts
-      - name: Lint commit messages
-        uses: wagoid/commitlint-github-action@4feee87144cedc9ebed8854b383a61dafc51ebf9 # tag=v5.2.0
-        env:
-          NODE_PATH: ${{ github.workspace }}/node_modules
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+  lint-commit-messages:
+    uses: vidavidorra/.github/.github/workflows/lint-commit-messages.yml@7603b00a274e24cb442908b827f1626d4e02fc67 # tag=v1.2.2
+    with:
+      configFile: package.json

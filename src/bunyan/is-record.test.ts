@@ -1,8 +1,9 @@
 import test from 'ava';
+import {deleteProperty} from 'dot-prop';
 import type BunyanRecord from './record.js';
 import isBunyanRecord from './is-record.js';
 
-const bunyanRecord: BunyanRecord = {
+const bunyanRecord: Readonly<BunyanRecord> = {
   v: 0,
   level: 0,
   name: '',
@@ -35,9 +36,7 @@ test('returns "true" for a record with additional fields', (t) => {
 const returnsFalseWithoutCoreField = test.macro<[keyof BunyanRecord]>({
   exec(t, key) {
     const record = {...bunyanRecord};
-    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-    delete record[key];
-
+    deleteProperty(record, key as string);
     t.false(isBunyanRecord(record));
   },
   title(_, key) {

@@ -1,5 +1,5 @@
-import { coreFields as bunyanCoreFields } from './bunyan-record.js';
-import { z } from 'zod';
+import {z} from 'zod';
+import bunyanCoreFields from './bunyan/core-fields.js';
 
 const schema = z
   .object({
@@ -19,7 +19,7 @@ const schema = z
         key: z
           .string()
           .min(1)
-          .regex(new RegExp(`^((?!(${bunyanCoreFields().join('|')})).)*$`))
+          .regex(new RegExp(`^((?!(${bunyanCoreFields.join('|')})).)*$`))
           .optional(),
         maxLength: z
           .object({
@@ -67,4 +67,4 @@ const schema = z
 type Options = z.input<typeof schema>;
 type ParsedOptions = z.infer<typeof schema>;
 
-export { Options, ParsedOptions, schema };
+export {type Options, type ParsedOptions, schema};

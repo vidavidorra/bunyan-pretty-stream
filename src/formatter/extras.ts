@@ -1,4 +1,4 @@
-import { ParsedOptions } from '../options.js';
+import type {ParsedOptions} from '../options.js';
 
 class Extras {
   readonly options = {
@@ -9,7 +9,7 @@ class Extras {
   } as const;
 
   private readonly _maxLength: ParsedOptions['extras']['maxLength'];
-  private _extras: string[];
+  private readonly _extras: string[];
   private _length: number;
 
   constructor(maxLength: ParsedOptions['extras']['maxLength']) {
@@ -69,7 +69,7 @@ class Extras {
   formatExtra(
     key: string,
     value: unknown,
-  ): { formatted: string; key: string; value: string } {
+  ): {formatted: string; key: string; value: string} {
     const stringifiedKey = this.stringify(key);
     const stringifiedValue = this.stringify(value);
     const formatted = [
@@ -89,7 +89,7 @@ class Extras {
     let length = this._length + formattedExtra.length;
     if (this._length === 0) {
       length += this.options.start.length + this.options.end.length;
-    } else if (this._extras.length >= 1) {
+    } else if (this._extras.length > 0) {
       length += this.options.separator.length;
     }
 
@@ -119,4 +119,4 @@ class Extras {
   }
 }
 
-export { Extras };
+export {Extras};

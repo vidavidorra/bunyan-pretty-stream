@@ -1,7 +1,3 @@
-import { describe, expect, it } from '@jest/globals';
+import test from 'ava';
 
-describe.skip('PrettyStream', () => {
-  it('does thing', () => {
-    expect(true).toBe(true);
-  });
-});
+test.todo('think about this test later');

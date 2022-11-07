@@ -1,35 +1,35 @@
-import { BunyanRecord, coreFields } from '../bunyan-record.js';
-import { Options, ParsedOptions, schema } from '../options.js';
-import { Extras } from './extras.js';
+import path from 'node:path';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';
 import moment from 'moment';
-import path from 'path';
 import stringify from 'json-stringify-pretty-compact';
+import type BunyanRecord from '../bunyan/record.js';
+import coreFields from '../bunyan/core-fields.js';
+import type {Options, ParsedOptions} from '../options.js';
+import {schema} from '../options.js';
+import {Extras} from './extras.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sanitise(obj: any): any {
-  Object.entries(obj).forEach(([key, value]) => {
+function sanitise(object: any): any {
+  for (const [key, value] of Object.entries(object)) {
     if (is.undefined(value)) {
-      delete obj[key];
+      delete object[key];
     } else if (is.object(value)) {
       sanitise(value);
     }
-  });
+  }
 
-  return obj;
+  return object;
 }
 
-interface ParsedRecord
-  extends Pick<BunyanRecord, 'level' | 'name' | 'hostname' | 'pid'> {
+type ParsedRecord = {
   version: BunyanRecord['v'];
   time: moment.Moment;
   message: BunyanRecord['msg'];
   source: BunyanRecord['src'];
   extras: Extras;
   details: Record<string, unknown>;
-}
+} & Pick<BunyanRecord, 'level' | 'name' | 'hostname' | 'pid'>;
 
 class Formatter {
   private readonly _options: Readonly<ParsedOptions>;
@@ -37,12 +37,14 @@ class Formatter {
     newLine: /\r\n|\r|\n/,
     whitespace: /\s/,
   } as const;
+
   private readonly _internalOptions = {
     timeFormat: {
       short: 'HH:mm:ss.SSS',
       long: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
     },
   } as const;
+
   private readonly _levels: Readonly<Record<number, string>>;
 
   constructor(options: Options) {
@@ -74,11 +76,11 @@ class Formatter {
       details: sanitise(record),
     };
 
-    Object.keys(parsed.details).forEach((key) => {
-      if (coreFields().includes(key)) {
+    for (const key of Object.keys(parsed.details)) {
+      if (coreFields.includes(key)) {
         delete parsed.details[key];
       }
-    });
+    }
 
     if (!this._options.show.extras) {
       return parsed;
@@ -91,11 +93,11 @@ class Formatter {
       return parsed;
     }
 
-    Object.entries(leftOvers).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(leftOvers)) {
       if (parsed.extras.parseAndAdd(key, value)) {
         delete leftOvers[key];
       }
-    });
+    }
 
     return parsed;
   }
@@ -123,7 +125,7 @@ class Formatter {
       return '';
     }
 
-    let format = this._options.time.format;
+    let {format} = this._options.time;
     if (this._options.time.type === 'short') {
       format = this._internalOptions.timeFormat.short;
     } else if (this._options.time.type === 'long') {
@@ -132,7 +134,7 @@ class Formatter {
 
     if (!this._options.time.local) {
       time.utc();
-      format = format.concat('[Z]');
+      format += '[Z]';
     }
 
     return `[${time.format(format)}]`;
@@ -180,7 +182,7 @@ class Formatter {
     const file = path.relative(this._options.basePath, source.file);
     const formattedSource = [
       ` (${file}:${source.line}`,
-      !is.undefined(source.func) ? ` in ${source.func}` : '',
+      source.func === undefined ? '' : ` in ${source.func}`,
       ')',
     ].join('');
 
@@ -251,4 +253,4 @@ class Formatter {
   }
 }
 
-export { ParsedRecord, Formatter };
+export {type ParsedRecord, Formatter};

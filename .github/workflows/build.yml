@@ -3,24 +3,13 @@ on:
   push:
     branches:
       - main
+      - beta
       - 'renovate/**'
       - 'github-renovate/**'
   pull_request:
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
-      - name: Setup node
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3.5.1
-        with:
-          node-version: 14
-      - name: Install project
-        run: npm ci --ignore-scripts
-      - name: Lint
-        run: npm run lint
+    uses: vidavidorra/.github/.github/workflows/node-lint.yml@6806ef65ed548aeab950f9141e7ebc5bc0681809 # tag=v1.2.3
   build:
     name: Build (Node.js v${{ matrix.node }})
     runs-on: ubuntu-latest
