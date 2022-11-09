@@ -1,5 +1,6 @@
 import test from 'ava';
 import {getProperty, setProperty} from 'dot-prop';
+import {DateTime} from 'luxon';
 import {schema} from './options.js';
 import type {ParsedOptions} from './options.js';
 import coreFields from './bunyan/core-fields.js';
@@ -143,9 +144,47 @@ test(fails, 'newLineCharacter', '\n\n', '"\\n\\n" as');
 test(fails, 'newLineCharacter', '\n\r', '"\\n\\r" as');
 test(fails, 'newLineCharacter', '\r\n\r\n', '"\\r\\n\\r\\n" as');
 
-test(defaults, 'time.local', false);
+test(defaults, 'time.utc', true);
 
-test(defaults, 'time.format', 'YYYY-MM-DD[T]HH:mm:ss.SSS');
+test(defaults, 'time.preset', 'DATETIME_ISO_8601_OFFSET');
+const succeedsWithTimePreset = test.macro<['Luxon preset ' | '', string]>({
+  exec(t, name, value) {
+    t.notThrows(() => schema.parse({time: {preset: value}}));
+    if (name === 'Luxon preset ') {
+      t.true(Object.getOwnPropertyNames(DateTime).includes(value));
+    }
+  },
+  title(_, name, value) {
+    return `succeeds parsing with ${name}"${value}" as "time.preset"`;
+  },
+});
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATE_SHORT');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATE_MED');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATE_MED_WITH_WEEKDAY');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATE_FULL');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATE_HUGE');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_SIMPLE');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_WITH_SECONDS');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_WITH_SHORT_OFFSET');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_WITH_LONG_OFFSET');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_24_SIMPLE');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_24_WITH_SECONDS');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_24_WITH_SHORT_OFFSET');
+test(succeedsWithTimePreset, 'Luxon preset ', 'TIME_24_WITH_LONG_OFFSET');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_SHORT');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_MED');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_FULL');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_HUGE');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_SHORT_WITH_SECONDS');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_MED_WITH_SECONDS');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_FULL_WITH_SECONDS');
+test(succeedsWithTimePreset, 'Luxon preset ', 'DATETIME_HUGE_WITH_SECONDS');
+test(succeedsWithTimePreset, '', 'TIME_ISO_8601');
+test(succeedsWithTimePreset, '', 'TIME_ISO_8601_OFFSET');
+test(succeedsWithTimePreset, '', 'DATETIME_ISO_8601');
+test(succeedsWithTimePreset, '', 'DATETIME_ISO_8601_OFFSET');
+
+test(defaults, 'time.format', undefined);
 test(succeeds, 'time.format', 'a', 'a single character');
 test(succeeds, 'time.format', 'HH:mm', 'a short');
 test(succeeds, 'time.format', 'a'.repeat(1024 * 1024), 'a long');

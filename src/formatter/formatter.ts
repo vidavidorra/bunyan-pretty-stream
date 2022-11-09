@@ -2,13 +2,13 @@ import path from 'node:path';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';
-import moment from 'moment';
 import stringify from 'json-stringify-pretty-compact';
 import type BunyanRecord from '../bunyan/record.js';
 import coreFields from '../bunyan/core-fields.js';
 import type {Options, ParsedOptions} from '../options.js';
 import {schema} from '../options.js';
 import {Extras} from './extras.js';
+import Time from './time.js';
 
 function sanitise(object: any): any {
   for (const [key, value] of Object.entries(object)) {
@@ -24,7 +24,7 @@ function sanitise(object: any): any {
 
 type ParsedRecord = {
   version: BunyanRecord['v'];
-  time: moment.Moment;
+  time: BunyanRecord['time'];
   message: BunyanRecord['msg'];
   source: BunyanRecord['src'];
   extras: Extras;
@@ -47,6 +47,8 @@ class Formatter {
 
   private readonly _levels: Readonly<Record<number, string>>;
 
+  private readonly _time: Time;
+
   constructor(options: Options) {
     const parsedOptions = schema.parse(options);
     parsedOptions.basePath = path.normalize(parsedOptions.basePath);
@@ -60,6 +62,7 @@ class Formatter {
       [bunyan.levelFromName.error]: chalk.red('ERROR'),
       [bunyan.levelFromName.fatal]: chalk.bgRed('FATAL'),
     };
+    this._time = new Time(this._options.time);
   }
 
   parse(record: BunyanRecord): ParsedRecord {
@@ -69,7 +72,7 @@ class Formatter {
       name: record.name,
       hostname: record.hostname,
       pid: record.pid,
-      time: moment(record.time),
+      time: record.time,
       message: record.msg,
       source: record.src,
       extras: new Extras(this._options.extras.maxLength),
@@ -106,7 +109,7 @@ class Formatter {
     const parsedRecord = this.parse(record);
 
     return [
-      this.formatTime(moment(parsedRecord.time)),
+      this.formatTime(parsedRecord.time),
       this.formatLevel(parsedRecord.level),
       ':',
       this.formatName(parsedRecord.name),
@@ -121,23 +124,7 @@ class Formatter {
   }
 
   formatTime(time: ParsedRecord['time']): string {
-    if (!this._options.show.time) {
-      return '';
-    }
-
-    let {format} = this._options.time;
-    if (this._options.time.type === 'short') {
-      format = this._internalOptions.timeFormat.short;
-    } else if (this._options.time.type === 'long') {
-      format = this._internalOptions.timeFormat.long;
-    }
-
-    if (!this._options.time.local) {
-      time.utc();
-      format += '[Z]';
-    }
-
-    return `[${time.format(format)}]`;
+    return this._options.show.time ? `[${this._time.format(time)}]` : '';
   }
 
   formatLevel(level: ParsedRecord['level']): string {

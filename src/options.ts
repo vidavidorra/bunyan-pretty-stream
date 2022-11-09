@@ -43,21 +43,48 @@ const schema = z
     newLineCharacter: z.enum(['\r', '\n', '\r\n']).default('\n'),
     time: z
       .object({
-        type: z.enum(['short', 'long', 'format']).default('long'),
+        utc: z.boolean().default(true),
+
         /**
-         * Display local time instead of UTC.
+         * Formatting presets as defined by the [Luxon documentation](
+         * https://moment.github.io/luxon/#/formatting?id=presets) with
+         * additional custom ISO 8601 presets.
          */
-        local: z.boolean().default(false),
+        preset: z
+          .enum([
+            'DATE_SHORT',
+            'DATE_MED',
+            'DATE_MED_WITH_WEEKDAY',
+            'DATE_FULL',
+            'DATE_HUGE',
+            'TIME_SIMPLE',
+            'TIME_WITH_SECONDS',
+            'TIME_WITH_SHORT_OFFSET',
+            'TIME_WITH_LONG_OFFSET',
+            'TIME_24_SIMPLE',
+            'TIME_24_WITH_SECONDS',
+            'TIME_24_WITH_SHORT_OFFSET',
+            'TIME_24_WITH_LONG_OFFSET',
+            'DATETIME_SHORT',
+            'DATETIME_MED',
+            'DATETIME_FULL',
+            'DATETIME_HUGE',
+            'DATETIME_SHORT_WITH_SECONDS',
+            'DATETIME_MED_WITH_SECONDS',
+            'DATETIME_FULL_WITH_SECONDS',
+            'DATETIME_HUGE_WITH_SECONDS',
+            'TIME_ISO_8601',
+            'TIME_ISO_8601_OFFSET',
+            'DATETIME_ISO_8601',
+            'DATETIME_ISO_8601_OFFSET',
+          ])
+          .default('DATETIME_ISO_8601_OFFSET'),
+
         /**
-         * Time format as specified by the `Moment.js` [format options](
-         * https://momentjs.com/docs/#/displaying/format/).
-         *
-         * @note The time zone, `Z` or `ZZ`, should be omitted as `Z` is
-         * automatically to the format if the time is UTC.
-         * @note The `Z` display suffix for UTC times is automatically added to
-         * the format and should be omitted.
+         * Formatting with tokens as defined by the [Luxon documentation](
+         * https://moment.github.io/luxon/#/formatting?id=formatting-with-tokens-strings-for-cthulhu).
          */
-        format: z.string().min(1).default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
+        format: z.string().min(1).optional(),
       })
       .strict()
       .default({}),
