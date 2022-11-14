@@ -1,4 +1,4 @@
-import path from 'node:path';
+import {relative} from 'node:path';
 import bunyan from 'bunyan';
 import chalk from 'chalk';
 import is from '@sindresorhus/is';
@@ -50,9 +50,7 @@ class Formatter {
   private readonly _time: Time;
 
   constructor(options: Options) {
-    const parsedOptions = schema.parse(options);
-    parsedOptions.basePath = path.normalize(parsedOptions.basePath);
-    this._options = parsedOptions;
+    this._options = schema.parse(options);
 
     this._levels = {
       [bunyan.levelFromName.trace]: chalk.gray('TRACE'),
@@ -166,7 +164,7 @@ class Formatter {
       return '';
     }
 
-    const file = path.relative(this._options.basePath, source.file);
+    const file = relative(this._options.basePath, source.file);
     const formattedSource = [
       ` (${file}:${source.line}`,
       source.func === undefined ? '' : ` in ${source.func}`,

@@ -132,6 +132,9 @@ test(defaults, 'basePath', '/');
 test(succeeds, 'basePath', '/', 'a root');
 test(succeeds, 'basePath', '/folder', 'an absolute');
 test(succeeds, 'basePath', './folder', 'a relative');
+test('normalises "basePath"', (t) => {
+  t.is(schema.parse({basePath: '/folder/..///.'}).basePath, '/');
+});
 test(fails, 'basePath', '', 'an empty');
 
 test(defaults, 'newLineCharacter', '\n');

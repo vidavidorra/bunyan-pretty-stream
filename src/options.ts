@@ -1,3 +1,4 @@
+import {normalize} from 'node:path';
 import {z} from 'zod';
 import bunyanCoreFields from './bunyan/core-fields.js';
 
@@ -39,7 +40,13 @@ const schema = z
       })
       .strict()
       .default({}),
-    basePath: z.string().min(1).default('/'),
+    basePath: z
+      .preprocess(
+        (arg) =>
+          typeof arg === 'string' && arg.length > 0 ? normalize(arg) : arg,
+        z.string().min(1),
+      )
+      .default('/'),
     newLineCharacter: z.enum(['\r', '\n', '\r\n']).default('\n'),
     time: z
       .object({
