@@ -67,7 +67,7 @@
     "bunyan-2.x": "npm:bunyan@2.0.5",
     "clone": "2.1.2",
     "dot-prop": "6.0.1",
-    "eslint": "8.30.0",
+    "eslint": "8.31.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-jest": "27.1.7",
     "eslint-plugin-json": "3.1.0",
