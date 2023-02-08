@@ -58,7 +58,7 @@
     "@semantic-release/git": "10.0.1",
     "@types/bunyan": "1.8.8",
     "@types/clone": "2.1.1",
-    "@types/node": "18.11.18",
+    "@types/node": "18.11.19",
     "@typescript-eslint/eslint-plugin": "5.50.0",
     "@typescript-eslint/parser": "5.50.0",
     "@vidavidorra/commitlint-config": "4.0.10",
