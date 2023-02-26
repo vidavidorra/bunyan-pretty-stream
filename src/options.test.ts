@@ -135,6 +135,9 @@ test(succeeds, 'basePath', './folder', 'a relative');
 test('normalises "basePath"', (t) => {
   t.is(schema.parse({basePath: '/folder/..///.'}).basePath, '/');
 });
+test('converts file URL "basePath" to path', (t) => {
+  t.is(schema.parse({basePath: 'file:///test'}).basePath, '/test');
+});
 test(fails, 'basePath', '', 'an empty');
 
 test(defaults, 'newLineCharacter', '\n');

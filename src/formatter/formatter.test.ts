@@ -186,6 +186,14 @@ test('formats source relative to "basePath" option', (t) => {
   );
 });
 
+test('formats file URL source relative to "basePath" option', (t) => {
+  const file = 'formatter.test.ts';
+  t.regex(
+    format({basePath: '/tmp'}, {}, {file: `file:///tmp/${file}`}),
+    new RegExp(`\\(${file}:${record().src.line}\\)`),
+  );
+});
+
 test('ends line with characters from "newLineCharacter" option', (t) => {
   t.regex(format({newLineCharacter: '\r\n'}), /\r\n$/);
 });

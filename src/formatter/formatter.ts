@@ -8,6 +8,7 @@ import type {PublicOptions, Options} from '../options.js';
 import {schema} from '../options.js';
 import type {ParsedRecord} from '../parser/parser.js';
 import Parser from '../parser/parser.js';
+import normalisePath from '../helpers/normalise-path.js';
 import Extras from './extras.js';
 import Time from './time.js';
 
@@ -92,7 +93,7 @@ class Formatter {
       return '';
     }
 
-    const file = relative(this._options.basePath, source.file);
+    const file = relative(this._options.basePath, normalisePath(source.file));
     const formattedSource = [
       ` (${file}:${source.line}`,
       source.func === undefined ? '' : ` in ${source.func}`,

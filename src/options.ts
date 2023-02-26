@@ -1,6 +1,6 @@
-import {normalize} from 'node:path';
 import {z} from 'zod';
 import bunyanCoreFields from './bunyan/core-fields.js';
+import normalisePath from './helpers/normalise-path.js';
 
 const extras = z
   .object({
@@ -44,7 +44,7 @@ const publicSchema = z
     basePath: z
       .preprocess(
         (arg) =>
-          typeof arg === 'string' && arg.length > 0 ? normalize(arg) : arg,
+          typeof arg === 'string' && arg.length > 0 ? normalisePath(arg) : arg,
         z.string().min(1),
       )
       .default('/'),
