@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/vidavidorra/bunyan-pretty-stream#readme",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "devDependencies": {
     "@ava/typescript": "3.0.1",
