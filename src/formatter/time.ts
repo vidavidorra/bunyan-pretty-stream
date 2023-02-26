@@ -1,6 +1,6 @@
 import type {DateTimeFormatOptions, ToISOTimeOptions} from 'luxon';
 import {DateTime} from 'luxon';
-import type {ParsedOptions} from '../options.js';
+import type {Options} from '../options.js';
 
 type Iso8601Preset =
   | 'TIME_ISO_8601'
@@ -9,7 +9,7 @@ type Iso8601Preset =
   | 'DATETIME_ISO_8601';
 
 class Formatter {
-  private readonly _options: ParsedOptions['time'];
+  private readonly _options: Options['time'];
   private readonly _iso8601Presets: Iso8601Preset[] = [
     'TIME_ISO_8601',
     'TIME_ISO_8601_OFFSET',
@@ -17,7 +17,7 @@ class Formatter {
     'DATETIME_ISO_8601',
   ];
 
-  constructor(options: ParsedOptions['time']) {
+  constructor(options: Options['time']) {
     this._options = options;
   }
 
@@ -38,7 +38,7 @@ class Formatter {
   }
 
   private isIso8601(
-    preset: ParsedOptions['time']['preset'],
+    preset: Options['time']['preset'],
   ): preset is Iso8601Preset {
     return this._iso8601Presets.includes(preset as Iso8601Preset);
   }
@@ -56,7 +56,7 @@ class Formatter {
 
   private toLocaleString(dateTime: DateTime): string {
     const presetToFormatOptions = new Map<
-      ParsedOptions['time']['preset'],
+      Options['time']['preset'],
       DateTimeFormatOptions
     >([
       ['DATE_SHORT', DateTime.DATE_SHORT],

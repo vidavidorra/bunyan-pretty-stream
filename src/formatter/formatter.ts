@@ -1,57 +1,33 @@
 import {relative} from 'node:path';
 import bunyan from 'bunyan';
+import type {ChalkInstance as Chalk} from 'chalk';
 import chalk from 'chalk';
-import is from '@sindresorhus/is';
 import stringify from 'json-stringify-pretty-compact';
 import type BunyanRecord from '../bunyan/record.js';
-import coreFields from '../bunyan/core-fields.js';
-import type {Options, ParsedOptions} from '../options.js';
+import type {PublicOptions, Options} from '../options.js';
 import {schema} from '../options.js';
-import {Extras} from './extras.js';
+import type {ParsedRecord} from '../parser/parser.js';
+import Parser from '../parser/parser.js';
+import Extras from './extras.js';
 import Time from './time.js';
 
-function sanitise(object: any): any {
-  for (const [key, value] of Object.entries(object)) {
-    if (is.undefined(value)) {
-      delete object[key];
-    } else if (is.object(value)) {
-      sanitise(value);
-    }
-  }
-
-  return object;
-}
-
-type ParsedRecord = {
-  version: BunyanRecord['v'];
-  time: BunyanRecord['time'];
-  message: BunyanRecord['msg'];
-  source: BunyanRecord['src'];
-  extras: Extras;
-  details: Record<string, unknown>;
-} & Pick<BunyanRecord, 'level' | 'name' | 'hostname' | 'pid'>;
-
 class Formatter {
-  private readonly _options: Readonly<ParsedOptions>;
-  private readonly _regex = {
-    newLine: /\r\n|\r|\n/,
-    whitespace: /\s/,
-  } as const;
-
-  private readonly _internalOptions = {
-    timeFormat: {
-      short: 'HH:mm:ss.SSS',
-      long: 'YYYY-MM-DD[T]HH:mm:ss.SSS',
-    },
-  } as const;
-
+  private readonly _options: Readonly<Options>;
+  private readonly _parser: Parser;
+  private readonly _extras: Extras;
+  private readonly _time: Time;
+  private readonly _newLineRegex: RegExp;
   private readonly _levels: Readonly<Record<number, string>>;
 
-  private readonly _time: Time;
-
-  constructor(options: Options) {
+  constructor(options: PublicOptions) {
     this._options = schema.parse(options);
-
+    this._parser = new Parser({
+      show: this._options.show.extras,
+      extras: this._options.extras,
+    });
+    this._extras = new Extras(this._options.extras.formatCharacters);
+    this._time = new Time(this._options.time);
+    this._newLineRegex = /\r\n|\r|\n/;
     this._levels = {
       [bunyan.levelFromName.trace]: chalk.gray('TRACE'),
       [bunyan.levelFromName.debug]: chalk.blue('DEBUG'),
@@ -60,51 +36,10 @@ class Formatter {
       [bunyan.levelFromName.error]: chalk.red('ERROR'),
       [bunyan.levelFromName.fatal]: chalk.bgRed('FATAL'),
     };
-    this._time = new Time(this._options.time);
-  }
-
-  parse(record: BunyanRecord): ParsedRecord {
-    const parsed: ParsedRecord = {
-      version: record.v,
-      level: record.level,
-      name: record.name,
-      hostname: record.hostname,
-      pid: record.pid,
-      time: record.time,
-      message: record.msg,
-      source: record.src,
-      extras: new Extras(this._options.extras.maxLength),
-      details: sanitise(record),
-    };
-
-    for (const key of Object.keys(parsed.details)) {
-      if (coreFields.includes(key)) {
-        delete parsed.details[key];
-      }
-    }
-
-    if (!this._options.show.extras) {
-      return parsed;
-    }
-
-    const leftOvers = is.undefined(this._options.extras.key)
-      ? parsed.details
-      : parsed.details[this._options.extras.key];
-    if (!is.nonEmptyObject(leftOvers)) {
-      return parsed;
-    }
-
-    for (const [key, value] of Object.entries(leftOvers)) {
-      if (parsed.extras.parseAndAdd(key, value)) {
-        delete leftOvers[key];
-      }
-    }
-
-    return parsed;
   }
 
   format(record: BunyanRecord): string {
-    const parsedRecord = this.parse(record);
+    const parsedRecord = this._parser.parse(structuredClone(record));
 
     return [
       this.formatTime(parsedRecord.time),
@@ -113,9 +48,9 @@ class Formatter {
       this.formatName(parsedRecord.name),
       this.formatPid(parsedRecord.pid),
       this.formatHostname(parsedRecord.hostname),
-      this.formatSource(parsedRecord.source),
-      this.formatMessage(parsedRecord.message),
-      this.formatExtras(parsedRecord.extras),
+      this.formatSource(parsedRecord.source, chalk.green),
+      this.formatMessage(parsedRecord.message, chalk.blue),
+      this.formatExtras(parsedRecord.extras, chalk.red),
       this._options.newLineCharacter,
       this.formatDetails(parsedRecord.message, parsedRecord.details),
     ].join('');
@@ -131,20 +66,13 @@ class Formatter {
   }
 
   formatName(name: ParsedRecord['name']): string {
-    if (!this._options.show.name) {
-      return '';
-    }
-
-    return ` ${name}`;
+    return this._options.show.name ? ` ${name}` : '';
   }
 
   formatPid(pid: ParsedRecord['pid']): string {
-    if (!this._options.show.pid) {
-      return '';
-    }
-
-    const prefix = this._options.show.name ? '/' : ' ';
-    return `${prefix}${pid}`;
+    return this._options.show.pid
+      ? `${this._options.show.name ? '/' : ' '}${pid}`
+      : '';
   }
 
   formatHostname(hostname: ParsedRecord['hostname']): string {
@@ -159,8 +87,8 @@ class Formatter {
     ].join('');
   }
 
-  formatSource(source: ParsedRecord['source']): string {
-    if (!this._options.show.source || is.undefined(source)) {
+  formatSource(source: ParsedRecord['source'], colour: Chalk): string {
+    if (!this._options.show.source || source === undefined) {
       return '';
     }
 
@@ -171,20 +99,16 @@ class Formatter {
       ')',
     ].join('');
 
-    return chalk.green(formattedSource);
+    return colour(formattedSource);
   }
 
-  formatMessage(message: ParsedRecord['message']): string {
-    if (!this.isSingleLine(message)) {
-      return '';
-    }
-
-    return chalk.blue(` ${message}`);
+  formatMessage(message: ParsedRecord['message'], colour: Chalk): string {
+    return this._newLineRegex.test(message) ? '' : colour(` ${message}`);
   }
 
-  formatExtras(extras: ParsedRecord['extras']): string {
-    const formattedExtras = extras.format();
-    return formattedExtras.length === 0 ? '' : chalk.red(` ${formattedExtras}`);
+  formatExtras(extras: string[], colour: Chalk): string {
+    const formattedExtras = this._extras.format(extras);
+    return formattedExtras.length === 0 ? '' : colour(` ${formattedExtras}`);
   }
 
   formatDetails(
@@ -192,8 +116,8 @@ class Formatter {
     details: ParsedRecord['details'],
   ): string {
     const formatted: string[] = [];
-    if (!this.isSingleLine(message)) {
-      formatted.push(chalk.blue(this.indent(message, true)));
+    if (this._newLineRegex.test(message)) {
+      formatted.push(chalk.blue(this.indent(message)));
     }
 
     formatted.push(
@@ -204,38 +128,23 @@ class Formatter {
               indent: this._options.indent.json,
               maxLength: 80,
             })}`,
-            true,
           ),
         ),
       ),
     );
 
-    const separator = [
-      this._options.newLineCharacter,
-      this.indent('--', true),
-      this._options.newLineCharacter,
-    ].join('');
     const suffix = formatted.length > 0 ? this._options.newLineCharacter : '';
-    return `${formatted.join(separator)}${suffix}`;
+    return `${formatted.join(this._options.newLineCharacter)}${suffix}`;
   }
 
-  isSingleLine(string: string): boolean {
-    return !this._regex.newLine.test(string);
-  }
-
-  containsWhitespace(string: string): boolean {
-    return this._regex.whitespace.test(string);
-  }
-
-  indent(input: string, leading = false): string {
+  private indent(input: string): string {
     const indentation = ' '.repeat(this._options.indent.details);
-    const prefix = leading ? indentation : '';
     const formatted = input
-      .split(this._regex.newLine)
+      .split(this._newLineRegex)
       .join(`${this._options.newLineCharacter}${indentation}`);
 
-    return `${prefix}${formatted}`;
+    return `${indentation}${formatted}`;
   }
 }
 
-export {type ParsedRecord, Formatter};
+export {Formatter};

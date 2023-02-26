@@ -1,13 +1,14 @@
 import test from 'ava';
 import {Settings} from 'luxon';
-import type {ParsedOptions} from '../options.js';
+import type {Options} from '../options.js';
 import Formatter from './time.js';
 
+Settings.defaultLocale = 'en-GB';
 Settings.defaultZone = 'Europe/Amsterdam';
 
 function format(
   utc: boolean,
-  preset: ParsedOptions['time']['preset'],
+  preset: Options['time']['preset'],
   format?: string,
 ): string {
   return new Formatter({utc, preset, format}).format(
@@ -59,7 +60,7 @@ test('formats to specified format', (t) => {
 });
 
 test('throws an error for an unknown Luxon preset', (t) => {
-  t.throws(() => format(true, 'unknown' as ParsedOptions['time']['preset']), {
+  t.throws(() => format(true, 'unknown' as Options['time']['preset']), {
     instanceOf: Error,
     message: 'unknown Luxon preset',
   });

@@ -2,7 +2,7 @@ import type {TransformCallback} from 'node:stream';
 import {Transform} from 'node:stream';
 import {fromJsonString, isBunyanRecord} from './bunyan/index.js';
 import {Formatter} from './formatter/index.js';
-import type {Options} from './options.js';
+import type {PublicOptions as Options} from './options.js';
 
 class PrettyStream extends Transform {
   private readonly _formatter: Formatter;

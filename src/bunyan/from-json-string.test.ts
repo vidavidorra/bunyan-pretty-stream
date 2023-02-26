@@ -1,4 +1,5 @@
 import test from 'ava';
+import {deleteProperty} from 'dot-prop';
 import fromJsonString from './from-json-string.js';
 import type BunyanRecord from './record.js';
 
@@ -36,8 +37,7 @@ test('parses a JSON string with additional fields', (t) => {
 const throwsWithoutCoreField = test.macro<[keyof BunyanRecord]>({
   exec(t, key) {
     const record = {...bunyanRecord};
-    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-    delete record[key];
+    deleteProperty(record, key.toString());
     t.throws(() => fromJsonString(JSON.stringify(record)));
   },
   title(_, key) {

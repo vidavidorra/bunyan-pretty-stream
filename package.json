@@ -1,15 +1,15 @@
 {
   "name": "@vidavidorra/bunyan-pretty-stream",
   "version": "3.0.13",
-  "description": "Highly configurable Bunyan stream with pretty output.",
+  "description": "Highly configurable Bunyan stream with pretty output",
   "type": "module",
-  "exports": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "./dist/src/**/!(*.test).{js,d.ts}"
+    "./dist/**/!(*.test).{js,d.ts}"
   ],
   "scripts": {
     "prepare": "husky install .github/husky",
@@ -20,7 +20,6 @@
     "xo": "xo",
     "build": "tsc",
     "build:check": "tsc --noEmit",
-    "bundle-github-action": "esbuild bin/github-action.ts --bundle --platform=node --sourcemap --format=esm --outdir=dist --banner:js=\"import { createRequire } from 'module';const require = createRequire(import.meta.url);\"",
     "test": "c8 ava"
   },
   "repository": {
@@ -51,7 +50,6 @@
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
     "@types/bunyan": "1.8.8",
-    "@types/clone": "2.1.1",
     "@types/luxon": "3.0.2",
     "@types/node": "16.11.65",
     "@vidavidorra/commitlint-config": "4.0.5",
@@ -60,7 +58,7 @@
     "bunyan-1.x": "npm:bunyan@1.8.15",
     "bunyan-2.x": "npm:bunyan@2.0.5",
     "c8": "7.12.0",
-    "clone": "2.1.2",
+    "deepmerge": "4.3.0",
     "dot-prop": "7.2.0",
     "husky": "8.0.1",
     "lint-staged": "13.0.3",
@@ -88,15 +86,14 @@
     ],
     "typescript": {
       "rewritePaths": {
-        "src/": "dist/src/",
-        "test/": "dist/test/"
+        "src/": "dist/"
       },
       "compile": "tsc"
     }
   },
   "c8": {
     "include": [
-      "dist/src/**/*.js"
+      "dist/**/*.js"
     ],
     "reporter": [
       "cobertura",

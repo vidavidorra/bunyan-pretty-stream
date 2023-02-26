@@ -2,7 +2,7 @@ import test from 'ava';
 import {getProperty, setProperty} from 'dot-prop';
 import {DateTime} from 'luxon';
 import {schema} from './options.js';
-import type {ParsedOptions} from './options.js';
+import type {Options} from './options.js';
 import coreFields from './bunyan/core-fields.js';
 
 // https://dev.to/pffigueiredo/typescript-utility-keyof-nested-object-2pa3
@@ -14,7 +14,7 @@ type NestedKeyOf<ObjectType extends Record<string, unknown>> = {
     ? `${Key}` | `${Key}.${NestedKeyOf<ObjectType[Key]>}`
     : `${Key}`;
 }[keyof ObjectType & (string | number)];
-type Key = NestedKeyOf<ParsedOptions>;
+type Key = NestedKeyOf<Options>;
 
 type Literal = string | number | boolean;
 

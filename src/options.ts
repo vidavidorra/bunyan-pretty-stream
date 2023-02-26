@@ -2,7 +2,25 @@ import {normalize} from 'node:path';
 import {z} from 'zod';
 import bunyanCoreFields from './bunyan/core-fields.js';
 
-const schema = z
+const extras = z
+  .object({
+    key: z
+      .string()
+      .min(1)
+      .regex(new RegExp(`^((?!(${bunyanCoreFields.join('|')})).)*$`))
+      .optional(),
+    maxLength: z
+      .object({
+        key: z.number().int().positive().default(20),
+        value: z.number().int().positive().default(50),
+        total: z.number().int().positive().default(500),
+      })
+      .strict()
+      .default({}),
+  })
+  .strict();
+
+const publicSchema = z
   .object({
     show: z
       .object({
@@ -15,24 +33,7 @@ const schema = z
       })
       .strict()
       .default({}),
-    extras: z
-      .object({
-        key: z
-          .string()
-          .min(1)
-          .regex(new RegExp(`^((?!(${bunyanCoreFields.join('|')})).)*$`))
-          .optional(),
-        maxLength: z
-          .object({
-            key: z.number().int().positive().default(20),
-            value: z.number().int().positive().default(50),
-            total: z.number().int().positive().default(500),
-          })
-          .strict()
-          .default({}),
-      })
-      .strict()
-      .default({}),
+    extras: extras.default({}),
     indent: z
       .object({
         details: z.number().int().nonnegative().default(4),
@@ -98,7 +99,24 @@ const schema = z
   })
   .strict();
 
-type Options = z.input<typeof schema>;
-type ParsedOptions = z.infer<typeof schema>;
+type PublicOptions = z.input<typeof publicSchema>;
 
-export {type Options, type ParsedOptions, schema};
+const schema = publicSchema.extend({
+  extras: extras
+    .extend({
+      formatCharacters: z
+        .object({
+          start: z.string().min(1).default('('),
+          end: z.string().min(1).default(')'),
+          keyValueSeparator: z.string().min(1).default('='),
+          separator: z.string().min(1).default(', '),
+        })
+        .strict()
+        .default({}),
+    })
+    .default({}),
+});
+
+type Options = z.infer<typeof schema>;
+
+export {type PublicOptions, type Options, schema};

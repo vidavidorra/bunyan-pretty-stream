@@ -9,6 +9,6 @@
     "strict": true,
     "target": "ES2022"
   },
-  "include": ["bin/**/*.ts", "src/**/*.ts", "test/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "ts-node": { "esm": true }
 }

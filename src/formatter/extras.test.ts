@@ -1,95 +1,57 @@
 import test from 'ava';
-import {Extras} from './extras.js';
+import Extras from './extras.js';
 
-const options = {key: 10, value: 20, total: 50} as const;
+const options = {
+  start: '(',
+  end: ')',
+  keyValueSeparator: '=',
+  separator: ', ',
+} as const;
+const extras = new Extras(options);
 
-test('formats key with spaces in quotations', (t) => {
-  t.is(new Extras(options).formatExtra('some key', 'value').key, '"some key"');
+test('starts a single extra with start character', (t) => {
+  t.is(extras.format(['a=1']).at(0), options.start);
 });
 
-test('formats value with spaces in quotations', (t) => {
+test('starts two extras with start character', (t) => {
+  t.is(extras.format(['a=1', 'b=2']).at(0), options.start);
+});
+
+test('starts multiple extras with start character', (t) => {
+  t.is(extras.format(['a=1', 'b=2', 'c=3']).at(0), options.start);
+});
+
+test('ends a single extra with end character', (t) => {
+  t.is(extras.format(['a=1']).at(-1), options.end);
+});
+
+test('ends two extras with end character', (t) => {
+  t.is(extras.format(['a=1', 'b=2']).at(-1), options.end);
+});
+
+test('ends multiple extras with end character', (t) => {
+  t.is(extras.format(['a=1', 'b=2', 'c=3']).at(-1), options.end);
+});
+
+test('formats a single extra without separator', (t) => {
+  t.is(extras.format(['x=y']), `${options.start}x=y${options.end}`);
+});
+
+test('separates two extras with a separator', (t) => {
   t.is(
-    new Extras(options).formatExtra('key', 'some value').value,
-    '"some value"',
+    extras.format(['a=1', 'b=2']),
+    `${options.start}a=1${options.separator}b=2${options.end}`,
   );
 });
 
-test('formats key and value with spaces in quotations', (t) => {
-  const extra = new Extras(options).formatExtra('some key', 'some value');
-  t.is(extra.key, '"some key"');
-  t.is(extra.value, '"some value"');
-});
-
-test('formats with key-value separator', (t) => {
-  t.is(new Extras(options).formatExtra('key', 'value').formatted, 'key=value');
-});
-
-test('length is "0" for no extras', (t) => {
-  t.is(new Extras(options).length, 0);
-});
-
-test('length is correct for a single extra', (t) => {
-  const extras = new Extras(options);
-
-  const key = 'myKey';
-  const value = 'myValue';
-  extras.parseAndAdd(key, value);
-
+test('separates multiple extras with a separator', (t) => {
+  const {separator} = options;
   t.is(
-    extras.length,
-    extras.options.start.length +
-      key.length +
-      extras.options.keyValueSeparator.length +
-      value.length +
-      extras.options.end.length,
+    extras.format(['a=1', 'b=2', 'c=3']),
+    `${options.start}a=1${separator}b=2${separator}c=3${options.end}`,
   );
 });
 
-test('length is correct for multipe extras', (t) => {
-  const extras = new Extras(options);
-
-  const key = 'myKey';
-  const value = 'myValue';
-  extras.parseAndAdd(`${key}1`, value);
-  extras.parseAndAdd(`${key}2`, value);
-  t.is(
-    extras.length,
-    extras.options.start.length +
-      (key.length +
-        1 +
-        extras.options.keyValueSeparator.length +
-        value.length) *
-        2 +
-      extras.options.separator.length +
-      extras.options.end.length,
-  );
-});
-
-test('length is correct for non-included extras', (t) => {
-  const extras = new Extras(options);
-
-  const key = 'myKey';
-  const value = 'myValue';
-  extras.parseAndAdd(key, value);
-  extras.parseAndAdd('my very long key that cannot be added', value);
-  t.is(
-    extras.length,
-    extras.options.start.length +
-      key.length +
-      extras.options.keyValueSeparator.length +
-      value.length +
-      extras.options.end.length,
-  );
-});
-
-test('parseAndAdd() returns "true" if the extra was added', (t) => {
-  const extras = new Extras(options);
-  t.true(extras.parseAndAdd('key', 'value'));
-  t.is(extras.extras.length, 1);
-});
-
-test('parseAndAdd() returns "true" if the extra was not added', (t) => {
-  const extras = new Extras(options);
-  t.false(extras.parseAndAdd('my very long key that cannot be added', 'value'));
-  t.is(extras.extras.length, 0);
+test('returns an empty string without extras', (t) => {
+  t.is(extras.format([]), '');
 });
