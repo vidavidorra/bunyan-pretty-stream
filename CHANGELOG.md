@@ -1,3 +1,9 @@
+## [4.0.0-beta.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2023-02-26)
+
+### Features
+
+- allow source file and "basePath" option in file URL format ([a84da69](https://github.com/vidavidorra/bunyan-pretty-stream/commit/a84da69619b81a4c9b7ab68c80970db55b53470c))
+
 ## [4.0.0-beta.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.17...v4.0.0-beta.1) (2023-02-26)
 
 ### ⚠ BREAKING CHANGES

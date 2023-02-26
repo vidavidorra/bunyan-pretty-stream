@@ -1,6 +1,6 @@
 {
   "name": "@vidavidorra/bunyan-pretty-stream",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.2",
   "description": "Highly configurable Bunyan stream with pretty output",
   "type": "module",
   "exports": "./dist/index.js",
