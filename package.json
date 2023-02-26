@@ -71,7 +71,7 @@
     "xo": "0.53.1"
   },
   "peerDependencies": {
-    "bunyan": "1.8.15"
+    "bunyan": ">=1.8.15 <3"
   },
   "dependencies": {
     "@sindresorhus/is": "5.3.0",
