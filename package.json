@@ -75,7 +75,7 @@
   "dependencies": {
     "@sindresorhus/is": "5.3.0",
     "chalk": "5.1.2",
-    "json-stringify-pretty-compact": "3.0.0",
+    "json-stringify-pretty-compact": "4.0.0",
     "luxon": "3.0.4",
     "zod": "3.19.1"
   },
