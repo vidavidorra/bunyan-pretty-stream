@@ -1,3 +1,10 @@
+## [4.0.0-beta.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2023-03-11)
+
+### Bug Fixes
+
+- **deps:** move dependency chalk to dependencies ([de1eb72](https://github.com/vidavidorra/bunyan-pretty-stream/commit/de1eb72bc2e9ceb8d0cdceaceafbf231ce8ea6cc))
+- **deps:** update all dependencies to latest versions ([f06a7a1](https://github.com/vidavidorra/bunyan-pretty-stream/commit/f06a7a135db4dad3e2409c793b47476f65110f70))
+
 ## [4.0.0-beta.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2023-02-26)
 
 ### Features
