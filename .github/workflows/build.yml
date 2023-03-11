@@ -9,45 +9,25 @@ on:
   pull_request:
 jobs:
   lint:
-    uses: vidavidorra/.github/.github/workflows/node-lint.yml@6806ef65ed548aeab950f9141e7ebc5bc0681809 # tag=v1.2.3
+    uses: vidavidorra/.github/.github/workflows/node-lint.yml@v2.0.1
   build:
     name: Build (Node.js v${{ matrix.node }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
         node: [18, 19]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - name: Setup node
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install project
-        run: npm ci --ignore-scripts
-      - name: Build
-        run: npm run build
+    uses: vidavidorra/.github/.github/workflows/node-build.yml@v2.0.1
+    wtih:
+      nodeVersion: ${{ matrix.node }}
   test:
     name: Test (Node.js v${{ matrix.node }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
         node: [18, 19]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - name: Setup node
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install project
-        run: npm ci --ignore-scripts
-      - name: Test
-        run: npm run test
+    uses: vidavidorra/.github/.github/workflows/node-test.yml@v2.0.1
+    wtih:
+      nodeVersion: ${{ matrix.node }}
   code-coverage:
     needs: [lint, build, test]
     runs-on: ubuntu-latest
