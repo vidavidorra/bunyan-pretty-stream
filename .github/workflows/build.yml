@@ -17,7 +17,7 @@ jobs:
       matrix:
         node: [18, 19]
     uses: vidavidorra/.github/.github/workflows/node-build.yml@v2.0.1
-    wtih:
+    with:
       nodeVersion: ${{ matrix.node }}
   test:
     name: Test (Node.js v${{ matrix.node }})
@@ -26,7 +26,7 @@ jobs:
       matrix:
         node: [18, 19]
     uses: vidavidorra/.github/.github/workflows/node-test.yml@v2.0.1
-    wtih:
+    with:
       nodeVersion: ${{ matrix.node }}
   code-coverage:
     needs: [lint, build, test]
