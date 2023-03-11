@@ -1,4 +1,4 @@
-import type {DateTimeFormatOptions, ToISOTimeOptions} from 'luxon';
+import type {DateTimeFormatOptions} from 'luxon';
 import {DateTime} from 'luxon';
 import type {Options} from '../options.js';
 
