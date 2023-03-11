@@ -1,26 +1,21 @@
-import { Transform, TransformCallback } from 'stream';
-import { fromString, isBunyanRecord } from './bunyan-record';
-import { Formatter } from './formatter';
-import { Options } from './options';
-import is from '@sindresorhus/is';
+import type {TransformCallback} from 'node:stream';
+import {Transform} from 'node:stream';
+import {fromJsonString, isBunyanRecord} from './bunyan/index.js';
+import {Formatter} from './formatter/index.js';
+import type {PublicOptions as Options} from './options.js';
 
 class PrettyStream extends Transform {
-  private _formatter: Formatter;
+  private readonly _formatter: Formatter;
 
   constructor(options: Options = {}) {
-    super({ objectMode: true });
+    super({objectMode: true});
 
     this._formatter = new Formatter(options);
   }
 
-  _transform(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-    chunk: any,
-    encoding: BufferEncoding,
-    done: TransformCallback,
-  ): void {
-    if (is.string(chunk)) {
-      this.push(this._formatter.format(fromString(chunk)));
+  _transform(chunk: any, _: BufferEncoding, done: TransformCallback): void {
+    if (typeof chunk === 'string') {
+      this.push(this._formatter.format(fromJsonString(chunk)));
       done();
     } else if (isBunyanRecord(chunk)) {
       this.push(this._formatter.format(chunk));
@@ -31,4 +26,4 @@ class PrettyStream extends Transform {
   }
 }
 
-export { PrettyStream };
+export {PrettyStream};

@@ -1,7 +1,26 @@
-import { coreFields as bunyanCoreFields } from './bunyan-record';
-import { z } from 'zod';
+import {z} from 'zod';
+import bunyanCoreFields from './bunyan/core-fields.js';
+import normalisePath from './helpers/normalise-path.js';
 
-const schema = z
+const extras = z
+  .object({
+    key: z
+      .string()
+      .min(1)
+      .regex(new RegExp(`^((?!(${bunyanCoreFields.join('|')})).)*$`))
+      .optional(),
+    maxLength: z
+      .object({
+        key: z.number().int().positive().default(20),
+        value: z.number().int().positive().default(50),
+        total: z.number().int().positive().default(500),
+      })
+      .strict()
+      .default({}),
+  })
+  .strict();
+
+const publicSchema = z
   .object({
     show: z
       .object({
@@ -14,24 +33,7 @@ const schema = z
       })
       .strict()
       .default({}),
-    extras: z
-      .object({
-        key: z
-          .string()
-          .min(1)
-          .regex(new RegExp(`^((?!(${bunyanCoreFields().join('|')})).)*$`))
-          .optional(),
-        maxLength: z
-          .object({
-            key: z.number().int().positive().default(20),
-            value: z.number().int().positive().default(50),
-            total: z.number().int().positive().default(500),
-          })
-          .strict()
-          .default({}),
-      })
-      .strict()
-      .default({}),
+    extras: extras.default({}),
     indent: z
       .object({
         details: z.number().int().nonnegative().default(4),
@@ -39,32 +41,82 @@ const schema = z
       })
       .strict()
       .default({}),
-    basePath: z.string().min(1).default('/'),
+    basePath: z
+      .preprocess(
+        (arg) =>
+          typeof arg === 'string' && arg.length > 0 ? normalisePath(arg) : arg,
+        z.string().min(1),
+      )
+      .default('/'),
     newLineCharacter: z.enum(['\r', '\n', '\r\n']).default('\n'),
     time: z
       .object({
-        type: z.enum(['short', 'long', 'format']).default('long'),
+        utc: z.boolean().default(true),
+
         /**
-         * Display local time instead of UTC.
+         * Formatting presets as defined by the [Luxon documentation](
+         * https://moment.github.io/luxon/#/formatting?id=presets) with
+         * additional custom ISO 8601 presets.
          */
-        local: z.boolean().default(false),
+        preset: z
+          .enum([
+            'DATE_SHORT',
+            'DATE_MED',
+            'DATE_MED_WITH_WEEKDAY',
+            'DATE_FULL',
+            'DATE_HUGE',
+            'TIME_SIMPLE',
+            'TIME_WITH_SECONDS',
+            'TIME_WITH_SHORT_OFFSET',
+            'TIME_WITH_LONG_OFFSET',
+            'TIME_24_SIMPLE',
+            'TIME_24_WITH_SECONDS',
+            'TIME_24_WITH_SHORT_OFFSET',
+            'TIME_24_WITH_LONG_OFFSET',
+            'DATETIME_SHORT',
+            'DATETIME_MED',
+            'DATETIME_FULL',
+            'DATETIME_HUGE',
+            'DATETIME_SHORT_WITH_SECONDS',
+            'DATETIME_MED_WITH_SECONDS',
+            'DATETIME_FULL_WITH_SECONDS',
+            'DATETIME_HUGE_WITH_SECONDS',
+            'TIME_ISO_8601',
+            'TIME_ISO_8601_OFFSET',
+            'DATETIME_ISO_8601',
+            'DATETIME_ISO_8601_OFFSET',
+          ])
+          .default('DATETIME_ISO_8601_OFFSET'),
+
         /**
-         * Time format as specified by the `Moment.js` [format options](
-         * https://momentjs.com/docs/#/displaying/format/).
-         *
-         * @note The time zone, `Z` or `ZZ`, should be omitted as `Z` is
-         * automatically to the format if the time is UTC.
-         * @note The `Z` display suffix for UTC times is automatically added to
-         * the format and should be omitted.
+         * Formatting with tokens as defined by the [Luxon documentation](
+         * https://moment.github.io/luxon/#/formatting?id=formatting-with-tokens-strings-for-cthulhu).
          */
-        format: z.string().min(1).default('YYYY-MM-DD[T]HH:mm:ss.SSS'),
+        format: z.string().min(1).optional(),
       })
       .strict()
       .default({}),
   })
   .strict();
 
-type Options = z.input<typeof schema>;
-type ParsedOptions = z.infer<typeof schema>;
+type PublicOptions = z.input<typeof publicSchema>;
 
-export { Options, ParsedOptions, schema };
+const schema = publicSchema.extend({
+  extras: extras
+    .extend({
+      formatCharacters: z
+        .object({
+          start: z.string().min(1).default('('),
+          end: z.string().min(1).default(')'),
+          keyValueSeparator: z.string().min(1).default('='),
+          separator: z.string().min(1).default(', '),
+        })
+        .strict()
+        .default({}),
+    })
+    .default({}),
+});
+
+type Options = z.infer<typeof schema>;
+
+export {type PublicOptions, type Options, schema};

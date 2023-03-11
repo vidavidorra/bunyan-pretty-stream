@@ -1,3 +1,1 @@
-import { Formatter } from './formatter';
-
-export { Formatter };
+export {Formatter} from './formatter.js';
