@@ -1,3 +1,36 @@
+## [4.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.22...v4.0.0) (2023-03-11)
+
+### ⚠ BREAKING CHANGES
+
+- require Node.js 18
+- format time using Luxon instead of Moment
+- convert to pure ESM
+
+### Features
+
+- allow source file and "basePath" option in file URL format ([a84da69](https://github.com/vidavidorra/bunyan-pretty-stream/commit/a84da69619b81a4c9b7ab68c80970db55b53470c))
+- convert to pure ESM ([1d19d28](https://github.com/vidavidorra/bunyan-pretty-stream/commit/1d19d288e020b6216b854f262be77c52a43ed569))
+- format time using Luxon instead of Moment ([9edf278](https://github.com/vidavidorra/bunyan-pretty-stream/commit/9edf278d09c2e555a720dbe65654d0d0bb9c9bef))
+- include Bunyan version 2 in the peer dependencies ([09fe2e7](https://github.com/vidavidorra/bunyan-pretty-stream/commit/09fe2e71cc7ebb8395762a56ec06a5e66f116186))
+- require Node.js 18 ([35640d2](https://github.com/vidavidorra/bunyan-pretty-stream/commit/35640d2ac2ab43a6d293578b449368036a378921))
+- split bunyan functions to separate files and add AVA tests ([637a04e](https://github.com/vidavidorra/bunyan-pretty-stream/commit/637a04ea65669ecd29947fb907fccb62e9845a6c))
+- split formatting and parsing functions and add AVA tests for all code ([542a6eb](https://github.com/vidavidorra/bunyan-pretty-stream/commit/542a6eb72a091004872f45b09639003c11a4ea6a)), closes [#7](https://github.com/vidavidorra/bunyan-pretty-stream/issues/7)
+
+### Bug Fixes
+
+- **deps:** move dependency chalk to dependencies ([de1eb72](https://github.com/vidavidorra/bunyan-pretty-stream/commit/de1eb72bc2e9ceb8d0cdceaceafbf231ce8ea6cc))
+- **deps:** update all dependencies to latest versions ([f06a7a1](https://github.com/vidavidorra/bunyan-pretty-stream/commit/f06a7a135db4dad3e2409c793b47476f65110f70))
+- **deps:** update dependency json-stringify-pretty-compact to v4 ([1999548](https://github.com/vidavidorra/bunyan-pretty-stream/commit/1999548b0ec6f4615bb278207046c6eac7822a42))
+- **deps:** update dependency strip-ansi to v7 ([07c1f74](https://github.com/vidavidorra/bunyan-pretty-stream/commit/07c1f7491a837bdfc099ada23dd9a36d6614c3e1))
+
+### Code Refactoring
+
+- **options:** normalise "basePath" in options preprocessing ([6a3711a](https://github.com/vidavidorra/bunyan-pretty-stream/commit/6a3711a95cc2c58cdcf5776363d3922bcf791462))
+
+### Continuous Integration
+
+- run on Node.js 16, 18 and 19 ([849a9a1](https://github.com/vidavidorra/bunyan-pretty-stream/commit/849a9a1e3f8d58697dd4033ebe70263ec7d9becf))
+
 ## [4.0.0-beta.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2023-03-11)
 
 ### Bug Fixes
