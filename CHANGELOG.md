@@ -41,6 +41,36 @@
 
 - run on Node.js 16, 18 and 19 ([849a9a1](https://github.com/vidavidorra/bunyan-pretty-stream/commit/849a9a1e3f8d58697dd4033ebe70263ec7d9becf))
 
+## [3.0.22](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.21...v3.0.22) (2023-03-10)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.21.4 ([fde1355](https://github.com/vidavidorra/bunyan-pretty-stream/commit/fde1355e6e5a4e693f1d865ea92ccc63990e482c))
+
+## [3.0.21](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.20...v3.0.21) (2023-03-10)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.21.3 ([7532929](https://github.com/vidavidorra/bunyan-pretty-stream/commit/75329293d2fdd610eb5a6d23e4be9e2cb5b74522))
+
+## [3.0.20](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.19...v3.0.20) (2023-03-09)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.21.2 ([f46b3fc](https://github.com/vidavidorra/bunyan-pretty-stream/commit/f46b3fcf596edfb2f0f60c234d84f3a177b3f77e))
+
+## [3.0.19](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.18...v3.0.19) (2023-03-09)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.21.1 ([7d377d2](https://github.com/vidavidorra/bunyan-pretty-stream/commit/7d377d2cdba672c2c1bba4351dd4896bbbc77d6a))
+
+## [3.0.18](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.17...v3.0.18) (2023-03-07)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.21.0 ([9a2eb70](https://github.com/vidavidorra/bunyan-pretty-stream/commit/9a2eb7021d82493cbf5a1d7fa79171d7f826175d))
+
 ## [3.0.17](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.16...v3.0.17) (2023-02-12)
 
 ### Bug Fixes
