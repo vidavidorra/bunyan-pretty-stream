@@ -1,17 +1,17 @@
 import bunyan from 'bunyan';
 import test from 'ava';
-import type {Logger} from './logger.js';
+import {type Logger} from './logger.js';
+import {levels} from './index.js';
 
-test('exposes the Bunyan "trace", "debug", "info", "warn", "error" and "fatal" functions', (t) => {
+test(`exposes the Bunyan ${levels
+  .map((level) => `"${level}"`)
+  .join(', ')} functions`, (t) => {
   const bunyanLogger = bunyan.createLogger({name: 'Logger'});
   const logger: Logger = bunyanLogger;
 
-  t.is(typeof logger.trace, 'function');
-  t.is(typeof logger.debug, 'function');
-  t.is(typeof logger.info, 'function');
-  t.is(typeof logger.warn, 'function');
-  t.is(typeof logger.error, 'function');
-  t.is(typeof logger.fatal, 'function');
+  for (const level of levels) {
+    t.is(typeof logger[level], 'function');
+  }
 });
 
 test('does not expose any other Bunyan or Node.js functions and properties', (t) => {
