@@ -1,3 +1,13 @@
+## [5.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.1.0...v5.0.0) (2023-04-04)
+
+### ⚠ BREAKING CHANGES
+
+- create `levels` as a tuple
+
+### Features
+
+- create `levels` as a tuple ([1bae286](https://github.com/vidavidorra/bunyan-pretty-stream/commit/1bae2867fa35a17a0d0f164ddec34984055279aa))
+
 ## [4.1.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.0.0...v4.1.0) (2023-04-04)
 
 ### Features
