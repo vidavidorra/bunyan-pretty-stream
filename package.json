@@ -44,7 +44,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@ava/typescript": "3.0.1",
+    "@ava/typescript": "4.0.0",
     "@commitlint/cli": "17.4.4",
     "@semantic-release/changelog": "6.0.2",
     "@semantic-release/exec": "6.0.3",
