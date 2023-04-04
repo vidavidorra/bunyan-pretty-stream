@@ -17,11 +17,6 @@ test(`exposes the Bunyan ${levels
 test('does not expose any other Bunyan or Node.js functions and properties', (t) => {
   const logger: Required<Logger> = {
     trace: () => true,
-    debug: () => true,
-    info: () => true,
-    warn: () => true,
-    error: () => true,
-    fatal: () => true,
     // @ts-expect-error TS2322 Assert there is an error about assigning a
     // non-existing property as part of this test. This tries to ensure there
     // is no indexer field like `[key: string]: unknown;` and the type is not
