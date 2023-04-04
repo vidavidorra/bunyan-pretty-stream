@@ -1,3 +1,13 @@
+## [4.1.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.0.0...v4.1.0) (2023-04-04)
+
+### Features
+
+- add Bunyan log levels array, `levels` ([621c80c](https://github.com/vidavidorra/bunyan-pretty-stream/commit/621c80c22e4e04e0aed370ce101806db44d90680))
+
+### Tests
+
+- remove unnecessary functions in Bunyan `Logger` exposed functions test ([468367b](https://github.com/vidavidorra/bunyan-pretty-stream/commit/468367b9a6b64b6be05d75738b7bfc3b7ada939a))
+
 ## [4.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v3.0.22...v4.0.0) (2023-03-11)
 
 ### ⚠ BREAKING CHANGES
