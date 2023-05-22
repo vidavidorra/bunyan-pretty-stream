@@ -3,11 +3,13 @@ import test from 'ava';
 import merge from 'deepmerge';
 import type {Options, PublicOptions} from '../options.js';
 import type BunyanRecord from '../bunyan/record.js';
+import {type ParsedRecord} from '../parser/parser.js';
 import {Formatter} from './formatter.js';
 
 const defaultOptions = {
   show: {
     time: true,
+    level: true,
     name: true,
     hostname: true,
     pid: true,
@@ -70,12 +72,14 @@ const shows = test.macro<[keyof Options['show'], boolean, RegExp]>({
   title(_, key, show) {
     return show
       ? `formats ${key} when showing`
-      : `formats without ${key} when not showning`;
+      : `formats without ${key} when not showing`;
   },
 });
 
 test(shows, 'time', true, new RegExp(record().time.toISOString()));
 test(shows, 'time', false, /1564-04-23T00:00:00.000Z/);
+test(shows, 'level', true, /TRACE/);
+test(shows, 'level', false, /TRACE/);
 test(shows, 'name', true, new RegExp(record().name));
 test(shows, 'name', false, new RegExp(record().name));
 test(shows, 'hostname', true, new RegExp(record().hostname));
@@ -86,6 +90,27 @@ test(shows, 'source', true, new RegExp(`\\([^)]*?${record().src.file}`));
 test(shows, 'source', false, new RegExp(`\\([^)]*?${record().src.file}`));
 test(shows, 'extras', true, /\(key.*?value\)/);
 test(shows, 'extras', false, /\(key.*?value\)/);
+
+const formatsAtStart = test.macro<
+  [keyof ParsedRecord, Array<keyof Options['show']>, string | number | RegExp]
+>({
+  exec(t, _, keysNotShown, value) {
+    t.regex(
+      format({
+        show: Object.fromEntries(keysNotShown.map((key) => [key, false])),
+      }),
+      value instanceof RegExp ? value : new RegExp(`^${value}`),
+    );
+  },
+  title(_, key, keysNotShown) {
+    return [
+      `formats ${key} at the start of the line when`,
+      keysNotShown.join(', '),
+      keysNotShown.length === 1 ? 'is' : 'are',
+      'not shown',
+    ].join(' ');
+  },
+});
 
 test('formats time at the start of the line in square brackets', (t) => {
   t.regex(format(), new RegExp(`^\\[${record().time.toISOString()}\\]`));
@@ -99,6 +124,15 @@ test('suffixes the level with a colon (:)', (t) => {
   t.regex(format(), /TRACE:/);
 });
 
+test('suffixes the time with a colon (:) when level is not shown', (t) => {
+  t.regex(
+    format({show: {level: false}}),
+    new RegExp(`^\\[${record().time.toISOString()}\\]:`),
+  );
+});
+
+test(formatsAtStart, 'name', ['time', 'level'], record().name);
+
 test('formats name after level', (t) => {
   t.regex(format(), new RegExp(`TRACE: ${record().name}`));
 });
@@ -107,12 +141,21 @@ test('formats PID after level when name is not shown', (t) => {
   t.regex(format({show: {name: false}}), new RegExp(`TRACE: ${record().pid}`));
 });
 
+test(formatsAtStart, 'pid', ['time', 'level', 'name'], record().pid);
+
 test('formats hostname after level when name and PID are not shown', (t) => {
   t.regex(
     format({show: {name: false, pid: false}}),
     new RegExp(`TRACE: ${record().hostname}`),
   );
 });
+
+test(
+  formatsAtStart,
+  'hostname',
+  ['time', 'level', 'name', 'pid'],
+  record().hostname,
+);
 
 test('formats source after level when name, PID and hostname are not shown', (t) => {
   t.regex(
@@ -121,12 +164,26 @@ test('formats source after level when name, PID and hostname are not shown', (t)
   );
 });
 
+test(
+  formatsAtStart,
+  'source',
+  ['time', 'level', 'name', 'pid', 'hostname'],
+  new RegExp(`^\\([^)]*?${record().src.file}`),
+);
+
 test('formats message after level when name, PID, hostname and source are not shown', (t) => {
   t.regex(
     format({show: {name: false, pid: false, hostname: false, source: false}}),
     new RegExp(`TRACE: ${record().msg}`),
   );
 });
+
+test(
+  formatsAtStart,
+  'message',
+  ['time', 'level', 'name', 'pid', 'hostname', 'source'],
+  record().msg,
+);
 
 test('formats source in parenthesis', (t) => {
   t.regex(

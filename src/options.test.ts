@@ -62,6 +62,7 @@ test('succeeds parsing with an empty object', (t) => {
 });
 
 test(defaults, 'show.time', true);
+test(defaults, 'show.level', true);
 test(defaults, 'show.name', false);
 test(defaults, 'show.hostname', false);
 test(defaults, 'show.pid', false);

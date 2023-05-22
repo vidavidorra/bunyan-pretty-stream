@@ -25,6 +25,7 @@ const publicSchema = z
     show: z
       .object({
         time: z.boolean().default(true),
+        level: z.boolean().default(true),
         name: z.boolean().default(false),
         hostname: z.boolean().default(false),
         pid: z.boolean().default(false),

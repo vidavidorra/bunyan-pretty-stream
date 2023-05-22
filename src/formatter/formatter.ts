@@ -45,7 +45,7 @@ class Formatter {
     return [
       this.formatTime(parsedRecord.time),
       this.formatLevel(parsedRecord.level),
-      ':',
+      this._options.show.time || this._options.show.level ? ':' : '',
       this.formatName(parsedRecord.name),
       this.formatPid(parsedRecord.pid),
       this.formatHostname(parsedRecord.hostname),
@@ -62,30 +62,21 @@ class Formatter {
   }
 
   formatLevel(level: ParsedRecord['level']): string {
-    const prefix = this._options.show.time ? ' ' : '';
-    return `${prefix}${this._levels[level]}`;
-  }
-
-  formatName(name: ParsedRecord['name']): string {
-    return this._options.show.name ? ` ${name}` : '';
-  }
-
-  formatPid(pid: ParsedRecord['pid']): string {
-    return this._options.show.pid
-      ? `${this._options.show.name ? '/' : ' '}${pid}`
+    return this._options.show.level
+      ? this.prefix('level', this._levels[level])
       : '';
   }
 
-  formatHostname(hostname: ParsedRecord['hostname']): string {
-    if (!this._options.show.hostname) {
-      return '';
-    }
+  formatName(name: ParsedRecord['name']): string {
+    return this._options.show.name ? this.prefix('name', name) : '';
+  }
 
-    return [
-      ' ',
-      this._options.show.name || this._options.show.pid ? 'on ' : '',
-      hostname,
-    ].join('');
+  formatPid(pid: ParsedRecord['pid']): string {
+    return this._options.show.pid ? this.prefix('pid', pid) : '';
+  }
+
+  formatHostname(hostname: ParsedRecord['hostname']): string {
+    return this._options.show.hostname ? this.prefix('hostname', hostname) : '';
   }
 
   formatSource(source: ParsedRecord['source'], colour: Chalk): string {
@@ -94,17 +85,14 @@ class Formatter {
     }
 
     const file = relative(this._options.basePath, normalisePath(source.file));
-    const formattedSource = [
-      ` (${file}:${source.line}`,
-      source.func === undefined ? '' : ` in ${source.func}`,
-      ')',
-    ].join('');
-
-    return colour(formattedSource);
+    const func = source.func === undefined ? '' : ` in ${source.func}`;
+    return colour(this.prefix('source', `(${file}:${source.line}${func})`));
   }
 
   formatMessage(message: ParsedRecord['message'], colour: Chalk): string {
-    return this._newLineRegex.test(message) ? '' : colour(` ${message}`);
+    return this._newLineRegex.test(message)
+      ? ''
+      : colour(this.prefix('message', message));
   }
 
   formatExtras(extras: string[], colour: Chalk): string {
@@ -136,6 +124,35 @@ class Formatter {
 
     const suffix = formatted.length > 0 ? this._options.newLineCharacter : '';
     return `${formatted.join(this._options.newLineCharacter)}${suffix}`;
+  }
+
+  private prefix(
+    key: keyof Options['show'] | 'message',
+    value: string | number,
+  ): string {
+    const keys: Array<keyof Options['show']> = [
+      'time',
+      'level',
+      'name',
+      'pid',
+      'hostname',
+      'source',
+    ];
+    const precedingKeys =
+      key === 'message' ? keys : keys.slice(0, keys.indexOf(key));
+    const preceded = precedingKeys.some((key) => this._options.show[key]);
+
+    let prefix = preceded ? ' ' : '';
+    if (key === 'pid' && this._options.show.name) {
+      prefix = '/';
+    } else if (
+      key === 'hostname' &&
+      (this._options.show.name || this._options.show.pid)
+    ) {
+      prefix = ' on ';
+    }
+
+    return `${prefix}${value}`;
   }
 
   private indent(input: string): string {
