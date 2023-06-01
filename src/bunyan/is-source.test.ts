@@ -21,6 +21,7 @@ const returnsWithout = test.macro<[boolean, keyof Source]>({
   },
 });
 
+test(returnsWithout, false, 'file');
 test(returnsWithout, false, 'line');
 test(returnsWithout, true, 'func');
 
