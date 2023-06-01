@@ -1,3 +1,9 @@
+## [6.0.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.0...v6.0.1) (2023-06-01)
+
+### Bug Fixes
+
+- **formatter:** throw error on invalid Luxon `DateTime` ([62e9c01](https://github.com/vidavidorra/bunyan-pretty-stream/commit/62e9c014b95981511b3df01876faac47f727b93b))
+
 ## [6.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v5.0.0...v6.0.0) (2023-06-01)
 
 ### ⚠ BREAKING CHANGES
