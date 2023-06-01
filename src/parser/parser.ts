@@ -1,12 +1,12 @@
 import is from '@sindresorhus/is';
-import type BunyanRecord from '../bunyan/record.js';
-import type {Options} from '../options.js';
+import {isSource, type BunyanRecord, type Source} from '../bunyan/index.js';
+import {type Options} from '../options.js';
 import Extras from './extras.js';
 
 type ParsedRecord = {
   version: BunyanRecord['v'];
   message: BunyanRecord['msg'];
-  source: BunyanRecord['src'];
+  source?: Source;
   extras: string[];
   details: Record<string, unknown>;
 } & Pick<BunyanRecord, 'level' | 'name' | 'hostname' | 'pid' | 'time'>;
@@ -64,7 +64,7 @@ class Parser {
       pid,
       time,
       msg: message,
-      src: source,
+      src,
       ...leftOvers
     } = bunyanRecord;
 
@@ -76,7 +76,7 @@ class Parser {
       pid,
       time,
       message,
-      source,
+      source: isSource(src) ? src : undefined,
       extras: [],
       details: leftOvers,
     };

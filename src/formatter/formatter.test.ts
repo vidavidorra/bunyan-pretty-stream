@@ -1,8 +1,8 @@
 import stripAnsi from 'strip-ansi';
 import test from 'ava';
 import merge from 'deepmerge';
-import type {Options, PublicOptions} from '../options.js';
-import type BunyanRecord from '../bunyan/record.js';
+import {type Options, type PublicOptions} from '../options.js';
+import {type BunyanRecord, type Source} from '../bunyan/index.js';
 import {Formatter} from './formatter.js';
 
 const defaultOptions = {
@@ -23,7 +23,7 @@ const defaultOptions = {
 
 function record(
   leftOvers: Record<string, unknown> = {},
-  source?: Partial<BunyanRecord['src']>,
+  source?: Partial<Source>,
 ): Required<BunyanRecord> {
   return {
     v: 1,
@@ -111,6 +111,13 @@ test('formats hostname after level when name and PID are not shown', (t) => {
   t.regex(
     format({show: {name: false, pid: false}}),
     new RegExp(`TRACE: ${record().hostname}`),
+  );
+});
+
+test('formats without source when source is an empty object', (t) => {
+  t.notRegex(
+    format({}, {src: {}}),
+    new RegExp(`TRACE: \\([^)]*?${record().src.file}`),
   );
 });
 

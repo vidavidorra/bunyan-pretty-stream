@@ -1,13 +1,10 @@
 import {relative} from 'node:path';
 import bunyan from 'bunyan';
-import type {ChalkInstance as Chalk} from 'chalk';
-import chalk from 'chalk';
+import chalk, {type ChalkInstance as Chalk} from 'chalk';
 import stringify from 'json-stringify-pretty-compact';
-import type BunyanRecord from '../bunyan/record.js';
-import type {PublicOptions, Options} from '../options.js';
-import {schema} from '../options.js';
-import type {ParsedRecord} from '../parser/parser.js';
-import Parser from '../parser/parser.js';
+import {type BunyanRecord} from '../bunyan/index.js';
+import {type PublicOptions, type Options, schema} from '../options.js';
+import Parser, {type ParsedRecord} from '../parser/parser.js';
 import normalisePath from '../helpers/normalise-path.js';
 import Extras from './extras.js';
 import Time from './time.js';

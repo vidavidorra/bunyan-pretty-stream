@@ -1,4 +1,4 @@
-import type {Options} from '../options.js';
+import {type Options} from '../options.js';
 import Extra from '../formatter/extra.js';
 
 class Extras {
