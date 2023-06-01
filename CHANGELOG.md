@@ -1,3 +1,25 @@
+## [6.0.0-beta.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v5.0.0...v6.0.0-beta.1) (2023-06-01)
+
+### ⚠ BREAKING CHANGES
+
+- require `line` property in Bunyan `src` object
+
+### Features
+
+- allow `src` to be an empty object ([c214381](https://github.com/vidavidorra/bunyan-pretty-stream/commit/c214381ad168e5e9b666c1292f2536c0f9a4b969)), closes [#83](https://github.com/vidavidorra/bunyan-pretty-stream/issues/83)
+
+### Bug Fixes
+
+- require `line` property in Bunyan `src` object ([b219f0b](https://github.com/vidavidorra/bunyan-pretty-stream/commit/b219f0bba0ab5b554350cd0668674b6cca5c8157))
+
+### Code Refactoring
+
+- move record source validation to its own file ([38486f0](https://github.com/vidavidorra/bunyan-pretty-stream/commit/38486f025b561aeb68e6f3c6a998e9d064f8c528))
+
+### Tests
+
+- use `structuredClone` to copy test objects ([b78bbf7](https://github.com/vidavidorra/bunyan-pretty-stream/commit/b78bbf7ac0d39828d8f718866d0a89b370e5b704))
+
 ## [5.0.0](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v4.1.0...v5.0.0) (2023-04-04)
 
 ### ⚠ BREAKING CHANGES
