@@ -3,7 +3,7 @@ import bunyan from 'bunyan';
 import type {ChalkInstance as Chalk} from 'chalk';
 import chalk from 'chalk';
 import stringify from 'json-stringify-pretty-compact';
-import type BunyanRecord from '../bunyan/record.js';
+import {type BunyanRecord} from '../bunyan/record.js';
 import type {PublicOptions, Options} from '../options.js';
 import {schema} from '../options.js';
 import type {ParsedRecord} from '../parser/parser.js';

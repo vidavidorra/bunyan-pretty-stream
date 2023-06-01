@@ -1,6 +1,6 @@
 import test from 'ava';
 import {deleteProperty} from 'dot-prop';
-import type BunyanRecord from './record.js';
+import {type BunyanRecord} from './record.js';
 import isBunyanRecord from './is-record.js';
 
 const bunyanRecord: Readonly<BunyanRecord> = {

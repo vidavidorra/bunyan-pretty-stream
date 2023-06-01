@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is';
-import type BunyanRecord from './record.js';
+import type {BunyanRecord} from './record.js';
+import isSource from './is-source.js';
 
 function isBunyanRecord(value: unknown): value is BunyanRecord {
   return (
@@ -11,10 +12,7 @@ function isBunyanRecord(value: unknown): value is BunyanRecord {
     is.number(value.pid) &&
     is.date(value.time) &&
     is.string(value.msg) &&
-    (is.undefined(value.src) ||
-      (is.plainObject(value.src) &&
-        is.number(value.src.line) &&
-        (is.undefined(value.src.func) || is.string(value.src.func))))
+    (is.undefined(value.src) || isSource(value.src))
   );
 }
 

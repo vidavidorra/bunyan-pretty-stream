@@ -1,3 +1,9 @@
+type Source = {
+  file: string;
+  line: number;
+  func?: string;
+};
+
 type BunyanRecord = {
   [key: string]: unknown;
   v: number;
@@ -7,11 +13,7 @@ type BunyanRecord = {
   pid: number;
   time: Date;
   msg: string;
-  src?: {
-    file: string;
-    line: number;
-    func?: string;
-  };
+  src?: Source;
 };
 
-export default BunyanRecord;
+export type {Source, BunyanRecord};

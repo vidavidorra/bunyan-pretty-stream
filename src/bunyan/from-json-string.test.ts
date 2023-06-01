@@ -1,7 +1,7 @@
 import test from 'ava';
 import {deleteProperty} from 'dot-prop';
 import fromJsonString from './from-json-string.js';
-import type BunyanRecord from './record.js';
+import {type BunyanRecord} from './record.js';
 
 const bunyanRecord: BunyanRecord = {
   v: 0,

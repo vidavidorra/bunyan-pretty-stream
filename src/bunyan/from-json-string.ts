@@ -1,5 +1,5 @@
 import isBunyanRecord from './is-record.js';
-import type BunyanRecord from './record.js';
+import {type BunyanRecord} from './record.js';
 
 function fromJsonString(json: string): BunyanRecord {
   const record: unknown = JSON.parse(json, (key, value) => {
