@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import bunyanCoreFields from './bunyan/core-fields.js';
+import {coreFields} from './bunyan/index.js';
 import normalisePath from './helpers/normalise-path.js';
 
 const extras = z
@@ -7,7 +7,7 @@ const extras = z
     key: z
       .string()
       .min(1)
-      .regex(new RegExp(`^((?!(${bunyanCoreFields.join('|')})).)*$`))
+      .regex(new RegExp(`^((?!(${coreFields.join('|')})).)*$`))
       .optional(),
     maxLength: z
       .object({

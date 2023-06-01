@@ -24,8 +24,8 @@ test('returns "true" for a record with all core fields', (t) => {
 });
 
 test('returns "true" for a record without "src"', (t) => {
-  const record = {...bunyanRecord};
-  delete record.src;
+  const record = structuredClone(bunyanRecord);
+  deleteProperty(record, 'src');
   t.true(isBunyanRecord(bunyanRecord));
 });
 
@@ -35,7 +35,7 @@ test('returns "true" for a record with additional fields', (t) => {
 
 const returnsFalseWithoutCoreField = test.macro<[keyof BunyanRecord]>({
   exec(t, key) {
-    const record = {...bunyanRecord};
+    const record = structuredClone(bunyanRecord);
     deleteProperty(record, key as string);
     t.false(isBunyanRecord(record));
   },
@@ -52,12 +52,7 @@ test(returnsFalseWithoutCoreField, 'time');
 test(returnsFalseWithoutCoreField, 'msg');
 
 test('narrows the type to "BunyanRecord"', (t) => {
-  const record: unknown = {...bunyanRecord};
-
-  /**
-   * The most important part for this test is that it allows to access
-   * attributes, e.g. `.msg` without TypeScript errors.
-   */
+  const record: unknown = bunyanRecord;
   if (isBunyanRecord(record)) {
     t.is(record.msg, bunyanRecord.msg);
   }

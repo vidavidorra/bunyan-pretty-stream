@@ -1,8 +1,8 @@
 import stripAnsi from 'strip-ansi';
 import test from 'ava';
 import merge from 'deepmerge';
-import type {Options, PublicOptions} from '../options.js';
-import type BunyanRecord from '../bunyan/record.js';
+import {type Options, type PublicOptions} from '../options.js';
+import {type BunyanRecord, type Source} from '../bunyan/index.js';
 import {Formatter} from './formatter.js';
 
 const defaultOptions = {

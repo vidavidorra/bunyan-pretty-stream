@@ -1,6 +1,6 @@
 import is from '@sindresorhus/is';
-import type BunyanRecord from '../bunyan/record.js';
-import type {Options} from '../options.js';
+import {type BunyanRecord, type Source} from '../bunyan/index.js';
+import {type Options} from '../options.js';
 import Extras from './extras.js';
 
 type ParsedRecord = {

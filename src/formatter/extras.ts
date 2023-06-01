@@ -1,4 +1,4 @@
-import type {Options} from '../options.js';
+import {type Options} from '../options.js';
 
 class Extras {
   private readonly _formatCharacters: Options['extras']['formatCharacters'];

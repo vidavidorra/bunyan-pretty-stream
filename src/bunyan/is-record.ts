@@ -1,5 +1,5 @@
 import is from '@sindresorhus/is';
-import type {BunyanRecord} from './record.js';
+import {type BunyanRecord} from './record.js';
 import isSource from './is-source.js';
 
 function isBunyanRecord(value: unknown): value is BunyanRecord {

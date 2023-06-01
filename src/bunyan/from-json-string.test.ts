@@ -3,7 +3,7 @@ import {deleteProperty} from 'dot-prop';
 import fromJsonString from './from-json-string.js';
 import {type BunyanRecord} from './record.js';
 
-const bunyanRecord: BunyanRecord = {
+const bunyanRecord: Readonly<BunyanRecord> = {
   v: 0,
   level: 0,
   name: '',
@@ -23,8 +23,8 @@ test('parses a JSON string with all core fields', (t) => {
 });
 
 test('parses a JSON string without "src"', (t) => {
-  const record = {...bunyanRecord};
-  delete record.src;
+  const record = structuredClone(bunyanRecord);
+  deleteProperty(record, 'src');
   t.notThrows(() => fromJsonString(JSON.stringify(record)));
 });
 
@@ -36,7 +36,7 @@ test('parses a JSON string with additional fields', (t) => {
 
 const throwsWithoutCoreField = test.macro<[keyof BunyanRecord]>({
   exec(t, key) {
-    const record = {...bunyanRecord};
+    const record = structuredClone(bunyanRecord);
     deleteProperty(record, key.toString());
     t.throws(() => fromJsonString(JSON.stringify(record)));
   },
@@ -54,10 +54,5 @@ test(throwsWithoutCoreField, 'msg');
 
 test('narrows the type to "BunyanRecord"', (t) => {
   const record = fromJsonString(JSON.stringify(bunyanRecord));
-
-  /**
-   * The most important part for this test is that it allows to access
-   * attributes, e.g. `.msg` without TypeScript errors.
-   */
   t.is(record.msg, bunyanRecord.msg);
 });

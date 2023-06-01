@@ -1,6 +1,5 @@
-import type {DateTimeFormatOptions} from 'luxon';
-import {DateTime} from 'luxon';
-import type {Options} from '../options.js';
+import {type DateTimeFormatOptions, DateTime} from 'luxon';
+import {type Options} from '../options.js';
 
 type Iso8601Preset =
   | 'TIME_ISO_8601'

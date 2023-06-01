@@ -1,5 +1,5 @@
 import test from 'ava';
-import {type BunyanRecord} from '../bunyan/record.js';
+import {type BunyanRecord} from '../bunyan/index.js';
 import Parser from './parser.js';
 
 const options = {
