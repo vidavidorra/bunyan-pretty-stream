@@ -12,7 +12,9 @@ function isBunyanRecord(value: unknown): value is BunyanRecord {
     is.number(value.pid) &&
     is.date(value.time) &&
     is.string(value.msg) &&
-    (is.undefined(value.src) || isSource(value.src))
+    (is.undefined(value.src) ||
+      is.emptyObject(value.src) ||
+      isSource(value.src))
   );
 }
 

@@ -29,6 +29,10 @@ test('returns "true" for a record without "src"', (t) => {
   t.true(isBunyanRecord(bunyanRecord));
 });
 
+test('returns "true" for a record with empty "src" object', (t) => {
+  t.true(isBunyanRecord({...bunyanRecord, src: {}}));
+});
+
 test('returns "true" for a record with additional fields', (t) => {
   t.true(isBunyanRecord({...bunyanRecord, additional: 1}));
 });

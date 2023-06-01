@@ -13,7 +13,7 @@ type BunyanRecord = {
   pid: number;
   time: Date;
   msg: string;
-  src?: Source;
+  src?: Source | Record<string, never>;
 };
 
 export type {Source, BunyanRecord};
