@@ -46,11 +46,15 @@ class Formatter {
     const includeOffset =
       preset === 'TIME_ISO_8601_OFFSET' ||
       preset === 'DATETIME_ISO_8601_OFFSET';
-    if (preset === 'TIME_ISO_8601_OFFSET' || preset === 'TIME_ISO_8601') {
-      return dateTime.toISOTime({includeOffset});
+    const value =
+      preset === 'TIME_ISO_8601_OFFSET' || preset === 'TIME_ISO_8601'
+        ? dateTime.toISOTime({includeOffset})
+        : dateTime.toISO({includeOffset});
+    if (value === null) {
+      throw new Error('invalid Luxon DateTime');
     }
 
-    return dateTime.toISO({includeOffset});
+    return value;
   }
 
   private toLocaleString(dateTime: DateTime): string {
