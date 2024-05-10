@@ -1,3 +1,27 @@
+## [6.0.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.1...v6.0.2) (2024-05-10)
+
+### Bug Fixes
+
+- **deps:** update dependencies (in bulk) ([285ff5e](https://github.com/vidavidorra/bunyan-pretty-stream/commit/285ff5e2730453be79a17cf525441be11cf30612))
+
+### Documentation
+
+- standardise readme ([7fe558d](https://github.com/vidavidorra/bunyan-pretty-stream/commit/7fe558d4a8faeaf6b146041dd9d45bfe4dad7283))
+
+### Styles
+
+- format `lint-staged.js` ([d5e7b14](https://github.com/vidavidorra/bunyan-pretty-stream/commit/d5e7b147be6aae911ea22650017708ddf7928a51))
+
+### Build System
+
+- change module from `ES2022` to `Node16` in TSConfig ([ea77909](https://github.com/vidavidorra/bunyan-pretty-stream/commit/ea77909b2f620fdabe59f10546e53879d81e6dc3))
+
+### Continuous Integration
+
+- build and test with Node.js 18, 20 and 22 ([06c0cfa](https://github.com/vidavidorra/bunyan-pretty-stream/commit/06c0cfab4a98f4a53278f34172f9e7bf6032d8c1))
+- fail `format` scripts on a warning ([4a8f3ce](https://github.com/vidavidorra/bunyan-pretty-stream/commit/4a8f3ce3a20c0658ccf802e3a50f21c59129faad))
+- rename build workflow to ci-cd ([d1fab7d](https://github.com/vidavidorra/bunyan-pretty-stream/commit/d1fab7d360410ebfd71bf3c1c5b5646efbc31e55))
+
 ## [6.0.1](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.0...v6.0.1) (2023-06-01)
 
 ### Bug Fixes
