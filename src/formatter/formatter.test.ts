@@ -147,10 +147,10 @@ test('separates source file and line with a colon (:)', (t) => {
 });
 
 test('separates source line and function with " in "', (t) => {
-  const func = 'test';
+  const functionName = 'test';
   t.regex(
-    format({}, {}, {func}),
-    new RegExp(`${record().src.line} in ${func ?? ''}`),
+    format({}, {}, {func: functionName}),
+    new RegExp(`${record().src.line} in ${functionName ?? ''}`),
   );
 });
 

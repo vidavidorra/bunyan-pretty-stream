@@ -26,8 +26,8 @@ const defaults = test.macro<[Key, Literal | undefined]>({
   title(_, key, defaultValue) {
     const value = (defaultValue ?? 'undefined')
       .toString()
-      .replace(/\r/g, '\\r')
-      .replace(/\n/g, '\\n');
+      .replaceAll('\r', '\\r')
+      .replaceAll('\n', '\\n');
     return `defaults "${key}" to "${value}"`;
   },
 });

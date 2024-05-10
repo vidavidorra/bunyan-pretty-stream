@@ -43,8 +43,10 @@ const publicSchema = z
       .default({}),
     basePath: z
       .preprocess(
-        (arg) =>
-          typeof arg === 'string' && arg.length > 0 ? normalisePath(arg) : arg,
+        (value) =>
+          typeof value === 'string' && value.length > 0
+            ? normalisePath(value)
+            : value,
         z.string().min(1),
       )
       .default('/'),
