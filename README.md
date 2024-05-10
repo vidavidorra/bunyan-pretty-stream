@@ -1,22 +1,22 @@
-# Bunyan pretty stream
+# [**Bunyan**](https://github.com/trentm/node-bunyan) pretty stream <!-- omit in toc -->
 
-Highly configurable Bunyan stream with pretty output.
+Highly configurable [**Bunyan**](https://github.com/trentm/node-bunyan) stream with pretty output.
 
 - ...
 
 ---
 
-[![Renovate enabled](https://img.shields.io/badge/Renovate-enabled-brightgreen.svg?logo=renovatebot&logoColor&style=flat-square)](https://renovatebot.com)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
-[![License](https://img.shields.io/github/license/vidavidorra/bunyan-pretty-stream.svg?style=flat-square)](LICENSE.md)
+[![npm version](https://img.shields.io/npm/v/@vidavidorra/bunyan-pretty-stream?logo=npm&style=flat-square)](https://www.npmjs.com/package/@vidavidorra/bunyan-pretty-stream)
+[![npm downloads](https://img.shields.io/npm/dm/@vidavidorra/bunyan-pretty-stream?logo=npm&style=flat-square)](https://www.npmjs.com/package/@vidavidorra/bunyan-pretty-stream)
+[![Node.js version support](https://img.shields.io/node/v/@vidavidorra/bunyan-pretty-stream?logo=node.js&style=flat-square)](https://nodejs.org/en/about/releases/)
+[![Renovate enabled](https://img.shields.io/badge/Renovate-enabled-brightgreen?logo=renovatebot&logoColor&style=flat-square)](https://renovatebot.com)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079?style=flat-square)](https://github.com/semantic-release/semantic-release)
+[![Code coverage](https://img.shields.io/codecov/c/github/vidavidorra/bunyan-pretty-stream?logo=codecov&style=flat-square)](https://codecov.io/gh/vidavidorra/bunyan-pretty-stream)
+[![License](https://img.shields.io/github/license/vidavidorra/bunyan-pretty-stream?style=flat-square)](LICENSE.md)
 
-<a name="toc"></a>
-
-## Table of contents
 
 - [Install](#install)
 - [Usage](#usage)
-- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [Security policy](#security-policy)
 - [License](#license)
@@ -31,24 +31,15 @@ npm install @vidavidorra/bunyan-pretty-stream
 
 ...
 
-## Documentation
-
-...
-
 ## Contributing
 
-Please [create an issue](https://github.com/vidavidorra/bunyan-pretty-stream/issues/new/choose) if you have a bug report, feature proposal or question that does not yet exist.
+Please [create an issue](https://github.com/vidavidorra/bunyan-pretty-stream/issues/new/choose) if you have a bug report or feature proposal, or [create a discussion](https://github.com/vidavidorra/bunyan-pretty-stream/discussions) if you have a question. If you like this project, please consider giving it a star ⭐
 
-If you like this project, give it a start ⭐ and consider becoming a [sponsor](https://github.com/sponsors/jdbruijn) to support this project.
+Refer to the [contributing guide](https://github.com/vidavidorra/.github/blob/main/CONTRIBUTING.md) for detailed information about other contributions, like pull requests.
 
-Please refer to the [contributing guide](https://github.com/vidavidorra/.github/blob/main/CONTRIBUTING.md) detailed information about other contributions, like pull requests.
-
-[![Conventional Commits: 1.0.0](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org)
-[![Code style](https://img.shields.io/badge/code_style-Prettier-ff69b4.svg?logo=prettier&style=flat-square)](https://github.com/prettier/prettier)
-[![Linting](https://img.shields.io/badge/linting-ESLint-lightgrey.svg?logo=eslint&style=flat-square)](https://eslint.org)
-[![Lint commit messages](https://img.shields.io/github/workflow/status/vidavidorra/bunyan-pretty-stream/Lint%20commit%20messages?logo=github&label=Lint%20commit%20messages&style=flat-square)](https://github.com/vidavidorra/bunyan-pretty-stream/actions)
-[![Build](https://img.shields.io/github/workflow/status/vidavidorra/bunyan-pretty-stream/Build?logo=github&label=Build&style=flat-square)](https://github.com/vidavidorra/bunyan-pretty-stream/actions)
-[![Coverage](https://img.shields.io/codecov/c/github/vidavidorra/bunyan-pretty-stream?logo=codecov&style=flat-square)](https://codecov.io/gh/vidavidorra/bunyan-pretty-stream)
+[![Conventional Commits: 1.0.0](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow?style=flat-square)](https://conventionalcommits.org)
+[![XO code style](https://shields.io/badge/code_style-5ed9c7?logo=xo&labelColor=gray&style=flat-square)](https://github.com/xojs/xo)
+[![Code style](https://img.shields.io/badge/code_style-Prettier-ff69b4?logo=prettier&style=flat-square)](https://github.com/prettier/prettier)
 
 ## Security policy
 
@@ -58,7 +49,7 @@ Please refer to the [Security Policy on GitHub](https://github.com/vidavidorra/b
 
 This project is licensed under the [GPLv3 license](https://www.gnu.org/licenses/gpl.html).
 
-Copyright © 2021-2023 Jeroen de Bruijn
+Copyright © 2021-2024 Jeroen de Bruijn
 
 <details><summary>License details.</summary>
 <p>
@@ -79,3 +70,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 The full text of the license is available in the [LICENSE](LICENSE.md) file in this repository and [online](https://www.gnu.org/licenses/gpl.html).
 
 </details>
+
+<!-- references -->
+[bunyan]: https://github.com/trentm/node-bunyan
