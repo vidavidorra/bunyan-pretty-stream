@@ -1,18 +1,14 @@
 import test from 'ava';
-import {deleteProperty} from 'dot-prop';
 import {type BunyanRecord, type Source} from './record.js';
 import isSource from './is-source.js';
 
-const source: Readonly<BunyanRecord['src']> = {
-  file: '',
-  line: 0,
-  func: '',
-};
+const source: Readonly<BunyanRecord['src']> = {file: '', line: 0, func: ''};
 
 const returnsWithout = test.macro<[boolean, keyof Source]>({
   exec(t, expected, key) {
-    const value = structuredClone(source);
-    deleteProperty(value, key);
+    const value: Source = structuredClone(source);
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete value[key];
     (expected ? t.true : t.false)(isSource(value));
   },
   title(_, expected, key) {

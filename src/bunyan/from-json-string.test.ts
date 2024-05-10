@@ -1,5 +1,4 @@
 import test from 'ava';
-import {deleteProperty} from 'dot-prop';
 import fromJsonString from './from-json-string.js';
 import {type BunyanRecord} from './record.js';
 
@@ -11,11 +10,7 @@ const bunyanRecord: Readonly<BunyanRecord> = {
   pid: 0,
   time: new Date(0),
   msg: '',
-  src: {
-    file: '',
-    line: 0,
-    func: '',
-  },
+  src: {file: '', line: 0, func: ''},
 };
 
 test('parses a JSON string with all core fields', (t) => {
@@ -23,8 +18,8 @@ test('parses a JSON string with all core fields', (t) => {
 });
 
 test('parses a JSON string without "src"', (t) => {
-  const record = structuredClone(bunyanRecord);
-  deleteProperty(record, 'src');
+  const record: BunyanRecord = structuredClone(bunyanRecord);
+  delete record.src;
   t.notThrows(() => fromJsonString(JSON.stringify(record)));
 });
 
@@ -36,8 +31,9 @@ test('parses a JSON string with additional fields', (t) => {
 
 const throwsWithoutCoreField = test.macro<[keyof BunyanRecord]>({
   exec(t, key) {
-    const record = structuredClone(bunyanRecord);
-    deleteProperty(record, key.toString());
+    const record: BunyanRecord = structuredClone(bunyanRecord);
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete record[key];
     t.throws(() => fromJsonString(JSON.stringify(record)));
   },
   title(_, key) {
