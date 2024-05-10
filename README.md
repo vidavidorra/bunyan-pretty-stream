@@ -14,7 +14,6 @@ Highly configurable [**Bunyan**](https://github.com/trentm/node-bunyan) stream w
 [![Code coverage](https://img.shields.io/codecov/c/github/vidavidorra/bunyan-pretty-stream?logo=codecov&style=flat-square)](https://codecov.io/gh/vidavidorra/bunyan-pretty-stream)
 [![License](https://img.shields.io/github/license/vidavidorra/bunyan-pretty-stream?style=flat-square)](LICENSE.md)
 
-
 - [Install](#install)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -72,4 +71,5 @@ The full text of the license is available in the [LICENSE](LICENSE.md) file in t
 </details>
 
 <!-- references -->
+
 [bunyan]: https://github.com/trentm/node-bunyan
