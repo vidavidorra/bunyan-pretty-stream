@@ -1,6 +1,5 @@
 import stripAnsi from 'strip-ansi';
 import test from 'ava';
-import merge from 'deepmerge';
 import {type Options, type PublicOptions} from '../options.js';
 import {type BunyanRecord, type Source} from '../bunyan/index.js';
 import {Formatter} from './formatter.js';
@@ -33,10 +32,7 @@ function record(
     pid: 123,
     time: new Date('1564-04-23'),
     msg: 'There are no coincidences, Delia. Only the illusion of coincidence.',
-    src: merge(
-      {file: 'formatter.test.ts', line: 2, func: undefined},
-      source ?? {},
-    ),
+    src: {file: 'formatter.test.ts', line: 2, func: undefined, ...source},
     ...leftOvers,
   };
 }
@@ -46,10 +42,19 @@ function format(
   leftOvers: Record<string, unknown> = {},
   source?: Partial<BunyanRecord['src']>,
 ) {
+  const maxLength = {
+    ...defaultOptions.extras.maxLength,
+    ...options.extras?.maxLength,
+  };
   return stripAnsi(
-    new Formatter(merge(defaultOptions, options)).format(
-      record(leftOvers, source),
-    ),
+    new Formatter({
+      ...defaultOptions,
+      ...options,
+      show: {...defaultOptions.show, ...options.show},
+      extras: {...defaultOptions.extras, ...options.extras, maxLength},
+      indent: {...defaultOptions.indent, ...options.indent},
+      time: {...defaultOptions.time, ...options.time},
+    }).format(record(leftOvers, source)),
   );
 }
 
