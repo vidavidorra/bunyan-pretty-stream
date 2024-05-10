@@ -1,3 +1,10 @@
+## [6.0.3](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.2...v6.0.3) (2024-05-10)
+
+### Tests
+
+- remove unneeded `deepmerge` dependency ([190948f](https://github.com/vidavidorra/bunyan-pretty-stream/commit/190948fc897647eba8fd32825477852746d7c2c7))
+- simplify deleted properties in tests without `dot-prop` dependency ([4c6a23b](https://github.com/vidavidorra/bunyan-pretty-stream/commit/4c6a23bfe4f163a5b7143fac2a89396e83931122))
+
 ## [6.0.2](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.1...v6.0.2) (2024-05-10)
 
 ### Bug Fixes
