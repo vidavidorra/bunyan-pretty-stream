@@ -1,3 +1,9 @@
+## [6.0.7](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.6...v6.0.7) (2024-09-09)
+
+### Bug Fixes
+
+- **deps:** update dependency @sindresorhus/is to v7.0.1 ([3117b0b](https://github.com/vidavidorra/bunyan-pretty-stream/commit/3117b0b6e22366ced25a70f883380c1f43750e0f))
+
 ## [6.0.6](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.5...v6.0.6) (2024-08-07)
 
 ### Bug Fixes
