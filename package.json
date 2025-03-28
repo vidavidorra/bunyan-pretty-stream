@@ -196,7 +196,7 @@
     "@sindresorhus/is": "7.0.1",
     "chalk": "5.4.1",
     "json-stringify-pretty-compact": "4.0.0",
-    "luxon": "3.5.0",
+    "luxon": "3.6.0",
     "zod": "3.24.2"
   },
   "devDependencies": {
