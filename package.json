@@ -1,6 +1,6 @@
 {
   "name": "@vidavidorra/bunyan-pretty-stream",
-  "version": "6.0.12",
+  "version": "6.0.13",
   "description": "Highly configurable Bunyan stream with pretty output",
   "keywords": [
     "bunyan-stream",
