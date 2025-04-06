@@ -206,7 +206,7 @@
     "@semantic-release/exec": "7.0.3",
     "@semantic-release/git": "10.0.1",
     "@types/bunyan": "1.8.11",
-    "@types/luxon": "3.6.0",
+    "@types/luxon": "3.6.1",
     "@types/node": "22.14.0",
     "@vidavidorra/commitlint-config": "7.0.13",
     "ava": "6.2.0",
