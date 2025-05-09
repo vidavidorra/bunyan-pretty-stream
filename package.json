@@ -207,7 +207,7 @@
     "@semantic-release/git": "10.0.1",
     "@types/bunyan": "1.8.11",
     "@types/luxon": "3.6.2",
-    "@types/node": "22.15.3",
+    "@types/node": "22.15.12",
     "@vidavidorra/commitlint-config": "7.0.13",
     "ava": "6.3.0",
     "bunyan": "1.8.15",
