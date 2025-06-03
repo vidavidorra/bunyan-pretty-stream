@@ -42,17 +42,35 @@ const add = test.macro<[string, unknown, boolean, string]>({
 
 test(add, 'key', 1, true, 'string keys');
 test(add, '', 1, true, 'an empty string key');
-test(add, 'a\r\nkey', 1, false, 'keys with newline character "\\r\\n"');
-test(add, 'a\rkey', 1, false, 'keys with newline character "\\r"');
-test(add, 'a\nkey', 1, false, 'keys with newline character "\\n"');
+test(add, 'a\r\nkey', 1, false, String.raw`keys with newline character "\r\n"`);
+test(add, 'a\rkey', 1, false, String.raw`keys with newline character "\r"`);
+test(add, 'a\nkey', 1, false, String.raw`keys with newline character "\n"`);
 test(add, 'key', 1, true, 'numeric values');
 test(add, 'key', false, true, 'boolean values');
 test(add, 'key', null, true, '"null" values');
 test(add, 'key', 'value', true, 'string values');
 test(add, 'key', '', true, 'empty string values');
-test(add, 'key', 'a\r\nvalue', false, 'values with newline character "\\r\\n"');
-test(add, 'key', 'a\rvalue', false, 'values with newline character "\\r"');
-test(add, 'key', 'a\nvalue', false, 'values with newline character "\\n"');
+test(
+  add,
+  'key',
+  'a\r\nvalue',
+  false,
+  String.raw`values with newline character "\r\n"`,
+);
+test(
+  add,
+  'key',
+  'a\rvalue',
+  false,
+  String.raw`values with newline character "\r"`,
+);
+test(
+  add,
+  'key',
+  'a\nvalue',
+  false,
+  String.raw`values with newline character "\n"`,
+);
 test(add, 'key', {}, false, 'empty object values');
 test(add, 'key', {a: 1}, false, 'object values');
 test(add, 'key', () => 1, false, 'function values');

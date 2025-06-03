@@ -26,8 +26,8 @@ const defaults = test.macro<[Key, Literal | undefined]>({
   title(_, key, defaultValue) {
     const value = (defaultValue ?? 'undefined')
       .toString()
-      .replaceAll('\r', '\\r')
-      .replaceAll('\n', '\\n');
+      .replaceAll('\r', String.raw`\r`)
+      .replaceAll('\n', String.raw`\n`);
     return `defaults "${key}" to "${value}"`;
   },
 });
@@ -140,14 +140,14 @@ test('converts file URL "basePath" to path', (t) => {
 test(fails, 'basePath', '', 'an empty');
 
 test(defaults, 'newLineCharacter', '\n');
-test(succeeds, 'newLineCharacter', '\r', '"\\r" as');
-test(succeeds, 'newLineCharacter', '\n', '"\\n" as');
-test(succeeds, 'newLineCharacter', '\r\n', '"\\r\\n" as');
+test(succeeds, 'newLineCharacter', '\r', String.raw`"\r" as`);
+test(succeeds, 'newLineCharacter', '\n', String.raw`"\n" as`);
+test(succeeds, 'newLineCharacter', '\r\n', String.raw`"\r\n" as`);
 test(fails, 'newLineCharacter', 'a', 'a non-EOL character');
-test(fails, 'newLineCharacter', '\r\r', '"\\r\\r" as');
-test(fails, 'newLineCharacter', '\n\n', '"\\n\\n" as');
-test(fails, 'newLineCharacter', '\n\r', '"\\n\\r" as');
-test(fails, 'newLineCharacter', '\r\n\r\n', '"\\r\\n\\r\\n" as');
+test(fails, 'newLineCharacter', '\r\r', String.raw`"\r\r" as`);
+test(fails, 'newLineCharacter', '\n\n', String.raw`"\n\n" as`);
+test(fails, 'newLineCharacter', '\n\r', String.raw`"\n\r" as`);
+test(fails, 'newLineCharacter', '\r\n\r\n', String.raw`"\r\n\r\n" as`);
 
 test(defaults, 'time.utc', true);
 
