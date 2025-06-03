@@ -33,7 +33,7 @@ class Formatter {
       return this.toIso8601(dateTime, this._options.preset);
     }
 
-    return this.toLocaleString(dateTime);
+    return this.formatLocaleString(dateTime);
   }
 
   private isIso8601(
@@ -57,7 +57,7 @@ class Formatter {
     return value;
   }
 
-  private toLocaleString(dateTime: DateTime): string {
+  private formatLocaleString(dateTime: DateTime): string {
     const presetToFormatOptions = new Map<
       Options['time']['preset'],
       DateTimeFormatOptions

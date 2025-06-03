@@ -174,17 +174,26 @@ test('separates name and hostname with " on " when PID is not shown', (t) => {
   );
 });
 
-test('formats message with newline character "\\r\\n" in details', (t) => {
-  t.regex(format({}, {msg: 'with\r\nnew-line'}), /^ +with\n +new-line/m);
-});
+test(
+  String.raw`formats message with newline character "\r\n" in details`,
+  (t) => {
+    t.regex(format({}, {msg: 'with\r\nnew-line'}), /^ +with\n +new-line/m);
+  },
+);
 
-test('formats message with newline character "\\r" in details', (t) => {
-  t.regex(format({}, {msg: 'with\rnew-line'}), /^ +with\n +new-line/m);
-});
+test(
+  String.raw`formats message with newline character "\r" in details`,
+  (t) => {
+    t.regex(format({}, {msg: 'with\rnew-line'}), /^ +with\n +new-line/m);
+  },
+);
 
-test('formats message with newline character "\\n" in details', (t) => {
-  t.regex(format({}, {msg: 'with\nnew-line'}), /^ +with\n +new-line/m);
-});
+test(
+  String.raw`formats message with newline character "\n" in details`,
+  (t) => {
+    t.regex(format({}, {msg: 'with\nnew-line'}), /^ +with\n +new-line/m);
+  },
+);
 
 test('formats details on a new line', (t) => {
   t.regex(format({}, {key: {}}), /^ +key/m);

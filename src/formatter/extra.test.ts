@@ -43,8 +43,20 @@ test(format, 'value', '', '""', 'an empty string value');
 test(format, 'value', {a: 1}, '{"a":1}', 'an object value');
 test(format, 'value', {}, '{}', 'an empty object value');
 test(format, 'value', null, 'null', 'a "null" value');
-test(format, 'value', '"', '"\\""', 'a value equal to a quotation mark');
-test(format, 'value', 'a"b', '"a\\"b"', 'a value including a quotation mark');
+test(
+  format,
+  'value',
+  '"',
+  String.raw`"\""`,
+  'a value equal to a quotation mark',
+);
+test(
+  format,
+  'value',
+  'a"b',
+  String.raw`"a\"b"`,
+  'a value including a quotation mark',
+);
 test(
   format,
   'value',
