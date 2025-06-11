@@ -209,7 +209,7 @@
     "@types/luxon": "3.6.2",
     "@types/node": "22.15.30",
     "@vidavidorra/commitlint-config": "7.0.16",
-    "ava": "6.3.0",
+    "ava": "6.4.0",
     "bunyan": "1.8.15",
     "bunyan-1.x": "npm:bunyan@1.8.15",
     "bunyan-2.x": "npm:bunyan@2.0.5",
