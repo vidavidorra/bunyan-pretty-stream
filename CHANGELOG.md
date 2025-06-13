@@ -1,3 +1,9 @@
+## [6.0.36](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.35...v6.0.36) (2025-06-13)
+
+### Bug Fixes
+
+- **deps:** update dependency zod to v3.25.57 ([ff69696](https://github.com/vidavidorra/bunyan-pretty-stream/commit/ff6969634d9959fef2e9a929492ed45b1a58f095))
+
 ## [6.0.35](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.34...v6.0.35) (2025-06-10)
 
 ### Bug Fixes
