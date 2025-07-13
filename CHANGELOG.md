@@ -1,3 +1,9 @@
+## [6.0.47](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.46...v6.0.47) (2025-07-13)
+
+### Bug Fixes
+
+- **deps:** update dependency luxon to v3.7.1 ([c266ab8](https://github.com/vidavidorra/bunyan-pretty-stream/commit/c266ab8c1cc7d7a950ebdd21fab2a87d7ab59031))
+
 ## [6.0.46](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.45...v6.0.46) (2025-07-11)
 
 ### Bug Fixes
