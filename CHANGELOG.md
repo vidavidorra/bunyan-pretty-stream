@@ -1,3 +1,9 @@
+## [6.0.48](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.47...v6.0.48) (2025-08-07)
+
+### Bug Fixes
+
+- **deps:** update dependency chalk to v5.5.0 ([7b936ba](https://github.com/vidavidorra/bunyan-pretty-stream/commit/7b936ba34eb77c30fa4c0992c9a05ca8cf7b31dc))
+
 ## [6.0.47](https://github.com/vidavidorra/bunyan-pretty-stream/compare/v6.0.46...v6.0.47) (2025-07-13)
 
 ### Bug Fixes
